@@ -19,19 +19,13 @@ import { IngredientAutocompleteComponent } from '../../shared/ingredient-autocom
           <h1 class="text-2xl font-semibold text-white">Мой холодильник</h1>
           <p class="text-sm text-sky-100/90">Следите за запасами и сроками годности.</p>
         </div>
-        <div class="flex gap-2 items-center justify-center flex-wrap bg-white/10 px-3 py-2 rounded-xl border border-white/20 shadow-lg">
-          <div class="flex flex-col leading-tight text-white/80 text-xs">
-            <span>Температура</span>
-            <strong class="text-lg text-white">+4°C</strong>
-          </div>
-        </div>
       </div>
 
       <div class="frost-panel space-y-4">
         <div class="grid gap-3 sm:grid-cols-2">
           <label class="field">
             <span>Ингредиент</span>
-            <app-ingredient-autocomplete 
+            <app-ingredient-autocomplete
               variant="dark"
               placeholder="Поиск ингредиентов..."
               (selected)="onIngredientSelected($event)"
