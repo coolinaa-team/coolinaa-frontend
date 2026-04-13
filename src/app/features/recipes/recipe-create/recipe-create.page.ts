@@ -15,7 +15,7 @@ import { IngredientAutocompleteComponent } from '../../../shared/ingredient-auto
   selector: 'app-recipe-create-page',
   imports: [CommonModule, ReactiveFormsModule, IngredientAutocompleteComponent],
   templateUrl: './recipe-create.page.html',
-  styleUrl: './recipe-create.page.css'
+  styleUrl: './recipe-create.page.css',
 })
 export class RecipeCreatePage implements OnInit {
   private readonly fb = inject(FormBuilder);
@@ -40,7 +40,7 @@ export class RecipeCreatePage implements OnInit {
     servings: [null],
     imageUrl: [''],
     categoryId: [null],
-    ingredients: this.fb.array([])
+    ingredients: this.fb.array([]),
   });
 
   ngOnInit() {
@@ -59,8 +59,8 @@ export class RecipeCreatePage implements OnInit {
         quantity: [0, Validators.required],
         unitId: [null],
         notes: [''],
-        orderIndex: [this.ingredientsArray.length]
-      })
+        orderIndex: [this.ingredientsArray.length],
+      }),
     );
   }
 
@@ -96,7 +96,7 @@ export class RecipeCreatePage implements OnInit {
       error: () => {
         this.loading = false;
         this.error = 'Не удалось сохранить рецепт';
-      }
+      },
     });
   }
 }

@@ -12,7 +12,7 @@ import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading
   selector: 'app-recipe-detail-page',
   imports: [CommonModule, RouterLink, ReactiveFormsModule, LoadingSpinnerComponent],
   templateUrl: './recipe-detail.page.html',
-  styleUrl: './recipe-detail.page.css'
+  styleUrl: './recipe-detail.page.css',
 })
 export class RecipeDetailPage implements OnInit {
   private readonly route = inject(ActivatedRoute);
@@ -31,7 +31,7 @@ export class RecipeDetailPage implements OnInit {
 
   reviewForm: FormGroup = this.fb.group({
     rating: [0, [Validators.required, Validators.min(1), Validators.max(5)]],
-    comment: ['', [Validators.required, Validators.minLength(1)]]
+    comment: ['', [Validators.required, Validators.minLength(1)]],
   });
 
   ngOnInit() {
@@ -46,7 +46,7 @@ export class RecipeDetailPage implements OnInit {
         error: () => {
           this.error = 'Рецепт не найден';
           this.loading = false;
-        }
+        },
       });
       this.loadReviews(id);
     } else {
@@ -59,8 +59,8 @@ export class RecipeDetailPage implements OnInit {
       next: (res) => {
         this.reviews = res;
         const userId = this.auth.user()?.id;
-        this.userHasReview = userId ? res.some(r => r.userId === userId) : false;
-      }
+        this.userHasReview = userId ? res.some((r) => r.userId === userId) : false;
+      },
     });
   }
 
@@ -74,7 +74,7 @@ export class RecipeDetailPage implements OnInit {
         this.reviewForm.reset({ rating: 0, comment: '' });
         this.loadReviews(this.recipe!.id);
       },
-      error: () => (this.submittingReview = false)
+      error: () => (this.submittingReview = false),
     });
   }
 
@@ -86,7 +86,7 @@ export class RecipeDetailPage implements OnInit {
         this.deletingReviewId = null;
         this.loadReviews(this.recipe!.id);
       },
-      error: () => (this.deletingReviewId = null)
+      error: () => (this.deletingReviewId = null),
     });
   }
 

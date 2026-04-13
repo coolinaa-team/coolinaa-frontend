@@ -17,7 +17,7 @@ interface EditState<T> {
   selector: 'app-admin-page',
   imports: [CommonModule, FormsModule],
   templateUrl: './admin.page.html',
-  styleUrl: './admin.page.css'
+  styleUrl: './admin.page.css',
 })
 export class AdminPage implements OnInit {
   private readonly ingCatApi = inject(IngredientCategoryService);
@@ -32,7 +32,9 @@ export class AdminPage implements OnInit {
 
   protected newIngCat: { name?: string; description?: string } = {};
   protected newIngredient: { name?: string; description?: string; categoryId?: number } = {};
-  protected newUnit: { name?: string; abbreviation?: string; isMetric?: boolean } = { isMetric: true };
+  protected newUnit: { name?: string; abbreviation?: string; isMetric?: boolean } = {
+    isMetric: true,
+  };
   protected newRecCat: { name?: string; description?: string } = {};
 
   protected editIngCat: EditState<Category> = {};
@@ -53,10 +55,12 @@ export class AdminPage implements OnInit {
 
   addIngredientCategory() {
     if (!this.newIngCat.name) return;
-    this.ingCatApi.create(this.newIngCat as { name: string; description?: string }).subscribe(() => {
-      this.newIngCat = {};
-      this.ingCatApi.list().subscribe((res) => (this.ingredientCategories = res));
-    });
+    this.ingCatApi
+      .create(this.newIngCat as { name: string; description?: string })
+      .subscribe(() => {
+        this.newIngCat = {};
+        this.ingCatApi.list().subscribe((res) => (this.ingredientCategories = res));
+      });
   }
 
   startEditIngCat(cat: Category) {
@@ -84,10 +88,12 @@ export class AdminPage implements OnInit {
 
   addIngredient() {
     if (!this.newIngredient.name) return;
-    this.ingApi.create(this.newIngredient as { name: string; description?: string; categoryId?: number }).subscribe(() => {
-      this.newIngredient = {};
-      this.ingApi.list({ size: 200 }).subscribe((res) => (this.ingredients = res.content));
-    });
+    this.ingApi
+      .create(this.newIngredient as { name: string; description?: string; categoryId?: number })
+      .subscribe(() => {
+        this.newIngredient = {};
+        this.ingApi.list({ size: 200 }).subscribe((res) => (this.ingredients = res.content));
+      });
   }
 
   startEditIngredient(ing: Ingredient) {
@@ -106,7 +112,7 @@ export class AdminPage implements OnInit {
         name: data.name,
         description: data.description,
         categoryId: data.categoryId,
-        isActive: data.isActive
+        isActive: data.isActive,
       })
       .subscribe(() => {
         delete this.editIngredient[id];
@@ -122,10 +128,12 @@ export class AdminPage implements OnInit {
 
   addUnit() {
     if (!this.newUnit.name) return;
-    this.unitApi.create(this.newUnit as { name: string; abbreviation?: string; isMetric?: boolean }).subscribe(() => {
-      this.newUnit = { isMetric: true };
-      this.unitApi.list().subscribe((res) => (this.units = res));
-    });
+    this.unitApi
+      .create(this.newUnit as { name: string; abbreviation?: string; isMetric?: boolean })
+      .subscribe(() => {
+        this.newUnit = { isMetric: true };
+        this.unitApi.list().subscribe((res) => (this.units = res));
+      });
   }
 
   startEditUnit(u: Unit) {
@@ -155,10 +163,12 @@ export class AdminPage implements OnInit {
 
   addRecipeCategory() {
     if (!this.newRecCat.name) return;
-    this.recCatApi.create(this.newRecCat as { name: string; description?: string }).subscribe(() => {
-      this.newRecCat = {};
-      this.recCatApi.list().subscribe((res) => (this.recipeCategories = res));
-    });
+    this.recCatApi
+      .create(this.newRecCat as { name: string; description?: string })
+      .subscribe(() => {
+        this.newRecCat = {};
+        this.recCatApi.list().subscribe((res) => (this.recipeCategories = res));
+      });
   }
 
   startEditRecCat(cat: Category) {

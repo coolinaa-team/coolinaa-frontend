@@ -13,6 +13,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       }
       console.error('API error', err);
       return throwError(() => err);
-    })
+    }),
   );
 };

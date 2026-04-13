@@ -10,7 +10,7 @@ import { Ingredient } from '../../core/models/ingredient.model';
   selector: 'app-ingredient-autocomplete',
   imports: [CommonModule, FormsModule],
   templateUrl: './ingredient-autocomplete.component.html',
-  styleUrl: './ingredient-autocomplete.component.css'
+  styleUrl: './ingredient-autocomplete.component.css',
 })
 export class IngredientAutocompleteComponent implements OnInit, OnDestroy {
   @Input() placeholder = 'Поиск ингредиентов...';
@@ -28,12 +28,8 @@ export class IngredientAutocompleteComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.searchSubject
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(query => {
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((query) => {
         this.performSearch(query);
       });
   }
@@ -62,7 +58,7 @@ export class IngredientAutocompleteComponent implements OnInit, OnDestroy {
       error: () => {
         this.filteredIngredients = [];
         this.loading = false;
-      }
+      },
     });
   }
 

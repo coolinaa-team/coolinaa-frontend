@@ -15,7 +15,7 @@ import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-sp
   selector: 'app-feed-page',
   imports: [CommonModule, FormsModule, RouterLink, LoadingSpinnerComponent],
   templateUrl: './feed.page.html',
-  styleUrl: './feed.page.css'
+  styleUrl: './feed.page.css',
 })
 export class FeedPage implements OnInit, OnDestroy {
   private readonly recipesApi = inject(RecipeService);
@@ -32,12 +32,9 @@ export class FeedPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.load();
     this.loadCategories();
-    
+
     // Setup debounced search
-    this.searchSubject.pipe(
-      debounceTime(500),
-      distinctUntilChanged()
-    ).subscribe(() => {
+    this.searchSubject.pipe(debounceTime(500), distinctUntilChanged()).subscribe(() => {
       this.load();
     });
   }
@@ -55,7 +52,7 @@ export class FeedPage implements OnInit, OnDestroy {
       next: (res) => (this.categories = res),
       error: () => {
         this.categories = [];
-      }
+      },
     });
   }
 
@@ -72,7 +69,7 @@ export class FeedPage implements OnInit, OnDestroy {
         error: () => {
           this.error = 'Не удалось загрузить рецепты';
           this.loading = false;
-        }
+        },
       });
   }
 

@@ -14,22 +14,29 @@ export class ApiService {
   }
 
   private getCacheKey(path: string, params?: Record<string, any>): string {
-    const queryString = params ? Object.entries(params)
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([k, v]) => `${k}=${v}`)
-      .join('&') : '';
+    const queryString = params
+      ? Object.entries(params)
+          .sort(([a], [b]) => a.localeCompare(b))
+          .map(([k, v]) => `${k}=${v}`)
+          .join('&')
+      : '';
     return `GET:${path}${queryString ? `?${queryString}` : ''}`;
   }
 
   get<T>(path: string, options: { params?: Record<string, any> } = {}) {
     const cleaned = options.params
       ? Object.fromEntries(
-          Object.entries(options.params).filter(([, value]) => value !== undefined && value !== null)
+          Object.entries(options.params).filter(
+            ([, value]) => value !== undefined && value !== null,
+          ),
         )
       : undefined;
 
     const cacheKey = this.getCacheKey(path, cleaned);
-    const source$ = this.http.get<T>(this.url(path), cleaned ? { ...options, params: cleaned } : options);
+    const source$ = this.http.get<T>(
+      this.url(path),
+      cleaned ? { ...options, params: cleaned } : options,
+    );
 
     return this.cache.get(cacheKey, source$, 5 * 60 * 1000);
   }

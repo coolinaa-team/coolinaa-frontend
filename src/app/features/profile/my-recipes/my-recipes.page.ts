@@ -10,7 +10,7 @@ import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading
   selector: 'app-my-recipes-page',
   imports: [CommonModule, RouterLink, LoadingSpinnerComponent],
   templateUrl: './my-recipes.page.html',
-  styleUrl: './my-recipes.page.css'
+  styleUrl: './my-recipes.page.css',
 })
 export class MyRecipesPage implements OnInit {
   private readonly recipeService = inject(RecipeService);
@@ -37,7 +37,7 @@ export class MyRecipesPage implements OnInit {
       error: () => {
         this.error = 'Не удалось загрузить рецепты';
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -65,7 +65,7 @@ export class MyRecipesPage implements OnInit {
       error: () => {
         this.error = 'Не удалось удалить рецепт';
         this.deleting = false;
-      }
+      },
     });
   }
 }

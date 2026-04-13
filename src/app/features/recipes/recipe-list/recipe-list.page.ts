@@ -12,7 +12,7 @@ import { Category } from '../../../core/models/category.model';
   selector: 'app-recipe-list-page',
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './recipe-list.page.html',
-  styleUrl: './recipe-list.page.css'
+  styleUrl: './recipe-list.page.css',
 })
 export class RecipeListPage implements OnInit {
   private readonly recipesApi = inject(RecipeService);
@@ -33,7 +33,7 @@ export class RecipeListPage implements OnInit {
   private loadCategories() {
     this.categoriesApi.list().subscribe({
       next: (res) => (this.categories = res),
-      error: () => (this.categories = [])
+      error: () => (this.categories = []),
     });
   }
 
@@ -41,7 +41,11 @@ export class RecipeListPage implements OnInit {
     this.loading = true;
     this.error = '';
     this.recipesApi
-      .list({ page, search: this.query || undefined, categoryId: this.selectedCategory || undefined })
+      .list({
+        page,
+        search: this.query || undefined,
+        categoryId: this.selectedCategory || undefined,
+      })
       .subscribe({
         next: (res) => {
           this.recipes = res;
@@ -50,7 +54,7 @@ export class RecipeListPage implements OnInit {
         error: () => {
           this.error = 'Не удалось загрузить рецепты';
           this.loading = false;
-        }
+        },
       });
   }
 

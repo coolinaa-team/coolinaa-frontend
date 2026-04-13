@@ -7,7 +7,7 @@ import { AuthService } from '../../core/services/auth.service';
   selector: 'app-profile-page',
   imports: [CommonModule, RouterLink],
   templateUrl: './profile.page.html',
-  styleUrl: './profile.page.css'
+  styleUrl: './profile.page.css',
 })
 export class ProfilePage {
   private readonly auth = inject(AuthService);

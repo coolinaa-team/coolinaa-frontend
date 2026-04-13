@@ -10,7 +10,7 @@ import { AuthService } from '../../../core/services/auth.service';
   selector: 'app-login',
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
 export class LoginComponent {
   private readonly fb = inject(FormBuilder);
@@ -19,7 +19,7 @@ export class LoginComponent {
 
   form = this.fb.group({
     emailOrUsername: ['', Validators.required],
-    password: ['', Validators.required]
+    password: ['', Validators.required],
   });
 
   loading = false;
@@ -39,7 +39,7 @@ export class LoginComponent {
         }),
         finalize(() => {
           this.loading = false;
-        })
+        }),
       )
       .subscribe((res) => {
         if (res) {

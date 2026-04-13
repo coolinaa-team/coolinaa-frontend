@@ -1,84 +1,134 @@
 <section class="space-y-4">
-      <div>
-        <h1 class="text-2xl font-semibold">Создать рецепт</h1>
-        <p class="text-sm text-stone-500">Поделитесь любимым блюдом с сообществом.</p>
-      </div>
-      <form class="space-y-4" [formGroup]="form" (ngSubmit)="submit()">
-        <div class="grid gap-3 sm:grid-cols-2">
-          <label class="space-y-1 text-sm text-stone-700">
-            <span>Название</span>
-            <input class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2" formControlName="title" />
-          </label>
-          <label class="space-y-1 text-sm text-stone-700">
-            <span>Категория</span>
-            <select class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2" formControlName="categoryId">
-              <option [ngValue]="null">Не выбрано</option>
-              <option *ngFor="let cat of categories" [ngValue]="cat.id">{{ cat.name }}</option>
-            </select>
-          </label>
-          <label class="space-y-1 text-sm text-stone-700 sm:col-span-2">
-            <span>Описание</span>
-            <textarea class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2" rows="2" formControlName="description"></textarea>
-          </label>
-          <label class="space-y-1 text-sm text-stone-700 sm:col-span-2">
-            <span>Инструкции</span>
-            <textarea class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2" rows="4" formControlName="instructions"></textarea>
-          </label>
-          <label class="space-y-1 text-sm text-stone-700">
-            <span>Время подготовки (мин)</span>
-            <input type="number" class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2" formControlName="preparationTime" />
-          </label>
-          <label class="space-y-1 text-sm text-stone-700">
-            <span>Время готовки (мин)</span>
-            <input type="number" class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2" formControlName="cookingTime" />
-          </label>
-          <label class="space-y-1 text-sm text-stone-700">
-            <span>Порции</span>
-            <input type="number" class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2" formControlName="servings" />
-          </label>
-          <label class="space-y-1 text-sm text-stone-700">
-            <span>Сложность (1-5)</span>
-            <input type="number" min="1" max="5" class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2" formControlName="difficultyLevel" />
-          </label>
-        </div>
-
-        <div class="space-y-2">
-          <div class="flex items-center justify-between">
-            <p class="text-sm font-semibold text-stone-800">Ингредиенты</p>
-            <button type="button" class="text-sm text-accent-800" (click)="addIngredient()">Добавить</button>
-          </div>
-          <div class="space-y-3" formArrayName="ingredients">
-            <div
-              *ngFor="let group of ingredientsArray.controls; let i = index"
-              [formGroupName]="i"
-              class="rounded-xl border border-stone-200 bg-white/90 p-3 grid gap-2 sm:grid-cols-4 shadow-sm"
-            >
-              <label class="space-y-1 text-sm text-stone-700 sm:col-span-1">
-                <app-ingredient-autocomplete 
-                  placeholder="Ингредиент..."
-                  (selected)="onIngredientSelectedInForm($event, i)"
-                />
-              </label>
-              <input type="number" min="0" step="0.1" class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2" formControlName="quantity" placeholder="Количество" />
-              <select class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2" formControlName="unitId">
-                <option [ngValue]="null">Ед.</option>
-                <option *ngFor="let u of units" [ngValue]="u.id">{{ u.abbreviation || u.name }}</option>
-              </select>
-              <div class="flex items-center gap-2">
-                <input class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2" formControlName="notes" placeholder="Примечание" />
-                <button type="button" class="text-sm text-red-500" (click)="removeIngredient(i)">✕</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <p *ngIf="error" class="text-sm text-red-500">{{ error }}</p>
-        <button
-          type="submit"
-          class="w-full sm:w-auto px-4 py-2 rounded-xl bg-accent-600 text-white font-semibold disabled:opacity-60"
-          [disabled]="form.invalid || loading"
+  <div>
+    <h1 class="text-2xl font-semibold">Создать рецепт</h1>
+    <p class="text-sm text-stone-500">Поделитесь любимым блюдом с сообществом.</p>
+  </div>
+  <form class="space-y-4" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="grid gap-3 sm:grid-cols-2">
+      <label class="space-y-1 text-sm text-stone-700">
+        <span>Название</span>
+        <input
+          class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
+          formControlName="title"
+        />
+      </label>
+      <label class="space-y-1 text-sm text-stone-700">
+        <span>Категория</span>
+        <select
+          class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
+          formControlName="categoryId"
         >
-          {{ loading ? 'Сохраняем...' : 'Сохранить рецепт' }}
+          <option [ngValue]="null">Не выбрано</option>
+          <option *ngFor="let cat of categories" [ngValue]="cat.id">{{ cat.name }}</option>
+        </select>
+      </label>
+      <label class="space-y-1 text-sm text-stone-700 sm:col-span-2">
+        <span>Описание</span>
+        <textarea
+          class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
+          rows="2"
+          formControlName="description"
+        ></textarea>
+      </label>
+      <label class="space-y-1 text-sm text-stone-700 sm:col-span-2">
+        <span>Инструкции</span>
+        <textarea
+          class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
+          rows="4"
+          formControlName="instructions"
+        ></textarea>
+      </label>
+      <label class="space-y-1 text-sm text-stone-700">
+        <span>Время подготовки (мин)</span>
+        <input
+          type="number"
+          class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
+          formControlName="preparationTime"
+        />
+      </label>
+      <label class="space-y-1 text-sm text-stone-700">
+        <span>Время готовки (мин)</span>
+        <input
+          type="number"
+          class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
+          formControlName="cookingTime"
+        />
+      </label>
+      <label class="space-y-1 text-sm text-stone-700">
+        <span>Порции</span>
+        <input
+          type="number"
+          class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
+          formControlName="servings"
+        />
+      </label>
+      <label class="space-y-1 text-sm text-stone-700">
+        <span>Сложность (1-5)</span>
+        <input
+          type="number"
+          min="1"
+          max="5"
+          class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
+          formControlName="difficultyLevel"
+        />
+      </label>
+    </div>
+
+    <div class="space-y-2">
+      <div class="flex items-center justify-between">
+        <p class="text-sm font-semibold text-stone-800">Ингредиенты</p>
+        <button type="button" class="text-sm text-accent-800" (click)="addIngredient()">
+          Добавить
         </button>
-      </form>
-    </section>
+      </div>
+      <div class="space-y-3" formArrayName="ingredients">
+        <div
+          *ngFor="let group of ingredientsArray.controls; let i = index"
+          [formGroupName]="i"
+          class="rounded-xl border border-stone-200 bg-white/90 p-3 grid gap-2 sm:grid-cols-4 shadow-sm"
+        >
+          <label class="space-y-1 text-sm text-stone-700 sm:col-span-1">
+            <app-ingredient-autocomplete
+              placeholder="Ингредиент..."
+              (selected)="onIngredientSelectedInForm($event, i)"
+            />
+          </label>
+          <input
+            type="number"
+            min="0"
+            step="0.1"
+            class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
+            formControlName="quantity"
+            placeholder="Количество"
+          />
+          <select
+            class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
+            formControlName="unitId"
+          >
+            <option [ngValue]="null">Ед.</option>
+            <option *ngFor="let u of units" [ngValue]="u.id">{{ u.abbreviation || u.name }}</option>
+          </select>
+          <div class="flex items-center gap-2">
+            <input
+              class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
+              formControlName="notes"
+              placeholder="Примечание"
+            />
+            <button type="button" class="text-sm text-red-500" (click)="removeIngredient(i)">
+              ✕
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p *ngIf="error" class="text-sm text-red-500">{{ error }}</p>
+    <button
+      type="submit"
+      class="w-full sm:w-auto px-4 py-2 rounded-xl bg-accent-600 text-white font-semibold disabled:opacity-60"
+      [disabled]="form.invalid || loading"
+    >
+      {{ loading ? 'Сохраняем...' : 'Сохранить рецепт' }}
+    </button>
+  </form>
+</section>

@@ -10,7 +10,7 @@ import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-sp
   selector: 'app-match-page',
   imports: [CommonModule, LoadingSpinnerComponent],
   templateUrl: './match.page.html',
-  styleUrl: './match.page.css'
+  styleUrl: './match.page.css',
 })
 export class MatchPage implements OnInit {
   private readonly recipes = inject(RecipeService);
@@ -41,14 +41,14 @@ export class MatchPage implements OnInit {
       error: () => {
         this.error = 'Не удалось получить подборку';
         this.loading = false;
-      }
+      },
     });
   }
 
   private loadCategories() {
     this.categoriesApi.list().subscribe({
       next: (res) => (this.categories = res),
-      error: () => (this.categories = [])
+      error: () => (this.categories = []),
     });
   }
 

@@ -1,34 +1,32 @@
 <form class="space-y-4" [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div class="space-y-2">
-        <label class="block text-sm text-stone-700">Email или имя</label>
-        <input
-          class="w-full rounded-xl border border-slate-800 text-black px-3 py-2 focus:outline-none focus:border-emerald-400"
-          formControlName="emailOrUsername"
-          type="text"
-          placeholder="you@example.com"
-        />
-      </div>
-      <div class="space-y-2">
-        <label class="block text-sm text-stone-700">Пароль</label>
-        <input
-          class="w-full rounded-xl border border-slate-800 text-black px-3 py-2 focus:outline-none focus:border-emerald-400"
-          formControlName="password"
-          type="password"
-          placeholder="********"
-        />
-      </div>
-      <button
-        type="submit"
-        class="w-full rounded-xl bg-accent-600 text-white font-semibold py-2 mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
-        [disabled]="form.invalid || loading"
-      >
-        {{ loading ? 'Входим...' : 'Войти' }}
-      </button>
-      <p *ngIf="error" class="text-sm text-red-500 text-center">{{ error }}
-      </p>
-      <p class="text-sm text-stone-500 text-center">
-        Нет аккаунта?
-        <a routerLink="/auth/register" class="text-accent-800">Создать</a>
-      </p>
-    </form>
-    
+  <div class="space-y-2">
+    <label class="block text-sm text-stone-700">Email или имя</label>
+    <input
+      class="w-full rounded-xl border border-slate-800 text-black px-3 py-2 focus:outline-none focus:border-emerald-400"
+      formControlName="emailOrUsername"
+      type="text"
+      placeholder="you@example.com"
+    />
+  </div>
+  <div class="space-y-2">
+    <label class="block text-sm text-stone-700">Пароль</label>
+    <input
+      class="w-full rounded-xl border border-slate-800 text-black px-3 py-2 focus:outline-none focus:border-emerald-400"
+      formControlName="password"
+      type="password"
+      placeholder="********"
+    />
+  </div>
+  <button
+    type="submit"
+    class="w-full rounded-xl bg-accent-600 text-white font-semibold py-2 mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
+    [disabled]="form.invalid || loading"
+  >
+    {{ loading ? 'Входим...' : 'Войти' }}
+  </button>
+  <p *ngIf="error" class="text-sm text-red-500 text-center">{{ error }}</p>
+  <p class="text-sm text-stone-500 text-center">
+    Нет аккаунта?
+    <a routerLink="/auth/register" class="text-accent-800">Создать</a>
+  </p>
+</form>

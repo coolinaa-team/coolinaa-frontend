@@ -10,7 +10,7 @@ import { AuthService } from '../../../core/services/auth.service';
   selector: 'app-register',
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrl: './register.component.css',
 })
 export class RegisterComponent {
   private readonly fb = inject(FormBuilder);
@@ -20,7 +20,7 @@ export class RegisterComponent {
   form = this.fb.group({
     username: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required]
+    password: ['', Validators.required],
   });
 
   loading = false;
@@ -40,7 +40,7 @@ export class RegisterComponent {
         }),
         finalize(() => {
           this.loading = false;
-        })
+        }),
       )
       .subscribe((res) => {
         if (res) {

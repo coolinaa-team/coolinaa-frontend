@@ -3,7 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserIngredientService } from '../../core/services/user-ingredient.service';
 import { IngredientService } from '../../core/services/ingredient.service';
-import { Ingredient, UserIngredient, UserIngredientRequest } from '../../core/models/ingredient.model';
+import {
+  Ingredient,
+  UserIngredient,
+  UserIngredientRequest,
+} from '../../core/models/ingredient.model';
 import { Unit } from '../../core/models/unit.model';
 import { IngredientAutocompleteComponent } from '../../shared/ingredient-autocomplete/ingredient-autocomplete.component';
 
@@ -11,7 +15,7 @@ import { IngredientAutocompleteComponent } from '../../shared/ingredient-autocom
   selector: 'app-fridge-page',
   imports: [CommonModule, FormsModule, IngredientAutocompleteComponent],
   templateUrl: './fridge.page.html',
-  styleUrl: './fridge.page.css'
+  styleUrl: './fridge.page.css',
 })
 export class FridgePage implements OnInit {
   private readonly userIngredients = inject(UserIngredientService);
@@ -25,7 +29,7 @@ export class FridgePage implements OnInit {
     ingredientId: undefined,
     quantity: 0,
     unitId: undefined,
-    expiresAt: undefined
+    expiresAt: undefined,
   };
 
   ngOnInit() {
@@ -36,7 +40,7 @@ export class FridgePage implements OnInit {
   private load() {
     this.userIngredients.listAll().subscribe({
       next: (res) => (this.items = res),
-      error: () => (this.error = 'Не удалось загрузить продукты')
+      error: () => (this.error = 'Не удалось загрузить продукты'),
     });
   }
 
@@ -54,25 +58,27 @@ export class FridgePage implements OnInit {
       return;
     }
     this.error = '';
-    this.userIngredients.add({
-      ingredientId: this.form.ingredientId,
-      quantity: Number(this.form.quantity),
-      unitId: this.form.unitId || undefined,
-      expiresAt: this.form.expiresAt || undefined
-    }).subscribe({
-      next: () => {
-        this.load();
-      },
-      error: () => {
-        this.error = 'Не удалось сохранить продукт';
-      }
-    });
+    this.userIngredients
+      .add({
+        ingredientId: this.form.ingredientId,
+        quantity: Number(this.form.quantity),
+        unitId: this.form.unitId || undefined,
+        expiresAt: this.form.expiresAt || undefined,
+      })
+      .subscribe({
+        next: () => {
+          this.load();
+        },
+        error: () => {
+          this.error = 'Не удалось сохранить продукт';
+        },
+      });
   }
 
   remove(ingredientId: number) {
     this.userIngredients.remove(ingredientId).subscribe({
       next: () => this.load(),
-      error: () => (this.error = 'Не удалось удалить продукт')
+      error: () => (this.error = 'Не удалось удалить продукт'),
     });
   }
 }
