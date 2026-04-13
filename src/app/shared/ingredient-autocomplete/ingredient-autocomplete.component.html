@@ -1,0 +1,34 @@
+<div class="relative">
+      <input
+        type="text"
+        [(ngModel)]="searchText"
+        (ngModelChange)="onSearch($event)"
+        (focus)="showDropdown = true"
+        (blur)="onBlur()"
+        [class.input-light]="variant === 'light'"
+        [class.input-dark]="variant === 'dark'"
+        [placeholder]="placeholder"
+      />
+      
+      @if (showDropdown && (loading || filteredIngredients.length > 0)) {
+        <div [class.dropdown-light]="variant === 'light'" [class.dropdown-dark]="variant === 'dark'">
+          @if (loading) {
+            <div class="dropdown-loading">Загрузка...</div>
+          } @else if (filteredIngredients.length > 0) {
+            @for (item of filteredIngredients; track item.id) {
+              <button
+                type="button"
+                (click)="selectItem(item)"
+                [class.dropdown-item-light]="variant === 'light'"
+                [class.dropdown-item-dark]="variant === 'dark'"
+              >
+                {{ item.name }}
+                @if (item.categoryName) {
+                  <span class="ml-2 opacity-60">• {{ item.categoryName }}</span>
+                }
+              </button>
+            }
+          }
+        </div>
+      }
+</div>

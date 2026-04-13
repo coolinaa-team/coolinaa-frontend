@@ -1,22 +1,4 @@
-import { Component, inject, computed, effect } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import {
-  heroHome,
-  heroSparkles,
-  heroArchiveBox,
-  heroUserCircle,
-  heroArrowRightOnRectangle
-} from '@ng-icons/heroicons/outline';
-import { AuthService } from '../core/services/auth.service';
-
-@Component({
-  selector: 'app-main-layout',
-  standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgIconComponent],
-  providers: [provideIcons({ heroHome, heroSparkles, heroArchiveBox, heroUserCircle, heroArrowRightOnRectangle })],
-  template: `
-    <div class="min-h-screen bg-gradient-to-br from-amber-50 via-rose-50 to-amber-100 text-stone-900 flex flex-col">
+<div class="min-h-screen bg-gradient-to-br from-amber-50 via-rose-50 to-amber-100 text-stone-900 flex flex-col">
       @if (!isAdmin()) {
         <header class="px-4 py-3 flex items-center justify-between">
           <a routerLink="/feed" class="text-lg font-semibold tracking-tight hover:text-amber-700 transition cursor-pointer">coolinaa</a>
@@ -60,29 +42,4 @@ import { AuthService } from '../core/services/auth.service';
           <router-outlet></router-outlet>
         </main>
       }
-    </div>
-  `
-})
-export class MainLayoutComponent {
-  private readonly auth = inject(AuthService);
-  private readonly router = inject(Router);
-  
-  protected readonly isAdmin = computed(() => this.auth.user()?.role === 'admin');
-
-  constructor() {
-    effect(() => {
-      const user = this.auth.user();
-      const currentUrl = this.router.url;
-      
-      if (user && user.role === 'admin' && !currentUrl.startsWith('/admin')) {
-        this.router.navigate(['/admin']);
-      } else if (user && user.role !== 'admin' && currentUrl.startsWith('/admin')) {
-        this.router.navigate(['/feed']);
-      }
-    });
-  }
-
-  logout() {
-    this.auth.logout();
-  }
-}
+</div>

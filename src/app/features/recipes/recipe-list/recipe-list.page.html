@@ -1,19 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { RecipeService } from '../../core/services/recipe.service';
-import { RecipeCategoryService } from '../../core/services/recipe-category.service';
-import { Recipe } from '../../core/models/recipe.model';
-import { Page } from '../../core/models/page.model';
-import { Category } from '../../core/models/category.model';
-
-@Component({
-  selector: 'app-recipe-list-page',
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
-  template: `
-    <section class="space-y-4">
+<section class="space-y-4">
       <div class="flex items-start justify-between gap-3">
         <div>
           <h1 class="text-2xl font-semibold">Все рецепты</h1>
@@ -53,8 +38,11 @@ import { Category } from '../../core/models/category.model';
         </div>
       </div>
 
-      <div *ngIf="loading" class="text-sm text-stone-500">Загружаем...</div>
-      <div *ngIf="error" class="text-sm text-red-500">{{ error }}</div>
+      @if (loading) {
+        <div class="text-sm text-stone-500">Загружаем...</div>
+      } @else if (error) {
+        <div class="text-sm text-red-500">{{ error }}</div>
+      }
 
       <div class="grid gap-3" *ngIf="recipes?.content?.length">
         <article
@@ -83,52 +71,7 @@ import { Category } from '../../core/models/category.model';
           </div>
         </article>
       </div>
-      <div *ngIf="!loading && !recipes?.content?.length" class="text-sm text-stone-500">Пока нет рецептов.</div>
-    </section>
-  `
-})
-export class RecipeListPage implements OnInit {
-  private readonly recipesApi = inject(RecipeService);
-  private readonly categoriesApi = inject(RecipeCategoryService);
-
-  protected recipes: Page<Recipe> | null = null;
-  protected query = '';
-  protected selectedCategory: number | null = null;
-  protected loading = false;
-  protected error = '';
-  protected categories: Category[] = [];
-
-  ngOnInit() {
-    this.load();
-    this.loadCategories();
-  }
-
-  private loadCategories() {
-    this.categoriesApi.list().subscribe({
-      next: (res) => (this.categories = res),
-      error: () => (this.categories = [])
-    });
-  }
-
-  load(page = 0) {
-    this.loading = true;
-    this.error = '';
-    this.recipesApi
-      .list({ page, search: this.query || undefined, categoryId: this.selectedCategory || undefined })
-      .subscribe({
-        next: (res) => {
-          this.recipes = res;
-          this.loading = false;
-        },
-        error: () => {
-          this.error = 'Не удалось загрузить рецепты';
-          this.loading = false;
-        }
-      });
-  }
-
-  protected selectCategory(tag: number | null) {
-    this.selectedCategory = tag;
-    this.load();
-  }
-}
+      @if (!loading && !recipes?.content?.length) {
+        <div class="text-sm text-stone-500">Пока нет рецептов.</div>
+      }
+</section>
