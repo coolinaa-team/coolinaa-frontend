@@ -27,20 +27,20 @@ export class AuthService {
       catchError(() => {
         this.logout(false);
         return of(null);
-      })
+      }),
     );
   }
 
   login(emailOrUsername: string, password: string) {
-    return this.api.post<AuthResponse>('/auth/login', { emailOrUsername, password }).pipe(
-      tap((res) => this.persistAuth(res))
-    );
+    return this.api
+      .post<AuthResponse>('/auth/login', { emailOrUsername, password })
+      .pipe(tap((res) => this.persistAuth(res)));
   }
 
   register(username: string, email: string, password: string) {
-    return this.api.post<AuthResponse>('/auth/register', { username, email, password }).pipe(
-      tap((res) => this.persistAuth(res))
-    );
+    return this.api
+      .post<AuthResponse>('/auth/register', { username, email, password })
+      .pipe(tap((res) => this.persistAuth(res)));
   }
 
   refresh() {
@@ -48,9 +48,9 @@ export class AuthService {
     if (!refreshToken) {
       return null;
     }
-    return this.api.post<AuthResponse>('/auth/refresh', { refreshToken }).pipe(
-      tap((res) => this.persistAuth(res))
-    );
+    return this.api
+      .post<AuthResponse>('/auth/refresh', { refreshToken })
+      .pipe(tap((res) => this.persistAuth(res)));
   }
 
   fetchMe() {

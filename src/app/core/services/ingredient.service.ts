@@ -16,7 +16,10 @@ export class IngredientService {
     return this.api.post<Ingredient>('/ingredients', data);
   }
 
-  update(id: number, data: { name?: string; description?: string; categoryId?: number; isActive?: boolean }) {
+  update(
+    id: number,
+    data: { name?: string; description?: string; categoryId?: number; isActive?: boolean },
+  ) {
     return this.api.put<Ingredient>(`/ingredients/${id}`, data);
   }
 
