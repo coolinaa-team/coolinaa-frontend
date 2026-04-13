@@ -15,7 +15,7 @@ import { AuthService } from '../../core/services/auth.service';
       <div class="space-y-2">
         <label class="block text-sm text-stone-700">Имя пользователя</label>
         <input
-          class="w-full rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-2 focus:outline-none focus:border-emerald-400"
+          class="w-full rounded-xl border border-slate-800 text-black  px-3 py-2 focus:outline-none focus:border-emerald-400"
           formControlName="username"
           type="text"
           placeholder="chef123"
@@ -24,7 +24,7 @@ import { AuthService } from '../../core/services/auth.service';
       <div class="space-y-2">
         <label class="block text-sm text-stone-700">Email</label>
         <input
-          class="w-full rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-2 focus:outline-none focus:border-emerald-400"
+          class="w-full rounded-xl border border-slate-800 text-black px-3 py-2 focus:outline-none focus:border-emerald-400"
           formControlName="email"
           type="email"
           placeholder="you@example.com"
@@ -33,7 +33,7 @@ import { AuthService } from '../../core/services/auth.service';
       <div class="space-y-2">
         <label class="block text-sm text-stone-700">Пароль</label>
         <input
-          class="w-full rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-2 focus:outline-none focus:border-emerald-400"
+          class="w-full rounded-xl border border-slate-800 text-black px-3 py-2 focus:outline-none focus:border-emerald-400"
           formControlName="password"
           type="password"
           placeholder="********"
