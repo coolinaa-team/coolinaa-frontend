@@ -8,11 +8,23 @@
 :root {
 	color-scheme: light;
 	font-family: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
-	background: #fff8ef;
-	--accent: #f59e0b;
-	--muted: #8b735a;
-	--surface: #fff7ed;
-	--surface-strong: #ffedd5;
+	background: #fff7f1;
+	--accent: #ffab30;
+	--muted: #b86c52;
+	--surface: #fff3eb;
+	--surface-strong: #ffe1d6;
+	--tui-font-text: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--tui-font-heading: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--tui-background-accent-1: #ffab30;
+	--tui-background-accent-1-hover: #ff8830;
+	--tui-background-accent-1-pressed: #ff6430;
+	--tui-background-accent-2: #ff8830;
+	--tui-background-accent-2-hover: #ff6430;
+	--tui-background-accent-2-pressed: #ff4030;
+	--tui-background-neutral-1: #ffe6dd;
+	--tui-text-action: #ff6430;
+	--tui-text-action-hover: #ff4030;
+	--tui-text-action-pressed: #d63327;
 }
 
 body {
@@ -25,6 +37,17 @@ body {
 		#fff8ef;
 	color: #1f2937;
 	-webkit-font-smoothing: antialiased;
+}
+
+html,
+app-root,
+tui-root,
+tui-root > .t-root-content {
+	background: transparent;
+}
+
+tui-root {
+	border-image: none !important;
 }
 
 * {
@@ -81,13 +104,14 @@ nav {
 	transform: none !important;
 }
 
-input, select {
+input:not([tuiInput]):not([tuiCheckbox]),
+select:not([tuiSelect]) {
 	height: 42px;
 	padding: 8px 12px;
 	box-sizing: border-box;
 }
 
-select {
+select:not([tuiSelect]) {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
@@ -98,14 +122,14 @@ select {
 	padding-right: 36px;
 }
 
-textarea {
+textarea:not([tuiInput]) {
 	min-height: 84px;
 	padding: 8px 12px;
 	box-sizing: border-box;
 	border-radius: 12px !important;
 }
 
-button:active {
+button:not([tuiButton]):not([tuiIconButton]):active {
 	transform: scale(0.97);
 }
 

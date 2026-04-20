@@ -1,21 +1,17 @@
 <section class="space-y-5 mt-4">
   <a
     routerLink="/profile"
+    tuiButton
+    appearance="flat"
+    size="s"
     class="inline-flex items-center gap-2 text-sm text-stone-600 hover:text-amber-700 transition"
   >
-    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-    </svg>
+    <tui-icon icon="@tui.chevron-left"></tui-icon>
     Назад в профиль
   </a>
   <div class="flex items-center justify-between">
     <h1 class="text-2xl font-bold tracking-tight">Мои рецепты</h1>
-    <a
-      routerLink="/recipes/create"
-      class="text-sm px-4 py-2 rounded-full bg-amber-600 text-white font-semibold shadow-lg shadow-amber-200/60 hover:bg-amber-700 transition"
-    >
-      Создать рецепт
-    </a>
+    <a routerLink="/recipes/create" tuiButton appearance="primary" size="s"> Создать рецепт </a>
   </div>
 
   @if (loading) {
@@ -23,15 +19,13 @@
   }
 
   @if (error) {
-    <div class="p-4 rounded-xl bg-red-50 text-red-700 text-sm">{{ error }}</div>
+    <tui-error [error]="error"></tui-error>
   }
 
   @if (!loading && recipes && recipes.content.length > 0) {
     <div class="space-y-3">
       @for (recipe of recipes.content; track recipe.id) {
-        <div
-          class="p-4 rounded-2xl bg-white/80 backdrop-blur shadow-lg shadow-amber-200/50 border border-stone-200"
-        >
+        <div tuiCardLarge class="shadow-lg shadow-amber-200/50">
           <div class="flex items-start justify-between gap-3">
             <div class="flex-1">
               <a
@@ -56,7 +50,9 @@
             </div>
             <button
               (click)="confirmDelete(recipe)"
-              class="px-3 py-1.5 rounded-lg bg-red-100 text-red-700 text-sm font-medium hover:bg-red-200 transition"
+              tuiButton
+              appearance="secondary-destructive"
+              size="s"
             >
               Удалить
             </button>
@@ -69,10 +65,7 @@
   @if (!loading && recipes && recipes.content.length === 0) {
     <div class="text-center py-12">
       <p class="text-stone-500 mb-4">У вас пока нет рецептов</p>
-      <a
-        routerLink="/recipes/create"
-        class="inline-block px-6 py-3 rounded-full bg-amber-600 text-white font-semibold shadow-lg shadow-amber-200/60 hover:bg-amber-700 transition"
-      >
+      <a routerLink="/recipes/create" tuiButton appearance="primary" size="m">
         Создать первый рецепт
       </a>
     </div>
@@ -83,24 +76,21 @@
       class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
       (click)="cancelDelete()"
     >
-      <div
-        class="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl"
-        (click)="$event.stopPropagation()"
-      >
+      <div tuiCardMedium class="max-w-sm w-full shadow-2xl" (click)="$event.stopPropagation()">
         <h3 class="text-lg font-bold mb-2">Удалить рецепт?</h3>
         <p class="text-sm text-stone-600 mb-4">
           Вы уверены, что хотите удалить "{{ recipeToDelete.title }}"?
         </p>
         <div class="flex gap-3">
-          <button
-            (click)="cancelDelete()"
-            class="flex-1 px-4 py-2 rounded-lg bg-stone-100 text-stone-700 font-medium hover:bg-stone-200 transition"
-          >
+          <button (click)="cancelDelete()" tuiButton appearance="secondary" size="m" class="flex-1">
             Отмена
           </button>
           <button
             (click)="deleteRecipe()"
-            class="flex-1 px-4 py-2 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 transition"
+            tuiButton
+            appearance="primary-destructive"
+            size="m"
+            class="flex-1"
             [disabled]="deleting"
           >
             {{ deleting ? 'Удаление...' : 'Удалить' }}

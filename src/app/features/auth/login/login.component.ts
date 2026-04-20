@@ -4,11 +4,23 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { TuiButton, TuiError, TuiIcon, TuiInput, TuiLink } from '@taiga-ui/core';
+import { TuiPassword } from '@taiga-ui/kit';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterLink,
+    TuiInput,
+    TuiError,
+    TuiButton,
+    TuiIcon,
+    TuiLink,
+    TuiPassword,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })

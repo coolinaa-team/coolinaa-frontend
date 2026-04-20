@@ -1,41 +1,78 @@
 <form class="space-y-4" [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="space-y-2">
-    <label class="block text-sm text-stone-700">Имя пользователя</label>
+  <tui-textfield>
+    <label tuiLabel>Имя пользователя</label>
     <input
-      class="w-full rounded-xl border border-slate-800 text-black px-3 py-2 focus:outline-none focus:border-emerald-400"
+      tuiInput
       formControlName="username"
       type="text"
       placeholder="chef123"
+      [invalid]="form.controls.username.invalid && form.controls.username.touched"
+      [tuiTextfieldCleaner]="true"
     />
-  </div>
-  <div class="space-y-2">
-    <label class="block text-sm text-stone-700">Email</label>
+  </tui-textfield>
+  <tui-error
+    [error]="
+      form.controls.username.touched && form.controls.username.hasError('required')
+        ? 'Введите имя пользователя'
+        : null
+    "
+  ></tui-error>
+
+  <tui-textfield>
+    <label tuiLabel>Email</label>
     <input
-      class="w-full rounded-xl border border-slate-800 text-black px-3 py-2 focus:outline-none focus:border-emerald-400"
+      tuiInput
       formControlName="email"
       type="email"
       placeholder="you@example.com"
+      [invalid]="form.controls.email.invalid && form.controls.email.touched"
+      [tuiTextfieldCleaner]="true"
     />
-  </div>
-  <div class="space-y-2">
-    <label class="block text-sm text-stone-700">Пароль</label>
+  </tui-textfield>
+  <tui-error
+    [error]="
+      form.controls.email.touched && form.controls.email.hasError('required')
+        ? 'Введите email'
+        : form.controls.email.touched && form.controls.email.hasError('email')
+          ? 'Введите корректный email'
+          : null
+    "
+  ></tui-error>
+
+  <tui-textfield>
+    <label tuiLabel>Пароль</label>
     <input
-      class="w-full rounded-xl border border-slate-800 text-black px-3 py-2 focus:outline-none focus:border-emerald-400"
+      tuiInput
       formControlName="password"
       type="password"
       placeholder="********"
+      [invalid]="form.controls.password.invalid && form.controls.password.touched"
     />
-  </div>
+    <tui-icon tuiPassword></tui-icon>
+  </tui-textfield>
+  <tui-error
+    [error]="
+      form.controls.password.touched && form.controls.password.hasError('required')
+        ? 'Введите пароль'
+        : null
+    "
+  ></tui-error>
+
   <button
+    tuiButton
+    appearance="primary"
+    size="m"
     type="submit"
-    class="w-full rounded-xl bg-accent-600 text-white font-semibold py-2 mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
+    class="w-full mt-2"
     [disabled]="form.invalid || loading"
   >
     {{ loading ? 'Создаем...' : 'Создать аккаунт' }}
   </button>
-  <p *ngIf="error" class="text-sm text-red-500 text-center">{{ error }}</p>
+
+  <tui-error [error]="error || null"></tui-error>
+
   <p class="text-sm text-stone-500 text-center">
     Уже есть аккаунт?
-    <a routerLink="/auth/login" class="text-accent-800">Войти</a>
+    <a routerLink="/auth/login" tuiLink class="text-accent-800">Войти</a>
   </p>
 </form>

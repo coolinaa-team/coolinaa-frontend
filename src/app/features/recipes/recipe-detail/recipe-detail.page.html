@@ -1,6 +1,6 @@
 <ng-container *ngIf="!loading && recipe; else loadingOrMissing">
   <section class="space-y-4">
-    <a routerLink="/recipes" class="text-sm text-accent-800">Назад к списку</a>
+    <a routerLink="/recipes" tuiButton appearance="flat" size="s">Назад к списку</a>
     <div class="space-y-2">
       <p class="text-xs uppercase tracking-wide text-stone-500">
         {{ recipe.categoryName || 'Без категории' }}
@@ -28,16 +28,11 @@
         {{ recipe.servings }} порций
       </span>
     </div>
-    <div
-      class="rounded-2xl border border-stone-200 bg-white/90 p-4 space-y-2 text-sm text-stone-800"
-    >
+    <div tuiCardLarge class="space-y-2 text-sm text-stone-800">
       <p class="font-semibold">Инструкции</p>
       <p class="whitespace-pre-line leading-relaxed">{{ recipe.instructions }}</p>
     </div>
-    <div
-      class="rounded-2xl border border-stone-200 bg-white/90 p-4 space-y-2 text-sm text-stone-800"
-      *ngIf="recipe.ingredients?.length"
-    >
+    <div tuiCardLarge class="space-y-2 text-sm text-stone-800" *ngIf="recipe.ingredients?.length">
       <p class="font-semibold">Ингредиенты</p>
       <ul class="space-y-1">
         <li *ngFor="let ing of recipe.ingredients">
@@ -54,7 +49,8 @@
         *ngIf="auth.user() && !userHasReview"
         [formGroup]="reviewForm"
         (ngSubmit)="submitReview()"
-        class="rounded-2xl border border-stone-200 bg-white/90 p-4 space-y-3"
+        tuiCardLarge
+        class="space-y-3"
       >
         <div>
           <label class="text-sm font-semibold text-stone-800">Оценка (1-5)</label>
@@ -62,8 +58,11 @@
             <button
               type="button"
               *ngFor="let i of [1, 2, 3, 4, 5]"
+              tuiButton
+              appearance="flat"
+              size="s"
               (click)="reviewForm.patchValue({ rating: i })"
-              class="px-3 py-1 rounded-lg border transition"
+              class="transition"
               [ngClass]="
                 reviewForm.value.rating === i
                   ? 'bg-accent-600 text-white border-accent-600'
@@ -76,16 +75,21 @@
         </div>
         <label class="space-y-1 text-sm">
           <span class="font-semibold text-stone-800">Комментарий</span>
-          <textarea
-            class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2 text-sm"
-            rows="3"
-            formControlName="comment"
-            placeholder="Поделитесь впечатлениями..."
-          ></textarea>
+          <tui-textfield>
+            <textarea
+              tuiInput
+              class="w-full text-sm"
+              rows="3"
+              formControlName="comment"
+              placeholder="Поделитесь впечатлениями..."
+            ></textarea>
+          </tui-textfield>
         </label>
         <button
+          tuiButton
+          appearance="primary"
+          size="m"
           type="submit"
-          class="px-4 py-2 rounded-lg bg-accent-600 text-white font-semibold disabled:opacity-60"
           [disabled]="reviewForm.invalid || submittingReview"
         >
           {{ submittingReview ? 'Сохраняем...' : 'Добавить отзыв' }}
@@ -93,10 +97,7 @@
       </form>
 
       <div *ngIf="reviews.length" class="space-y-2">
-        <div
-          *ngFor="let review of reviews"
-          class="rounded-2xl border border-stone-200 bg-white/90 p-3 text-sm"
-        >
+        <div *ngFor="let review of reviews" tuiCardLarge class="w-full text-sm">
           <div class="flex items-center justify-between mb-1">
             <div>
               <p class="font-semibold text-stone-900">{{ review.user?.username || 'Аноним' }}</p>
@@ -107,7 +108,9 @@
             <button
               *ngIf="auth.user()?.id === review.userId"
               (click)="deleteReview(review.id)"
-              class="text-red-500 text-xs font-semibold hover:text-red-700"
+              tuiButton
+              appearance="secondary-destructive"
+              size="s"
               [disabled]="deletingReviewId === review.id"
             >
               {{ deletingReviewId === review.id ? 'Удаляем...' : 'Удалить' }}
@@ -127,8 +130,8 @@
     @if (loading) {
       <app-loading-spinner />
     } @else if (error) {
-      <p class="text-lg font-semibold">{{ error }}</p>
-      <a routerLink="/feed" class="text-amber-800 text-sm">Вернуться к ленте</a>
+      <tui-error [error]="error"></tui-error>
+      <a routerLink="/feed" tuiButton appearance="flat" size="s">Вернуться к ленте</a>
     }
   </section>
 </ng-template>

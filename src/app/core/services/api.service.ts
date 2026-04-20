@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { CacheService } from './cache.service';
 
-const API_BASE = 'http://localhost:8080/api/v1';
+const API_BASE = 'https://coolinaa.site/api/v1';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {

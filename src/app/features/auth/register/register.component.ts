@@ -4,11 +4,23 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { TuiButton, TuiError, TuiIcon, TuiInput, TuiLink } from '@taiga-ui/core';
+import { TuiPassword } from '@taiga-ui/kit';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterLink,
+    TuiInput,
+    TuiError,
+    TuiButton,
+    TuiIcon,
+    TuiLink,
+    TuiPassword,
+  ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })

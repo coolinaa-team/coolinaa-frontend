@@ -6,6 +6,18 @@
   border-radius: 24px;
   padding: 24px;
   box-shadow: 0 20px 50px rgba(15, 23, 42, 0.45);
+
+  --tui-background-base: rgba(255, 255, 255, 0.1);
+  --tui-background-elevation-1: rgba(255, 255, 255, 0.08);
+  --tui-background-elevation-2: rgba(255, 255, 255, 0.12);
+  --tui-background-neutral-1: rgba(255, 255, 255, 0.12);
+  --tui-background-neutral-2: rgba(255, 255, 255, 0.16);
+  --tui-text-primary: #e2e8f0;
+  --tui-text-secondary: rgba(226, 232, 240, 0.75);
+  --tui-text-tertiary: rgba(226, 232, 240, 0.55);
+  --tui-background-accent-1: #0ea5e9;
+  --tui-background-accent-2: #0284c7;
+  --tui-text-action: #7dd3fc;
 }
 
 .frost-panel {
@@ -15,6 +27,20 @@
   padding: 16px;
   backdrop-filter: blur(12px);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.fridge-shell [tuiCardLarge],
+.fridge-shell [tuiCardMedium] {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.fridge-shell tui-textfield {
+  --tui-background-base: rgba(255, 255, 255, 0.1);
+  --tui-background-base-alt: rgba(255, 255, 255, 0.14);
+  --tui-background-neutral-1: rgba(255, 255, 255, 0.14);
+  --tui-background-neutral-2: rgba(255, 255, 255, 0.18);
 }
 
 .field {
@@ -27,9 +53,8 @@
 
 .input {
   width: 100%;
-  padding: 10px 12px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  border: none;
   background: rgba(255, 255, 255, 0.1);
   color: #e2e8f0;
 }

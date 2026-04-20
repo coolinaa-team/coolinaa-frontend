@@ -1,6 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { TuiButton, TuiError, TuiIcon } from '@taiga-ui/core';
+import { TuiCardLarge, TuiCardMedium } from '@taiga-ui/layout';
 import { RecipeService } from '../../../core/services/recipe.service';
 import { Recipe } from '../../../core/models/recipe.model';
 import { Page } from '../../../core/models/page.model';
@@ -8,7 +10,16 @@ import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading
 
 @Component({
   selector: 'app-my-recipes-page',
-  imports: [CommonModule, RouterLink, LoadingSpinnerComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    LoadingSpinnerComponent,
+    TuiButton,
+    TuiError,
+    TuiIcon,
+    TuiCardLarge,
+    TuiCardMedium,
+  ],
   templateUrl: './my-recipes.page.html',
   styleUrl: './my-recipes.page.css',
 })

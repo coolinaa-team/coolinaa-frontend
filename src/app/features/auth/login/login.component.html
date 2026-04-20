@@ -1,32 +1,57 @@
 <form class="space-y-4" [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="space-y-2">
-    <label class="block text-sm text-stone-700">Email или имя</label>
+  <tui-textfield>
+    <label tuiLabel>Email или имя</label>
     <input
-      class="w-full rounded-xl border border-slate-800 text-black px-3 py-2 focus:outline-none focus:border-emerald-400"
+      tuiInput
       formControlName="emailOrUsername"
       type="text"
       placeholder="you@example.com"
+      [invalid]="form.controls.emailOrUsername.invalid && form.controls.emailOrUsername.touched"
+      [tuiTextfieldCleaner]="true"
     />
-  </div>
-  <div class="space-y-2">
-    <label class="block text-sm text-stone-700">Пароль</label>
+  </tui-textfield>
+  <tui-error
+    [error]="
+      form.controls.emailOrUsername.touched && form.controls.emailOrUsername.hasError('required')
+        ? 'Введите email или имя пользователя'
+        : null
+    "
+  ></tui-error>
+
+  <tui-textfield>
+    <label tuiLabel>Пароль</label>
     <input
-      class="w-full rounded-xl border border-slate-800 text-black px-3 py-2 focus:outline-none focus:border-emerald-400"
+      tuiInput
       formControlName="password"
       type="password"
       placeholder="********"
+      [invalid]="form.controls.password.invalid && form.controls.password.touched"
     />
-  </div>
+    <tui-icon tuiPassword></tui-icon>
+  </tui-textfield>
+  <tui-error
+    [error]="
+      form.controls.password.touched && form.controls.password.hasError('required')
+        ? 'Введите пароль'
+        : null
+    "
+  ></tui-error>
+
   <button
+    tuiButton
+    appearance="primary"
+    size="m"
     type="submit"
-    class="w-full rounded-xl bg-accent-600 text-white font-semibold py-2 mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
+    class="w-full mt-2"
     [disabled]="form.invalid || loading"
   >
     {{ loading ? 'Входим...' : 'Войти' }}
   </button>
-  <p *ngIf="error" class="text-sm text-red-500 text-center">{{ error }}</p>
+
+  <tui-error [error]="error || null"></tui-error>
+
   <p class="text-sm text-stone-500 text-center">
     Нет аккаунта?
-    <a routerLink="/auth/register" class="text-accent-800">Создать</a>
+    <a routerLink="/auth/register" tuiLink class="text-accent-800">Создать</a>
   </p>
 </form>

@@ -1,27 +1,11 @@
 import { Component, inject, computed, effect } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import {
-  heroHome,
-  heroSparkles,
-  heroArchiveBox,
-  heroUserCircle,
-  heroArrowRightOnRectangle,
-} from '@ng-icons/heroicons/outline';
+import { TuiButton } from '@taiga-ui/core';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-main-layout',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgIconComponent],
-  providers: [
-    provideIcons({
-      heroHome,
-      heroSparkles,
-      heroArchiveBox,
-      heroUserCircle,
-      heroArrowRightOnRectangle,
-    }),
-  ],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, TuiButton],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.css',
 })

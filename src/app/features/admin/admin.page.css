@@ -1,0 +1,27 @@
+:host {
+	display: block;
+}
+
+.admin-form-row,
+.admin-edit-row {
+	align-items: center;
+}
+
+.admin-edit-row {
+	flex-wrap: wrap;
+}
+
+.admin-form-row tui-textfield,
+.admin-edit-row tui-textfield {
+	flex: 1 1 14rem;
+	min-inline-size: 12rem;
+}
+
+.admin-form-row [tuiButton],
+.admin-edit-row [tuiButton] {
+	white-space: nowrap;
+}
+
+.admin-card > :last-child {
+	margin-block-start: 0 !important;
+}

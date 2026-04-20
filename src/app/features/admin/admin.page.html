@@ -6,55 +6,55 @@
     </div>
   </div>
 
-  <div class="grid gap-4 lg:grid-cols-2">
-    <div class="rounded-2xl border border-stone-200 bg-white p-4 space-y-3">
+  <div class="admin-grid grid gap-4 lg:grid-cols-2">
+    <div tuiCardLarge class="admin-card space-y-3">
       <div class="flex items-center justify-between">
         <h2 class="text-lg font-semibold">Категории ингредиентов</h2>
       </div>
-      <div class="flex gap-2 flex-wrap">
-        <input
-          class="rounded-lg border border-stone-300 px-3 py-2 text-sm bg-white"
-          placeholder="Название"
-          [(ngModel)]="newIngCat.name"
-        />
-        <input
-          class="rounded-lg border border-stone-300 px-3 py-2 text-sm bg-white"
-          placeholder="Описание"
-          [(ngModel)]="newIngCat.description"
-        />
-        <button
-          class="px-3 py-2 rounded-lg bg-accent-600 text-white text-sm font-semibold"
-          (click)="addIngredientCategory()"
-        >
+      <div class="admin-form-row flex gap-2 flex-wrap">
+        <tui-textfield>
+          <input tuiInput placeholder="Название" [(ngModel)]="newIngCat.name" />
+        </tui-textfield>
+        <tui-textfield>
+          <input tuiInput placeholder="Описание" [(ngModel)]="newIngCat.description" />
+        </tui-textfield>
+        <button tuiButton appearance="primary" size="s" (click)="addIngredientCategory()">
           Добавить
         </button>
       </div>
       <div class="divide-y divide-stone-100">
-        <div *ngFor="let c of ingredientCategories" class="py-2 flex items-center gap-2">
+        <div
+          *ngFor="let c of ingredientCategories"
+          class="admin-edit-row py-2 flex items-center gap-2"
+        >
           <ng-container *ngIf="editIngCat[c.id]?.editing; else ingCatView">
-            <input
-              class="rounded-lg border border-stone-300 px-3 py-2 text-sm bg-white"
-              [(ngModel)]="editIngCat[c.id].name"
-            />
-            <input
-              class="rounded-lg border border-stone-300 px-3 py-2 text-sm bg-white"
-              [(ngModel)]="editIngCat[c.id].description"
-            />
-            <button
-              class="px-3 py-2 rounded-lg bg-accent-600 text-white text-sm font-semibold"
-              (click)="saveIngredientCategory(c.id)"
-            >
+            <tui-textfield>
+              <input tuiInput [(ngModel)]="editIngCat[c.id].name" />
+            </tui-textfield>
+            <tui-textfield>
+              <input tuiInput [(ngModel)]="editIngCat[c.id].description" />
+            </tui-textfield>
+            <button tuiButton appearance="primary" size="s" (click)="saveIngredientCategory(c.id)">
               Сохранить
             </button>
-            <button class="text-sm text-accent-700" (click)="cancelIngCat(c.id)">Отмена</button>
+            <button tuiButton appearance="flat" size="s" (click)="cancelIngCat(c.id)">
+              Отмена
+            </button>
           </ng-container>
           <ng-template #ingCatView>
             <div class="flex-1">
               <p class="font-semibold">{{ c.name }}</p>
               <p class="text-sm text-stone-500" *ngIf="c.description">{{ c.description }}</p>
             </div>
-            <button class="text-sm text-accent-700" (click)="startEditIngCat(c)">Изменить</button>
-            <button class="text-sm text-red-600" (click)="deleteIngredientCategory(c.id)">
+            <button tuiButton appearance="flat" size="s" (click)="startEditIngCat(c)">
+              Изменить
+            </button>
+            <button
+              tuiButton
+              appearance="secondary-destructive"
+              size="s"
+              (click)="deleteIngredientCategory(c.id)"
+            >
               Удалить
             </button>
           </ng-template>
@@ -62,63 +62,60 @@
       </div>
     </div>
 
-    <div class="rounded-2xl border border-stone-200 bg-white p-4 space-y-3">
+    <div tuiCardLarge class="admin-card space-y-3">
       <div class="flex items-center justify-between">
         <h2 class="text-lg font-semibold">Ингредиенты</h2>
       </div>
-      <div class="flex gap-2 flex-wrap">
-        <input
-          class="rounded-lg border border-stone-300 px-3 py-2 text-sm bg-white"
-          placeholder="Название"
-          [(ngModel)]="newIngredient.name"
-        />
-        <input
-          class="rounded-lg border border-stone-300 px-3 py-2 text-sm bg-white"
-          placeholder="Описание"
-          [(ngModel)]="newIngredient.description"
-        />
-        <select
-          class="rounded-lg border border-stone-300 px-3 py-2 text-sm bg-white"
-          [(ngModel)]="newIngredient.categoryId"
-        >
-          <option [ngValue]="undefined">Категория</option>
-          <option *ngFor="let c of ingredientCategories" [ngValue]="c.id">{{ c.name }}</option>
-        </select>
-        <button
-          class="px-3 py-2 rounded-lg bg-accent-600 text-white text-sm font-semibold"
-          (click)="addIngredient()"
-        >
-          Добавить
-        </button>
+      <div class="admin-form-row flex gap-2 flex-wrap">
+        <tui-textfield>
+          <input tuiInput placeholder="Название" [(ngModel)]="newIngredient.name" />
+        </tui-textfield>
+        <tui-textfield>
+          <input tuiInput placeholder="Описание" [(ngModel)]="newIngredient.description" />
+        </tui-textfield>
+        <tui-textfield tuiChevron [stringify]="stringifyIngredientCategory">
+          <input
+            tuiSelect
+            class="w-full"
+            [(ngModel)]="newIngredient.categoryId"
+            placeholder="Категория"
+          />
+          <tui-data-list-wrapper
+            *tuiDropdown
+            [items]="ingredientCategoryIds"
+          ></tui-data-list-wrapper>
+        </tui-textfield>
+        <button tuiButton appearance="primary" size="s" (click)="addIngredient()">Добавить</button>
       </div>
       <div class="divide-y divide-stone-100">
-        <div *ngFor="let ing of ingredients" class="py-2 flex items-center gap-2">
+        <div *ngFor="let ing of ingredients" class="admin-edit-row py-2 flex items-center gap-2">
           <ng-container *ngIf="editIngredient[ing.id]?.editing; else ingView">
-            <input
-              class="rounded-lg border border-stone-300 px-3 py-2 text-sm bg-white"
-              [(ngModel)]="editIngredient[ing.id].name"
-            />
-            <input
-              class="rounded-lg border border-stone-300 px-3 py-2 text-sm bg-white"
-              [(ngModel)]="editIngredient[ing.id].description"
-            />
-            <select
-              class="rounded-lg border border-stone-300 px-3 py-2 text-sm bg-white"
-              [(ngModel)]="editIngredient[ing.id].categoryId"
-            >
-              <option [ngValue]="undefined">Категория</option>
-              <option *ngFor="let c of ingredientCategories" [ngValue]="c.id">{{ c.name }}</option>
-            </select>
+            <tui-textfield>
+              <input tuiInput [(ngModel)]="editIngredient[ing.id].name" />
+            </tui-textfield>
+            <tui-textfield>
+              <input tuiInput [(ngModel)]="editIngredient[ing.id].description" />
+            </tui-textfield>
+            <tui-textfield tuiChevron [stringify]="stringifyIngredientCategory">
+              <input
+                tuiSelect
+                class="w-full"
+                [(ngModel)]="editIngredient[ing.id].categoryId"
+                placeholder="Категория"
+              />
+              <tui-data-list-wrapper
+                *tuiDropdown
+                [items]="ingredientCategoryIds"
+              ></tui-data-list-wrapper>
+            </tui-textfield>
             <label class="flex items-center gap-1 text-sm text-stone-700">
-              <input type="checkbox" [(ngModel)]="editIngredient[ing.id].isActive" /> Активен
+              <input tuiCheckbox type="checkbox" [(ngModel)]="editIngredient[ing.id].isActive" />
+              Активен
             </label>
-            <button
-              class="px-3 py-2 rounded-lg bg-accent-600 text-white text-sm font-semibold"
-              (click)="saveIngredient(ing.id)"
-            >
+            <button tuiButton appearance="primary" size="s" (click)="saveIngredient(ing.id)">
               Сохранить
             </button>
-            <button class="text-sm text-accent-700" (click)="cancelIngredient(ing.id)">
+            <button tuiButton appearance="flat" size="s" (click)="cancelIngredient(ing.id)">
               Отмена
             </button>
           </ng-container>
@@ -128,61 +125,55 @@
               <p class="text-sm text-stone-500" *ngIf="ing.description">{{ ing.description }}</p>
               <p class="text-xs text-stone-400" *ngIf="ing.categoryName">{{ ing.categoryName }}</p>
             </div>
-            <button class="text-sm text-accent-700" (click)="startEditIngredient(ing)">
+            <button tuiButton appearance="flat" size="s" (click)="startEditIngredient(ing)">
               Изменить
             </button>
-            <button class="text-sm text-red-600" (click)="deleteIngredient(ing.id)">Удалить</button>
+            <button
+              tuiButton
+              appearance="secondary-destructive"
+              size="s"
+              (click)="deleteIngredient(ing.id)"
+            >
+              Удалить
+            </button>
           </ng-template>
         </div>
       </div>
     </div>
 
-    <div class="rounded-2xl border border-stone-200 bg-white p-4 space-y-3">
+    <div tuiCardLarge class="admin-card space-y-3">
       <div class="flex items-center justify-between">
         <h2 class="text-lg font-semibold">Единицы измерения</h2>
       </div>
-      <div class="flex gap-2 flex-wrap">
-        <input
-          class="rounded-lg border border-stone-300 px-3 py-2 text-sm bg-white"
-          placeholder="Название"
-          [(ngModel)]="newUnit.name"
-        />
-        <input
-          class="rounded-lg border border-stone-300 px-3 py-2 text-sm bg-white"
-          placeholder="Сокращение"
-          [(ngModel)]="newUnit.abbreviation"
-        />
+      <div class="admin-form-row flex gap-2 flex-wrap">
+        <tui-textfield>
+          <input tuiInput placeholder="Название" [(ngModel)]="newUnit.name" />
+        </tui-textfield>
+        <tui-textfield>
+          <input tuiInput placeholder="Сокращение" [(ngModel)]="newUnit.abbreviation" />
+        </tui-textfield>
         <label class="flex items-center gap-1 text-sm text-stone-700">
-          <input type="checkbox" [(ngModel)]="newUnit.isMetric" /> Метрическая
+          <input tuiCheckbox type="checkbox" [(ngModel)]="newUnit.isMetric" /> Метрическая
         </label>
-        <button
-          class="px-3 py-2 rounded-lg bg-accent-600 text-white text-sm font-semibold"
-          (click)="addUnit()"
-        >
-          Добавить
-        </button>
+        <button tuiButton appearance="primary" size="s" (click)="addUnit()">Добавить</button>
       </div>
       <div class="divide-y divide-stone-100">
-        <div *ngFor="let u of units" class="py-2 flex items-center gap-2">
+        <div *ngFor="let u of units" class="admin-edit-row py-2 flex items-center gap-2">
           <ng-container *ngIf="editUnit[u.id]?.editing; else unitView">
-            <input
-              class="rounded-lg border border-stone-300 px-3 py-2 text-sm bg-white"
-              [(ngModel)]="editUnit[u.id].name"
-            />
-            <input
-              class="rounded-lg border border-stone-300 px-3 py-2 text-sm bg-white"
-              [(ngModel)]="editUnit[u.id].abbreviation"
-            />
+            <tui-textfield>
+              <input tuiInput [(ngModel)]="editUnit[u.id].name" />
+            </tui-textfield>
+            <tui-textfield>
+              <input tuiInput [(ngModel)]="editUnit[u.id].abbreviation" />
+            </tui-textfield>
             <label class="flex items-center gap-1 text-sm text-stone-700">
-              <input type="checkbox" [(ngModel)]="editUnit[u.id].isMetric" /> Метрическая
+              <input tuiCheckbox type="checkbox" [(ngModel)]="editUnit[u.id].isMetric" />
+              Метрическая
             </label>
-            <button
-              class="px-3 py-2 rounded-lg bg-accent-600 text-white text-sm font-semibold"
-              (click)="saveUnit(u.id)"
-            >
+            <button tuiButton appearance="primary" size="s" (click)="saveUnit(u.id)">
               Сохранить
             </button>
-            <button class="text-sm text-accent-700" (click)="cancelUnit(u.id)">Отмена</button>
+            <button tuiButton appearance="flat" size="s" (click)="cancelUnit(u.id)">Отмена</button>
           </ng-container>
           <ng-template #unitView>
             <div class="flex-1">
@@ -192,61 +183,67 @@
               </p>
               <p class="text-xs text-stone-500">{{ u.isMetric ? 'Метрическая' : 'Имперская' }}</p>
             </div>
-            <button class="text-sm text-accent-700" (click)="startEditUnit(u)">Изменить</button>
-            <button class="text-sm text-red-600" (click)="deleteUnit(u.id)">Удалить</button>
+            <button tuiButton appearance="flat" size="s" (click)="startEditUnit(u)">
+              Изменить
+            </button>
+            <button
+              tuiButton
+              appearance="secondary-destructive"
+              size="s"
+              (click)="deleteUnit(u.id)"
+            >
+              Удалить
+            </button>
           </ng-template>
         </div>
       </div>
     </div>
 
-    <div class="rounded-2xl border border-stone-200 bg-white p-4 space-y-3">
+    <div tuiCardLarge class="admin-card space-y-3">
       <div class="flex items-center justify-between">
         <h2 class="text-lg font-semibold">Категории рецептов</h2>
       </div>
-      <div class="flex gap-2 flex-wrap">
-        <input
-          class="rounded-lg border border-stone-300 px-3 py-2 text-sm bg-white"
-          placeholder="Название"
-          [(ngModel)]="newRecCat.name"
-        />
-        <input
-          class="rounded-lg border border-stone-300 px-3 py-2 text-sm bg-white"
-          placeholder="Описание"
-          [(ngModel)]="newRecCat.description"
-        />
-        <button
-          class="px-3 py-2 rounded-lg bg-accent-600 text-white text-sm font-semibold"
-          (click)="addRecipeCategory()"
-        >
+      <div class="admin-form-row flex gap-2 flex-wrap">
+        <tui-textfield>
+          <input tuiInput placeholder="Название" [(ngModel)]="newRecCat.name" />
+        </tui-textfield>
+        <tui-textfield>
+          <input tuiInput placeholder="Описание" [(ngModel)]="newRecCat.description" />
+        </tui-textfield>
+        <button tuiButton appearance="primary" size="s" (click)="addRecipeCategory()">
           Добавить
         </button>
       </div>
       <div class="divide-y divide-stone-100">
-        <div *ngFor="let c of recipeCategories" class="py-2 flex items-center gap-2">
+        <div *ngFor="let c of recipeCategories" class="admin-edit-row py-2 flex items-center gap-2">
           <ng-container *ngIf="editRecCat[c.id]?.editing; else recCatView">
-            <input
-              class="rounded-lg border border-stone-300 px-3 py-2 text-sm bg-white"
-              [(ngModel)]="editRecCat[c.id].name"
-            />
-            <input
-              class="rounded-lg border border-stone-300 px-3 py-2 text-sm bg-white"
-              [(ngModel)]="editRecCat[c.id].description"
-            />
-            <button
-              class="px-3 py-2 rounded-lg bg-accent-600 text-white text-sm font-semibold"
-              (click)="saveRecipeCategory(c.id)"
-            >
+            <tui-textfield>
+              <input tuiInput [(ngModel)]="editRecCat[c.id].name" />
+            </tui-textfield>
+            <tui-textfield>
+              <input tuiInput [(ngModel)]="editRecCat[c.id].description" />
+            </tui-textfield>
+            <button tuiButton appearance="primary" size="s" (click)="saveRecipeCategory(c.id)">
               Сохранить
             </button>
-            <button class="text-sm text-accent-700" (click)="cancelRecCat(c.id)">Отмена</button>
+            <button tuiButton appearance="flat" size="s" (click)="cancelRecCat(c.id)">
+              Отмена
+            </button>
           </ng-container>
           <ng-template #recCatView>
             <div class="flex-1">
               <p class="font-semibold">{{ c.name }}</p>
               <p class="text-sm text-stone-500" *ngIf="c.description">{{ c.description }}</p>
             </div>
-            <button class="text-sm text-accent-700" (click)="startEditRecCat(c)">Изменить</button>
-            <button class="text-sm text-red-600" (click)="deleteRecipeCategory(c.id)">
+            <button tuiButton appearance="flat" size="s" (click)="startEditRecCat(c)">
+              Изменить
+            </button>
+            <button
+              tuiButton
+              appearance="secondary-destructive"
+              size="s"
+              (click)="deleteRecipeCategory(c.id)"
+            >
               Удалить
             </button>
           </ng-template>

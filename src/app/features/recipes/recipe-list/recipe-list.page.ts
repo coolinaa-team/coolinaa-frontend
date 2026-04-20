@@ -2,6 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { TuiButton, TuiError, TuiInput } from '@taiga-ui/core';
+import { TuiCardLarge, TuiCardMedium } from '@taiga-ui/layout';
 import { RecipeService } from '../../../core/services/recipe.service';
 import { RecipeCategoryService } from '../../../core/services/recipe-category.service';
 import { Recipe } from '../../../core/models/recipe.model';
@@ -10,7 +12,16 @@ import { Category } from '../../../core/models/category.model';
 
 @Component({
   selector: 'app-recipe-list-page',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterLink,
+    TuiButton,
+    TuiError,
+    TuiInput,
+    TuiCardLarge,
+    TuiCardMedium,
+  ],
   templateUrl: './recipe-list.page.html',
   styleUrl: './recipe-list.page.css',
 })

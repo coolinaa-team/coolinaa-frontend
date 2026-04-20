@@ -2,6 +2,9 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TuiButton, TuiDropdown, TuiError, TuiInput } from '@taiga-ui/core';
+import { TuiChevron, TuiDataListWrapper, TuiSelect, TuiTextarea } from '@taiga-ui/kit';
+import { TuiCardLarge } from '@taiga-ui/layout';
 import { IngredientService } from '../../../core/services/ingredient.service';
 import { RecipeService } from '../../../core/services/recipe.service';
 import { RecipeCategoryService } from '../../../core/services/recipe-category.service';
@@ -13,7 +16,20 @@ import { IngredientAutocompleteComponent } from '../../../shared/ingredient-auto
 
 @Component({
   selector: 'app-recipe-create-page',
-  imports: [CommonModule, ReactiveFormsModule, IngredientAutocompleteComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    IngredientAutocompleteComponent,
+    TuiInput,
+    TuiTextarea,
+    TuiChevron,
+    TuiDataListWrapper,
+    TuiDropdown,
+    TuiSelect,
+    TuiButton,
+    TuiError,
+    TuiCardLarge,
+  ],
   templateUrl: './recipe-create.page.html',
   styleUrl: './recipe-create.page.css',
 })
@@ -29,6 +45,36 @@ export class RecipeCreatePage implements OnInit {
   protected categories: Category[] = [];
   protected loading = false;
   protected error = '';
+
+  protected get categoryIds(): number[] {
+    return this.categories.map((c) => c.id);
+  }
+
+  protected get categoryLabels(): string[] {
+    return this.categories.map((c) => c.name);
+  }
+
+  protected get unitIds(): number[] {
+    return this.units.map((u) => u.id);
+  }
+
+  protected get unitLabels(): string[] {
+    return this.units.map((u) => u.abbreviation || u.name);
+  }
+
+  protected readonly stringifyCategory = (id: number | null): string => {
+    if (id === null) return '';
+
+    return this.categories.find((c) => c.id === id)?.name ?? '';
+  };
+
+  protected readonly stringifyUnit = (id: number | null): string => {
+    if (id === null) return '';
+
+    const unit = this.units.find((u) => u.id === id);
+
+    return unit ? unit.abbreviation || unit.name : '';
+  };
 
   form: FormGroup = this.fb.group({
     title: ['', Validators.required],

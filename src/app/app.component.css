@@ -1,0 +1,49 @@
+ :host {
+	display: block;
+	min-height: 100vh;
+}
+
+.desktop-gate {
+	min-height: 100vh;
+	display: grid;
+	place-items: center;
+	padding: 24px;
+	background:
+		radial-gradient(circle at top, rgba(255, 171, 48, 0.14), transparent 34%),
+		radial-gradient(circle at bottom right, rgba(255, 100, 48, 0.12), transparent 32%);
+}
+
+.desktop-gate__card {
+	max-width: 420px;
+	width: 100%;
+	padding: 28px 24px;
+	border-radius: 24px;
+	text-align: center;
+	background: rgba(255, 255, 255, 0.9);
+	backdrop-filter: blur(18px);
+	box-shadow: 0 24px 60px rgba(119, 45, 0, 0.14);
+	border: 1px solid rgba(255, 171, 48, 0.2);
+}
+
+.desktop-gate__logo {
+	font-size: 2rem;
+	font-weight: 800;
+	letter-spacing: -0.04em;
+	line-height: 1;
+	color: #ff6430;
+	margin-bottom: 14px;
+}
+
+.desktop-gate__card h1 {
+	margin: 0;
+	font-size: 1.4rem;
+	font-weight: 800;
+	color: #1f2937;
+}
+
+.desktop-gate__card p {
+	margin: 12px 0 0;
+	font-size: 1rem;
+	line-height: 1.5;
+	color: #57534e;
+}

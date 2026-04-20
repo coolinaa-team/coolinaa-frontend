@@ -81,6 +81,7 @@
     .dropdown-item-light {
       width: 100%;
       text-align: left;
+      justify-content: flex-start;
       padding: 0.5rem 0.75rem;
       border-bottom: 1px solid rgb(243, 244, 246);
       background: none;
@@ -106,6 +107,7 @@
     .dropdown-item-dark {
       width: 100%;
       text-align: left;
+      justify-content: flex-start;
       padding: 0.5rem 0.75rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       background: none;
