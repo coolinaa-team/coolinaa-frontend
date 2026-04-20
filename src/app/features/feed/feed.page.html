@@ -7,17 +7,22 @@
   </div>
 
   <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-    <input
-      class="w-full sm:max-w-xs rounded-xl border border-stone-300/70 bg-white/80 px-3 py-2 focus:outline-none focus:border-accent-600"
-      type="search"
-      placeholder="Поиск по названию"
-      [(ngModel)]="query"
-      (ngModelChange)="onSearchChange($event)"
-    />
+    <tui-textfield class="w-full sm:max-w-xs" [tuiTextfieldCleaner]="true" iconStart="@tui.search">
+      <input
+        tuiInput
+        type="search"
+        placeholder="Поиск по названию"
+        [(ngModel)]="query"
+        (ngModelChange)="onSearchChange($event)"
+      />
+    </tui-textfield>
     <div class="flex gap-2 flex-wrap text-sm text-stone-700">
       <button
-        class="px-3 py-1 rounded-full border border-stone-300 bg-white/90"
-        [class.bg-accent-50]="categoryId === null"
+        class="category-filter-btn"
+        tuiButton
+        appearance="flat"
+        size="s"
+        [class.category-filter-btn_active]="categoryId === null"
         [class.text-accent-800]="categoryId === null"
         (click)="setCategory(null)"
       >
@@ -25,8 +30,11 @@
       </button>
       <button
         *ngFor="let cat of categories"
-        class="px-3 py-1 rounded-full border border-stone-300 bg-white/90"
-        [class.bg-accent-50]="categoryId === cat.id"
+        class="category-filter-btn"
+        tuiButton
+        appearance="flat"
+        size="s"
+        [class.category-filter-btn_active]="categoryId === cat.id"
         [class.text-accent-800]="categoryId === cat.id"
         (click)="setCategory(cat.id)"
       >
@@ -38,12 +46,14 @@
   @if (loading) {
     <app-loading-spinner />
   } @else if (error) {
-    <div class="text-sm text-red-500">{{ error }}</div>
+    <tui-error [error]="error"></tui-error>
   } @else if (recipes?.content?.length) {
     <div class="grid gap-3">
-      <article
+      <a
         *ngFor="let recipe of recipes?.content"
-        class="rounded-2xl border border-stone-200 bg-white/90 p-4 shadow-sm"
+        tuiCardLarge
+        class="block cursor-pointer shadow-sm transition-transform hover:-translate-y-0.5 hover:shadow-md no-underline"
+        [routerLink]="['/recipes', recipe.id]"
       >
         <div class="flex items-start justify-between gap-2 mb-2">
           <div class="space-y-1 flex-1">
@@ -59,11 +69,6 @@
               {{ recipe.description || 'Описание скоро появится' }}
             </p>
           </div>
-          <a
-            routerLink="/recipes/{{ recipe.id }}"
-            class="text-sm text-accent-800 whitespace-nowrap flex-shrink-0"
-            >Открыть</a
-          >
         </div>
         <div class="flex flex-wrap gap-1 text-xs text-stone-600">
           <span
@@ -79,9 +84,9 @@
             {{ recipe.servings }} порций
           </span>
         </div>
-      </article>
+      </a>
     </div>
   } @else {
-    <div class="text-sm text-stone-500">Нет рецептов.</div>
+    <div class="text-sm text-stone-500 text-center">Не нашли подходящих рецептов</div>
   }
 </section>

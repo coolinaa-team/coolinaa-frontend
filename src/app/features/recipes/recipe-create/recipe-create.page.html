@@ -3,81 +3,70 @@
     <h1 class="text-2xl font-semibold">Создать рецепт</h1>
     <p class="text-sm text-stone-500">Поделитесь любимым блюдом с сообществом.</p>
   </div>
-  <form class="space-y-4" [formGroup]="form" (ngSubmit)="submit()">
-    <div class="grid gap-3 sm:grid-cols-2">
+  <form class="space-y-4 recipe-form" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="grid gap-3 sm:grid-cols-2 form-grid">
       <label class="space-y-1 text-sm text-stone-700">
         <span>Название</span>
-        <input
-          class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
-          formControlName="title"
-        />
+        <tui-textfield>
+          <input tuiInput class="w-full" formControlName="title" />
+        </tui-textfield>
       </label>
       <label class="space-y-1 text-sm text-stone-700">
         <span>Категория</span>
-        <select
-          class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
-          formControlName="categoryId"
-        >
-          <option [ngValue]="null">Не выбрано</option>
-          <option *ngFor="let cat of categories" [ngValue]="cat.id">{{ cat.name }}</option>
-        </select>
+        <tui-textfield tuiChevron [stringify]="stringifyCategory">
+          <input tuiSelect class="w-full" formControlName="categoryId" placeholder="Не выбрано" />
+          <tui-data-list-wrapper *tuiDropdown [items]="categoryIds"></tui-data-list-wrapper>
+        </tui-textfield>
       </label>
       <label class="space-y-1 text-sm text-stone-700 sm:col-span-2">
         <span>Описание</span>
-        <textarea
-          class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
-          rows="2"
-          formControlName="description"
-        ></textarea>
+        <tui-textfield>
+          <textarea tuiTextarea class="w-full" rows="2" formControlName="description"></textarea>
+        </tui-textfield>
       </label>
       <label class="space-y-1 text-sm text-stone-700 sm:col-span-2">
         <span>Инструкции</span>
-        <textarea
-          class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
-          rows="4"
-          formControlName="instructions"
-        ></textarea>
+        <tui-textfield>
+          <textarea tuiTextarea class="w-full" rows="4" formControlName="instructions"></textarea>
+        </tui-textfield>
       </label>
       <label class="space-y-1 text-sm text-stone-700">
         <span>Время подготовки (мин)</span>
-        <input
-          type="number"
-          class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
-          formControlName="preparationTime"
-        />
+        <tui-textfield>
+          <input tuiInput type="number" class="w-full" formControlName="preparationTime" />
+        </tui-textfield>
       </label>
       <label class="space-y-1 text-sm text-stone-700">
         <span>Время готовки (мин)</span>
-        <input
-          type="number"
-          class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
-          formControlName="cookingTime"
-        />
+        <tui-textfield>
+          <input tuiInput type="number" class="w-full" formControlName="cookingTime" />
+        </tui-textfield>
       </label>
       <label class="space-y-1 text-sm text-stone-700">
         <span>Порции</span>
-        <input
-          type="number"
-          class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
-          formControlName="servings"
-        />
+        <tui-textfield>
+          <input tuiInput type="number" class="w-full" formControlName="servings" />
+        </tui-textfield>
       </label>
       <label class="space-y-1 text-sm text-stone-700">
         <span>Сложность (1-5)</span>
-        <input
-          type="number"
-          min="1"
-          max="5"
-          class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
-          formControlName="difficultyLevel"
-        />
+        <tui-textfield>
+          <input
+            tuiInput
+            type="number"
+            min="1"
+            max="5"
+            class="w-full"
+            formControlName="difficultyLevel"
+          />
+        </tui-textfield>
       </label>
     </div>
 
     <div class="space-y-2">
       <div class="flex items-center justify-between">
         <p class="text-sm font-semibold text-stone-800">Ингредиенты</p>
-        <button type="button" class="text-sm text-accent-800" (click)="addIngredient()">
+        <button tuiButton appearance="flat" size="s" type="button" (click)="addIngredient()">
           Добавить
         </button>
       </div>
@@ -85,7 +74,8 @@
         <div
           *ngFor="let group of ingredientsArray.controls; let i = index"
           [formGroupName]="i"
-          class="rounded-xl border border-stone-200 bg-white/90 p-3 grid gap-2 sm:grid-cols-4 shadow-sm"
+          tuiCardLarge
+          class="ingredient-row grid gap-2 sm:grid-cols-4 shadow-sm"
         >
           <label class="space-y-1 text-sm text-stone-700 sm:col-span-1">
             <app-ingredient-autocomplete
@@ -93,28 +83,32 @@
               (selected)="onIngredientSelectedInForm($event, i)"
             />
           </label>
-          <input
-            type="number"
-            min="0"
-            step="0.1"
-            class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
-            formControlName="quantity"
-            placeholder="Количество"
-          />
-          <select
-            class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
-            formControlName="unitId"
-          >
-            <option [ngValue]="null">Ед.</option>
-            <option *ngFor="let u of units" [ngValue]="u.id">{{ u.abbreviation || u.name }}</option>
-          </select>
-          <div class="flex items-center gap-2">
+          <tui-textfield>
             <input
-              class="w-full rounded-lg border border-stone-300 bg-white px-3 py-2"
-              formControlName="notes"
-              placeholder="Примечание"
+              tuiInput
+              type="number"
+              min="0"
+              step="0.1"
+              class="w-full"
+              formControlName="quantity"
+              placeholder="Количество"
             />
-            <button type="button" class="text-sm text-red-500" (click)="removeIngredient(i)">
+          </tui-textfield>
+          <tui-textfield tuiChevron [stringify]="stringifyUnit">
+            <input tuiSelect class="w-full" formControlName="unitId" placeholder="Ед." />
+            <tui-data-list-wrapper *tuiDropdown [items]="unitIds"></tui-data-list-wrapper>
+          </tui-textfield>
+          <div class="flex items-center gap-2">
+            <tui-textfield class="w-full">
+              <input tuiInput class="w-full" formControlName="notes" placeholder="Примечание" />
+            </tui-textfield>
+            <button
+              tuiButton
+              appearance="secondary-destructive"
+              size="s"
+              type="button"
+              (click)="removeIngredient(i)"
+            >
               ✕
             </button>
           </div>
@@ -122,10 +116,13 @@
       </div>
     </div>
 
-    <p *ngIf="error" class="text-sm text-red-500">{{ error }}</p>
+    <tui-error *ngIf="error" [error]="error"></tui-error>
     <button
+      tuiButton
+      appearance="primary"
+      size="m"
       type="submit"
-      class="w-full sm:w-auto px-4 py-2 rounded-xl bg-accent-600 text-white font-semibold disabled:opacity-60"
+      class="w-full sm:w-auto"
       [disabled]="form.invalid || loading"
     >
       {{ loading ? 'Сохраняем...' : 'Сохранить рецепт' }}

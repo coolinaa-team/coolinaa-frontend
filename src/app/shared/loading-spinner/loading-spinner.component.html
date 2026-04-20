@@ -1,9 +1,7 @@
 <div class="flex flex-col items-center justify-center py-12">
-  <div class="relative">
-    <div class="text-3xl font-bold tracking-tight text-amber-600 mb-4 animate-pulse">coolinaa</div>
-    <div class="flex justify-center">
-      <div class="spinner"></div>
-    </div>
+  <div class="relative flex flex-col items-center gap-4">
+    <div class="text-3xl font-bold tracking-tight text-amber-600 animate-pulse">coolinaa</div>
+    <tui-loader [overlay]="false" size="l"></tui-loader>
   </div>
   <p class="text-sm text-stone-500 mt-6">Загрузка...</p>
 </div>

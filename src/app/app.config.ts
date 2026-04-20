@@ -1,3 +1,4 @@
+import { provideTaiga } from '@taiga-ui/core';
 import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
@@ -18,5 +19,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
     provideAnimations(),
+    provideTaiga(),
   ],
 };

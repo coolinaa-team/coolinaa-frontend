@@ -1,1 +1,13 @@
-<router-outlet></router-outlet>
+@if (isMobileViewport()) {
+  <tui-root>
+    <router-outlet></router-outlet>
+  </tui-root>
+} @else {
+  <div class="desktop-gate">
+    <div class="desktop-gate__card">
+      <div class="desktop-gate__logo">coolinaa</div>
+      <h1>Это приложение для смартфона</h1>
+      <p>Откройте его с телефона или уменьшите ширину окна до смартфонной</p>
+    </div>
+  </div>
+}

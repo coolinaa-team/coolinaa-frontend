@@ -2,6 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TuiButton, TuiError, TuiInput } from '@taiga-ui/core';
+import { TuiCardLarge } from '@taiga-ui/layout';
 import { RecipeService } from '../../../core/services/recipe.service';
 import { ReviewService, Review } from '../../../core/services/review.service';
 import { AuthService } from '../../../core/services/auth.service';
@@ -10,7 +12,16 @@ import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading
 
 @Component({
   selector: 'app-recipe-detail-page',
-  imports: [CommonModule, RouterLink, ReactiveFormsModule, LoadingSpinnerComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    ReactiveFormsModule,
+    LoadingSpinnerComponent,
+    TuiButton,
+    TuiError,
+    TuiInput,
+    TuiCardLarge,
+  ],
   templateUrl: './recipe-detail.page.html',
   styleUrl: './recipe-detail.page.css',
 })

@@ -1,23 +1,32 @@
 <div class="relative">
-  <input
-    type="text"
-    [(ngModel)]="searchText"
-    (ngModelChange)="onSearch($event)"
-    (focus)="showDropdown = true"
-    (blur)="onBlur()"
-    [class.input-light]="variant === 'light'"
-    [class.input-dark]="variant === 'dark'"
-    [placeholder]="placeholder"
-  />
+  <tui-textfield [tuiTextfieldCleaner]="true">
+    <input
+      tuiInput
+      type="text"
+      [(ngModel)]="searchText"
+      (ngModelChange)="onSearch($event)"
+      (focus)="showDropdown = true"
+      (blur)="onBlur()"
+      [class.input-light]="variant === 'light'"
+      [class.input-dark]="variant === 'dark'"
+      [placeholder]="placeholder"
+    />
+  </tui-textfield>
 
   @if (showDropdown && (loading || filteredIngredients.length > 0)) {
     <div [class.dropdown-light]="variant === 'light'" [class.dropdown-dark]="variant === 'dark'">
       @if (loading) {
-        <div class="dropdown-loading">Загрузка...</div>
+        <div class="dropdown-loading flex items-center gap-2">
+          <tui-loader [overlay]="false" size="s"></tui-loader>
+          <span>Загрузка...</span>
+        </div>
       } @else if (filteredIngredients.length > 0) {
         @for (item of filteredIngredients; track item.id) {
           <button
             type="button"
+            tuiButton
+            appearance="flat"
+            size="s"
             (click)="selectItem(item)"
             [class.dropdown-item-light]="variant === 'light'"
             [class.dropdown-item-dark]="variant === 'dark'"

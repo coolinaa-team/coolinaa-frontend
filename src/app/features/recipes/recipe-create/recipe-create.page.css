@@ -1,0 +1,24 @@
+:host {
+	display: block;
+}
+
+.recipe-form tui-textfield {
+	inline-size: 100%;
+}
+
+.recipe-form textarea[tuiTextarea] {
+	inline-size: 100%;
+}
+
+.form-grid > label,
+.ingredient-row > * {
+	min-inline-size: 0;
+}
+
+.ingredient-row {
+	align-items: center;
+}
+
+.ingredient-row .flex {
+	min-inline-size: 0;
+}

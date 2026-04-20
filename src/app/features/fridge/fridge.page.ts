@@ -1,6 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TuiButton, TuiError, TuiInput } from '@taiga-ui/core';
+import { TuiSelect } from '@taiga-ui/kit';
+import { TuiCardLarge, TuiCardMedium } from '@taiga-ui/layout';
 import { UserIngredientService } from '../../core/services/user-ingredient.service';
 import { IngredientService } from '../../core/services/ingredient.service';
 import {
@@ -13,7 +16,17 @@ import { IngredientAutocompleteComponent } from '../../shared/ingredient-autocom
 
 @Component({
   selector: 'app-fridge-page',
-  imports: [CommonModule, FormsModule, IngredientAutocompleteComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IngredientAutocompleteComponent,
+    TuiButton,
+    TuiError,
+    TuiInput,
+    TuiSelect,
+    TuiCardLarge,
+    TuiCardMedium,
+  ],
   templateUrl: './fridge.page.html',
   styleUrl: './fridge.page.css',
 })
@@ -24,6 +37,14 @@ export class FridgePage implements OnInit {
   protected items: UserIngredient[] = [];
   protected units: Unit[] = [];
   protected error = '';
+
+  protected get unitIds(): number[] {
+    return this.units.map((u) => u.id);
+  }
+
+  protected get unitLabels(): string[] {
+    return this.units.map((u) => u.abbreviation || u.name);
+  }
 
   protected form: Partial<UserIngredientRequest> = {
     ingredientId: undefined,

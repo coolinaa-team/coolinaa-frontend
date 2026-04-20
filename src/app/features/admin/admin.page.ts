@@ -1,6 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TuiButton, TuiCheckbox, TuiDropdown, TuiInput } from '@taiga-ui/core';
+import { TuiChevron, TuiDataListWrapper, TuiSelect } from '@taiga-ui/kit';
+import { TuiCardLarge } from '@taiga-ui/layout';
 import { Category } from '../../core/models/category.model';
 import { Ingredient } from '../../core/models/ingredient.model';
 import { Unit } from '../../core/models/unit.model';
@@ -15,7 +18,18 @@ interface EditState<T> {
 
 @Component({
   selector: 'app-admin-page',
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    TuiButton,
+    TuiCheckbox,
+    TuiInput,
+    TuiDropdown,
+    TuiSelect,
+    TuiChevron,
+    TuiDataListWrapper,
+    TuiCardLarge,
+  ],
   templateUrl: './admin.page.html',
   styleUrl: './admin.page.css',
 })
@@ -41,6 +55,16 @@ export class AdminPage implements OnInit {
   protected editIngredient: EditState<Ingredient> = {};
   protected editUnit: EditState<Unit> = {};
   protected editRecCat: EditState<Category> = {};
+
+  protected get ingredientCategoryIds(): number[] {
+    return this.ingredientCategories.map((c) => c.id);
+  }
+
+  protected readonly stringifyIngredientCategory = (id: number | null | undefined): string => {
+    if (id === null || id === undefined) return '';
+
+    return this.ingredientCategories.find((c) => c.id === id)?.name ?? '';
+  };
 
   ngOnInit() {
     this.loadAll();

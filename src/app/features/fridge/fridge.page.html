@@ -7,7 +7,7 @@
     </div>
   </div>
 
-  <div class="frost-panel space-y-4">
+  <div tuiCardLarge class="frost-panel space-y-4">
     <div class="grid gap-3 sm:grid-cols-2">
       <label class="field">
         <span>Ингредиент</span>
@@ -20,27 +20,44 @@
 
       <label class="field">
         <span>Количество</span>
-        <input class="input" type="number" min="0" step="0.1" [(ngModel)]="form.quantity" />
+        <tui-textfield>
+          <input
+            tuiInput
+            class="input"
+            type="number"
+            min="0"
+            step="0.1"
+            [(ngModel)]="form.quantity"
+          />
+        </tui-textfield>
       </label>
 
       <label class="field">
         <span>Ед. измерения</span>
-        <select class="input" [(ngModel)]="form.unitId">
-          <option [ngValue]="undefined">Не выбрано</option>
-          <option *ngFor="let u of units" [ngValue]="u.id">{{ u.abbreviation || u.name }}</option>
-        </select>
+        <tui-textfield>
+          <select
+            tuiSelect
+            class="input"
+            [(ngModel)]="form.unitId"
+            [items]="unitIds"
+            [labels]="unitLabels"
+            placeholder="Не выбрано"
+          ></select>
+        </tui-textfield>
       </label>
 
       <label class="field">
         <span>Срок годности (опционально)</span>
-        <input class="input" type="date" [(ngModel)]="form.expiresAt" />
+        <tui-textfield>
+          <input tuiInput class="input" type="date" [(ngModel)]="form.expiresAt" />
+        </tui-textfield>
       </label>
     </div>
-    <p *ngIf="error" class="text-sm text-red-200">{{ error }}</p>
-    <button class="fridge-button w-full" (click)="add()">Добавить</button>
+    <tui-error *ngIf="error" [error]="error"></tui-error>
+    <button tuiButton appearance="primary" size="m" class="w-full" (click)="add()">Добавить</button>
   </div>
 
-  <div class="frost-panel space-y-3" *ngIf="items.length; else empty">
+  <div tuiCardLarge class="frost-panel space-y-3" *ngIf="items.length; else empty">
     <div class="space-y-2">
       <div
         *ngFor="let item of items"
@@ -54,7 +71,9 @@
           </p>
         </div>
         <button
-          class="text-sm text-rose-100 hover:text-rose-200"
+          tuiButton
+          appearance="secondary-destructive"
+          size="s"
           (click)="remove(item.ingredientId)"
         >
           Удалить
@@ -63,7 +82,7 @@
     </div>
   </div>
   <ng-template #empty>
-    <div class="frost-panel text-sm text-sky-100/80">
+    <div class="frost-panel text-sm text-sky-100/80 text-center">
       Список пуст. Добавьте продукты, чтобы получить рекомендации.
     </div>
   </ng-template>
