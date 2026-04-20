@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { TuiButton, TuiError, TuiInput } from '@taiga-ui/core';
-import { TuiCardLarge, TuiCardMedium } from '@taiga-ui/layout';
+import { TuiCardLarge } from '@taiga-ui/layout';
 import { RecipeService } from '../../core/services/recipe.service';
 import { RecipeCategoryService } from '../../core/services/recipe-category.service';
 import { Recipe } from '../../core/models/recipe.model';
@@ -24,7 +24,6 @@ import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-sp
     TuiButton,
     TuiError,
     TuiCardLarge,
-    TuiCardMedium,
   ],
   templateUrl: './feed.page.html',
   styleUrl: './feed.page.css',

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TuiButton, TuiError, TuiInput } from '@taiga-ui/core';
 import { TuiSelect } from '@taiga-ui/kit';
-import { TuiCardLarge, TuiCardMedium } from '@taiga-ui/layout';
+import { TuiCardLarge } from '@taiga-ui/layout';
 import { UserIngredientService } from '../../core/services/user-ingredient.service';
 import { IngredientService } from '../../core/services/ingredient.service';
 import {
@@ -25,7 +25,6 @@ import { IngredientAutocompleteComponent } from '../../shared/ingredient-autocom
     TuiInput,
     TuiSelect,
     TuiCardLarge,
-    TuiCardMedium,
   ],
   templateUrl: './fridge.page.html',
   styleUrl: './fridge.page.css',
