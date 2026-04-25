@@ -14,7 +14,7 @@
         placeholder="Поиск по названию"
         [(ngModel)]="query"
         (ngModelChange)="onSearchChange($event)"
-      />
+        />
     </tui-textfield>
     <div class="flex gap-2 flex-wrap text-sm text-stone-700">
       <button
@@ -25,21 +25,22 @@
         [class.category-filter-btn_active]="categoryId === null"
         [class.text-accent-800]="categoryId === null"
         (click)="setCategory(null)"
-      >
+        >
         Все
       </button>
-      <button
-        *ngFor="let cat of categories"
-        class="category-filter-btn"
-        tuiButton
-        appearance="flat"
-        size="s"
-        [class.category-filter-btn_active]="categoryId === cat.id"
-        [class.text-accent-800]="categoryId === cat.id"
-        (click)="setCategory(cat.id)"
-      >
-        {{ cat.name }}
-      </button>
+      @for (cat of categories; track cat) {
+        <button
+          class="category-filter-btn"
+          tuiButton
+          appearance="flat"
+          size="s"
+          [class.category-filter-btn_active]="categoryId === cat.id"
+          [class.text-accent-800]="categoryId === cat.id"
+          (click)="setCategory(cat.id)"
+          >
+          {{ cat.name }}
+        </button>
+      }
     </div>
   </div>
 
@@ -49,42 +50,45 @@
     <tui-error [error]="error"></tui-error>
   } @else if (recipes?.content?.length) {
     <div class="grid gap-3">
-      <a
-        *ngFor="let recipe of recipes?.content"
-        tuiCardLarge
-        class="block cursor-pointer shadow-sm transition-transform hover:-translate-y-0.5 hover:shadow-md no-underline"
-        [routerLink]="['/recipes', recipe.id]"
-      >
-        <div class="flex items-start justify-between gap-2 mb-2">
-          <div class="space-y-1 flex-1">
-            <div class="flex items-center gap-2 text-xs text-stone-500 flex-wrap">
-              <span>{{ recipe.categoryName || 'Без категории' }}</span>
-              <span>&bull;</span>
-              <span>{{
-                recipe.cookingTime ? recipe.cookingTime + ' мин' : 'Время не указано'
-              }}</span>
+      @for (recipe of recipes?.content; track recipe) {
+        <a
+          tuiCardLarge
+          class="block cursor-pointer shadow-sm transition-transform hover:-translate-y-0.5 hover:shadow-md no-underline"
+          [routerLink]="['/recipes', recipe.id]"
+          >
+          <div class="flex items-start justify-between gap-2 mb-2">
+            <div class="space-y-1 flex-1">
+              <div class="flex items-center gap-2 text-xs text-stone-500 flex-wrap">
+                <span>{{ recipe.categoryName || 'Без категории' }}</span>
+                <span>&bull;</span>
+                <span>{{
+                  recipe.cookingTime ? recipe.cookingTime + ' мин' : 'Время не указано'
+                }}</span>
+              </div>
+              <h2 class="text-lg font-semibold text-stone-900">{{ recipe.title }}</h2>
+              <p class="text-sm text-stone-600">
+                {{ recipe.description || 'Описание скоро появится' }}
+              </p>
             </div>
-            <h2 class="text-lg font-semibold text-stone-900">{{ recipe.title }}</h2>
-            <p class="text-sm text-stone-600">
-              {{ recipe.description || 'Описание скоро появится' }}
-            </p>
           </div>
-        </div>
-        <div class="flex flex-wrap gap-1 text-xs text-stone-600">
-          <span
-            class="px-2 py-1 rounded-full bg-stone-100 border border-stone-200"
-            *ngIf="recipe.averageRating"
-          >
-            ★ {{ recipe.averageRating | number: '1.1-1' }}
-          </span>
-          <span
-            class="px-2 py-1 rounded-full bg-stone-100 border border-stone-200"
-            *ngIf="recipe.servings"
-          >
-            {{ recipe.servings }} порций
-          </span>
-        </div>
-      </a>
+          <div class="flex flex-wrap gap-1 text-xs text-stone-600">
+            @if (recipe.averageRating) {
+              <span
+                class="px-2 py-1 rounded-full bg-stone-100 border border-stone-200"
+                >
+                ★ {{ recipe.averageRating | number: '1.1-1' }}
+              </span>
+            }
+            @if (recipe.servings) {
+              <span
+                class="px-2 py-1 rounded-full bg-stone-100 border border-stone-200"
+                >
+                {{ recipe.servings }} порций
+              </span>
+            }
+          </div>
+        </a>
+      }
     </div>
   } @else {
     <div class="text-sm text-stone-500 text-center">Не нашли подходящих рецептов</div>

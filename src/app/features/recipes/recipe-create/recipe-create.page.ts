@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TuiButton, TuiDropdown, TuiError, TuiInput } from '@taiga-ui/core';
@@ -17,7 +17,6 @@ import { IngredientAutocompleteComponent } from '../../../shared/ingredient-auto
 @Component({
   selector: 'app-recipe-create-page',
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     IngredientAutocompleteComponent,
     TuiInput,
@@ -28,8 +27,8 @@ import { IngredientAutocompleteComponent } from '../../../shared/ingredient-auto
     TuiSelect,
     TuiButton,
     TuiError,
-    TuiCardLarge,
-  ],
+    TuiCardLarge
+],
   templateUrl: './recipe-create.page.html',
   styleUrl: './recipe-create.page.css',
 })
