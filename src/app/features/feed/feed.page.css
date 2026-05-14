@@ -1,3 +1,7 @@
+tui-textfield input[tuiInput] {
+	background-color: #fff !important;
+}
+
 .category-filter-btn[tuiButton] {
 	background: #ffffff !important;
 	border: 1px solid #e7e5e4 !important;

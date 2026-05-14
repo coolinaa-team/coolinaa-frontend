@@ -6,6 +6,12 @@
 	inline-size: 100%;
 }
 
+.recipe-form tui-textfield input[tuiInput],
+.recipe-form tui-textfield input[tuiSelect],
+.recipe-form textarea[tuiTextarea] {
+	background-color: #fff !important;
+}
+
 .recipe-form textarea[tuiTextarea] {
 	inline-size: 100%;
 }

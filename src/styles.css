@@ -5,14 +5,15 @@
 @tailwind utilities;
 
 
-:root {
+:root,
+[tuiTheme='light']
+{
 	color-scheme: light;
 	font-family: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
 	background: #fff7f1;
 	--accent: #ffab30;
 	--muted: #b86c52;
 	--surface: #fff3eb;
-	--surface-strong: #ffe1d6;
 	--tui-font-text: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
 	--tui-font-heading: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
 	--tui-background-accent-1: #ffab30;
@@ -21,7 +22,7 @@
 	--tui-background-accent-2: #ff8830;
 	--tui-background-accent-2-hover: #ff6430;
 	--tui-background-accent-2-pressed: #ff4030;
-	--tui-background-neutral-1: #ffe6dd;
+	--tui-background-neutral-1: #fff3eb;
 	--tui-text-action: #ff6430;
 	--tui-text-action-hover: #ff4030;
 	--tui-text-action-pressed: #d63327;
