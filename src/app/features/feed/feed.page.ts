@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked, inject, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -28,30 +28,66 @@ import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-sp
   templateUrl: './feed.page.html',
   styleUrl: './feed.page.css',
 })
-export class FeedPage implements OnInit, OnDestroy {
+export class FeedPage implements OnInit, AfterViewChecked, OnDestroy {
+  @ViewChild('loadMoreSentinel') loadMoreSentinel: ElementRef | null = null;
+
   private readonly recipesApi = inject(RecipeService);
   private readonly categoriesApi = inject(RecipeCategoryService);
   private searchSubject = new Subject<string>();
+  private observer: IntersectionObserver | null = null;
 
-  protected recipes: Page<Recipe> | null = null;
+  protected recipes: Recipe[] = [];
   protected loading = false;
+  protected loadingMore = false;
   protected error = '';
   protected query = '';
   protected categoryId: number | null = null;
   protected categories: Category[] = [];
+  protected currentPage = 0;
+  protected hasMore = true;
 
   ngOnInit() {
     this.load();
     this.loadCategories();
 
-    // Setup debounced search
     this.searchSubject.pipe(debounceTime(500), distinctUntilChanged()).subscribe(() => {
+      this.recipes = [];
+      this.currentPage = 0;
+      this.hasMore = true;
       this.load();
     });
   }
 
+  ngAfterViewChecked() {
+    if (this.loadMoreSentinel && !this.observer) {
+      this.setupIntersectionObserver();
+    }
+    if (!this.loadMoreSentinel && this.observer) {
+      this.destroyObserver();
+    }
+  }
+
   ngOnDestroy() {
     this.searchSubject.complete();
+    this.destroyObserver();
+  }
+
+  private setupIntersectionObserver() {
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting && !this.loadingMore && !this.loading && this.hasMore) {
+          this.loadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    this.observer.observe(this.loadMoreSentinel!.nativeElement);
+  }
+
+  private destroyObserver() {
+    this.observer?.disconnect();
+    this.observer = null;
   }
 
   onSearchChange(value: string) {
@@ -68,24 +104,46 @@ export class FeedPage implements OnInit, OnDestroy {
   }
 
   load(page = 0) {
-    this.loading = true;
+    this.loading = page === 0;
     this.error = '';
     this.recipesApi
       .list({ page, search: this.query || undefined, categoryId: this.categoryId || undefined })
       .subscribe({
         next: (res) => {
-          this.recipes = res;
+          if (page === 0) {
+            this.recipes = res.content || [];
+          } else {
+            this.recipes.push(...(res.content || []));
+          }
+          this.currentPage = page;
+          this.hasMore =
+            res.last === false ||
+            (res.number !== undefined &&
+              res.totalPages !== undefined &&
+              res.number < res.totalPages - 1);
           this.loading = false;
+          this.loadingMore = false;
         },
         error: () => {
           this.error = 'Не удалось загрузить рецепты';
           this.loading = false;
+          this.loadingMore = false;
         },
       });
   }
 
+  private loadMore() {
+    if (!this.hasMore || this.loadingMore) return;
+    this.loadingMore = true;
+    this.load(this.currentPage + 1);
+  }
+
   setCategory(id: number | null) {
     this.categoryId = id;
+    this.recipes = [];
+    this.currentPage = 0;
+    this.hasMore = true;
+    this.destroyObserver();
     this.load();
   }
 }

@@ -48,9 +48,9 @@
     <app-loading-spinner />
   } @else if (error) {
     <tui-error [error]="error"></tui-error>
-  } @else if (recipes?.content?.length) {
+  } @else if (recipes.length) {
     <div class="grid gap-3">
-      @for (recipe of recipes?.content; track recipe) {
+      @for (recipe of recipes; track recipe.id) {
         <a
           tuiCardLarge
           class="block cursor-pointer shadow-sm transition-transform hover:-translate-y-0.5 hover:shadow-md no-underline"
@@ -86,6 +86,12 @@
         </a>
       }
     </div>
+    @if (loadingMore) {
+      <div class="py-4 flex justify-center">
+        <app-loading-spinner />
+      </div>
+    }
+    <div #loadMoreSentinel class="h-2 mt-4"></div>
   } @else {
     <div class="text-sm text-stone-500 text-center">Не нашли подходящих рецептов</div>
   }
