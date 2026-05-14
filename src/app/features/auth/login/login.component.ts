@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import { TuiButton, TuiError, TuiIcon, TuiInput, TuiLink } from '@taiga-ui/core';
 import { TuiPassword } from '@taiga-ui/kit';
 import { AuthService } from '../../../core/services/auth.service';
+import { ErrorService } from '../../../core/services/error.service';
 
 @Component({
   selector: 'app-login',
@@ -27,6 +28,7 @@ export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly errorService = inject(ErrorService);
 
   form = this.fb.group({
     emailOrUsername: ['', Validators.required],
@@ -44,8 +46,8 @@ export class LoginComponent {
     this.auth
       .login(emailOrUsername!, password!)
       .pipe(
-        catchError(() => {
-          this.error = 'Unable to sign in. Please check your credentials.';
+        catchError((err) => {
+          this.error = this.errorService.extractErrorMessage(err);
           return of(null);
         }),
         finalize(() => {

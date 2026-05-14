@@ -1,4 +1,12 @@
-import { Component, OnInit, OnDestroy, AfterViewChecked, inject, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewChecked,
+  inject,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -8,6 +16,7 @@ import { TuiButton, TuiError, TuiInput } from '@taiga-ui/core';
 import { TuiCardLarge } from '@taiga-ui/layout';
 import { RecipeService } from '../../core/services/recipe.service';
 import { RecipeCategoryService } from '../../core/services/recipe-category.service';
+import { ErrorService } from '../../core/services/error.service';
 import { Recipe } from '../../core/models/recipe.model';
 import { Page } from '../../core/models/page.model';
 import { Category } from '../../core/models/category.model';
@@ -33,6 +42,7 @@ export class FeedPage implements OnInit, AfterViewChecked, OnDestroy {
 
   private readonly recipesApi = inject(RecipeService);
   private readonly categoriesApi = inject(RecipeCategoryService);
+  private readonly errorService = inject(ErrorService);
   private searchSubject = new Subject<string>();
   private observer: IntersectionObserver | null = null;
 
@@ -80,7 +90,7 @@ export class FeedPage implements OnInit, AfterViewChecked, OnDestroy {
           this.loadMore();
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
     this.observer.observe(this.loadMoreSentinel!.nativeElement);
   }
@@ -124,8 +134,8 @@ export class FeedPage implements OnInit, AfterViewChecked, OnDestroy {
           this.loading = false;
           this.loadingMore = false;
         },
-        error: () => {
-          this.error = 'Не удалось загрузить рецепты';
+        error: (err) => {
+          this.error = this.errorService.extractErrorMessage(err);
           this.loading = false;
           this.loadingMore = false;
         },

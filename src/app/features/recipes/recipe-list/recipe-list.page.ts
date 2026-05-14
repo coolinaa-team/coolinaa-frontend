@@ -6,6 +6,7 @@ import { TuiButton, TuiError, TuiInput } from '@taiga-ui/core';
 import { TuiCardLarge, TuiCardMedium } from '@taiga-ui/layout';
 import { RecipeService } from '../../../core/services/recipe.service';
 import { RecipeCategoryService } from '../../../core/services/recipe-category.service';
+import { ErrorService } from '../../../core/services/error.service';
 import { Recipe } from '../../../core/models/recipe.model';
 import { Page } from '../../../core/models/page.model';
 import { Category } from '../../../core/models/category.model';
@@ -28,6 +29,7 @@ import { Category } from '../../../core/models/category.model';
 export class RecipeListPage implements OnInit {
   private readonly recipesApi = inject(RecipeService);
   private readonly categoriesApi = inject(RecipeCategoryService);
+  private readonly errorService = inject(ErrorService);
 
   protected recipes: Page<Recipe> | null = null;
   protected query = '';
@@ -62,8 +64,8 @@ export class RecipeListPage implements OnInit {
           this.recipes = res;
           this.loading = false;
         },
-        error: () => {
-          this.error = 'Не удалось загрузить рецепты';
+        error: (err) => {
+          this.error = this.errorService.extractErrorMessage(err);
           this.loading = false;
         },
       });

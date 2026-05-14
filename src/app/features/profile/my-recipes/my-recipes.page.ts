@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { TuiButton, TuiError, TuiIcon } from '@taiga-ui/core';
 import { TuiCardLarge, TuiCardMedium } from '@taiga-ui/layout';
 import { RecipeService } from '../../../core/services/recipe.service';
+import { ErrorService } from '../../../core/services/error.service';
 import { Recipe } from '../../../core/models/recipe.model';
 import { Page } from '../../../core/models/page.model';
 import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading-spinner.component';
@@ -24,6 +25,7 @@ import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading
 })
 export class MyRecipesPage implements OnInit {
   private readonly recipeService = inject(RecipeService);
+  private readonly errorService = inject(ErrorService);
 
   protected recipes: Page<Recipe> | null = null;
   protected loading = false;
@@ -44,8 +46,8 @@ export class MyRecipesPage implements OnInit {
         this.recipes = res;
         this.loading = false;
       },
-      error: () => {
-        this.error = 'Не удалось загрузить рецепты';
+      error: (err) => {
+        this.error = this.errorService.extractErrorMessage(err);
         this.loading = false;
       },
     });
@@ -72,8 +74,8 @@ export class MyRecipesPage implements OnInit {
         this.recipeToDelete = null;
         this.load();
       },
-      error: () => {
-        this.error = 'Не удалось удалить рецепт';
+      error: (err) => {
+        this.error = this.errorService.extractErrorMessage(err);
         this.deleting = false;
       },
     });

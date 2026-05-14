@@ -6,6 +6,7 @@ import { TuiSelect } from '@taiga-ui/kit';
 import { TuiCardLarge } from '@taiga-ui/layout';
 import { UserIngredientService } from '../../core/services/user-ingredient.service';
 import { IngredientService } from '../../core/services/ingredient.service';
+import { ErrorService } from '../../core/services/error.service';
 import {
   Ingredient,
   UserIngredient,
@@ -32,6 +33,7 @@ import { IngredientAutocompleteComponent } from '../../shared/ingredient-autocom
 export class FridgePage implements OnInit {
   private readonly userIngredients = inject(UserIngredientService);
   private readonly ingredientsApi = inject(IngredientService);
+  private readonly errorService = inject(ErrorService);
 
   protected items: UserIngredient[] = [];
   protected units: Unit[] = [];
@@ -60,7 +62,7 @@ export class FridgePage implements OnInit {
   private load() {
     this.userIngredients.listAll().subscribe({
       next: (res) => (this.items = res),
-      error: () => (this.error = 'Не удалось загрузить продукты'),
+      error: (err) => (this.error = this.errorService.extractErrorMessage(err)),
     });
   }
 
@@ -74,7 +76,7 @@ export class FridgePage implements OnInit {
 
   add() {
     if (!this.form.ingredientId || !this.form.quantity) {
-      this.error = 'Заполните ингредиент и количество';
+      this.error = 'Укажите ингредиент и количество';
       return;
     }
     this.error = '';
@@ -89,8 +91,8 @@ export class FridgePage implements OnInit {
         next: () => {
           this.load();
         },
-        error: () => {
-          this.error = 'Не удалось сохранить продукт';
+        error: (err) => {
+          this.error = this.errorService.extractErrorMessage(err);
         },
       });
   }
@@ -98,7 +100,7 @@ export class FridgePage implements OnInit {
   remove(ingredientId: number) {
     this.userIngredients.remove(ingredientId).subscribe({
       next: () => this.load(),
-      error: () => (this.error = 'Не удалось удалить продукт'),
+      error: (err) => (this.error = this.errorService.extractErrorMessage(err)),
     });
   }
 }
