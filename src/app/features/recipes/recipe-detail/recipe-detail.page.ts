@@ -7,6 +7,7 @@ import { TuiCardLarge } from '@taiga-ui/layout';
 import { RecipeService } from '../../../core/services/recipe.service';
 import { ReviewService, Review } from '../../../core/services/review.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { ErrorService } from '../../../core/services/error.service';
 import { Recipe } from '../../../core/models/recipe.model';
 import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading-spinner.component';
 
@@ -30,6 +31,7 @@ export class RecipeDetailPage implements OnInit {
   private readonly recipes = inject(RecipeService);
   private readonly reviewsApi = inject(ReviewService);
   private readonly fb = inject(FormBuilder);
+  private readonly errorService = inject(ErrorService);
   protected readonly auth = inject(AuthService);
 
   protected recipe: Recipe | null = null;
@@ -54,8 +56,8 @@ export class RecipeDetailPage implements OnInit {
           this.recipe = res;
           this.loading = false;
         },
-        error: () => {
-          this.error = 'Рецепт не найден';
+        error: (err) => {
+          this.error = this.errorService.extractErrorMessage(err);
           this.loading = false;
         },
       });

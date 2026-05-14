@@ -54,7 +54,9 @@
     [error]="
       form.controls.password.touched && form.controls.password.hasError('required')
         ? 'Введите пароль'
-        : null
+        : form.controls.password.touched && form.controls.password.hasError('minlength')
+          ? 'Пароль должен содержать минимум 8 символов'
+          : null
     "
   ></tui-error>
 

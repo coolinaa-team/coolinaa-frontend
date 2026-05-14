@@ -54,7 +54,14 @@
   @if (recipes?.content?.length) {
     <div class="grid gap-3">
       @for (recipe of recipes?.content; track recipe) {
-        <article tuiCardLarge class="space-y-2 shadow-sm">
+        <article tuiCardLarge class="space-y-2 shadow-sm overflow-hidden">
+          @if (recipe.imageUrl) {
+            <img
+              [src]="recipe.imageUrl"
+              alt="{{ recipe.title }}"
+              class="w-full h-48 object-cover rounded-xl"
+            />
+          }
           <div class="flex items-start justify-between gap-2">
             <div class="flex-1">
               <h2 class="text-lg font-semibold text-stone-900">{{ recipe.title }}</h2>

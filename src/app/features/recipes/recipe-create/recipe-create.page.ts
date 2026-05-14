@@ -8,6 +8,7 @@ import { TuiCardLarge } from '@taiga-ui/layout';
 import { IngredientService } from '../../../core/services/ingredient.service';
 import { RecipeService } from '../../../core/services/recipe.service';
 import { RecipeCategoryService } from '../../../core/services/recipe-category.service';
+import { ErrorService } from '../../../core/services/error.service';
 import { Ingredient } from '../../../core/models/ingredient.model';
 import { Unit } from '../../../core/models/unit.model';
 import { Category } from '../../../core/models/category.model';
@@ -38,6 +39,7 @@ export class RecipeCreatePage implements OnInit {
   private readonly categoriesApi = inject(RecipeCategoryService);
   private readonly recipesApi = inject(RecipeService);
   private readonly router = inject(Router);
+  private readonly errorService = inject(ErrorService);
 
   protected ingredientsDict: Ingredient[] = [];
   protected units: Unit[] = [];
@@ -138,9 +140,9 @@ export class RecipeCreatePage implements OnInit {
         this.loading = false;
         this.router.navigate(['/recipes', recipe.id]);
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
-        this.error = 'Не удалось сохранить рецепт';
+        this.error = this.errorService.extractErrorMessage(err);
       },
     });
   }

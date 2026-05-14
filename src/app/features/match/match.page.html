@@ -6,33 +6,6 @@
     </p>
   </div>
 
-  <div class="flex flex-wrap gap-2 text-sm text-stone-700">
-    <button
-      class="category-filter-btn"
-      tuiButton
-      appearance="flat"
-      size="s"
-      [class.category-filter-btn_active]="selectedCategory === null"
-      [class.text-accent-800]="selectedCategory === null"
-      (click)="selectCategory(null)"
-    >
-      Все категории
-    </button>
-    @for (cat of categories; track cat) {
-      <button
-        class="category-filter-btn"
-        tuiButton
-        appearance="flat"
-        size="s"
-        [class.category-filter-btn_active]="selectedCategory === cat.id"
-        [class.text-accent-800]="selectedCategory === cat.id"
-        (click)="selectCategory(cat.id)"
-      >
-        {{ cat.name }}
-      </button>
-    }
-  </div>
-
   @if (loading) {
     <div><app-loading-spinner /></div>
   }
@@ -43,7 +16,18 @@
   @if (viewMatches.length) {
     <div class="space-y-3">
       @for (item of viewMatches; track item) {
-        <article tuiCardLarge class="shadow-sm space-y-2">
+        <a
+          tuiCardLarge
+          class="block shadow-sm space-y-2 no-underline transition-transform hover:-translate-y-0.5 hover:shadow-md overflow-hidden"
+          [routerLink]="['/recipes', item.recipeId]"
+        >
+          @if (item.imageUrl) {
+            <img
+              [src]="item.imageUrl"
+              alt="{{ item.title }}"
+              class="w-full h-48 object-cover rounded-xl"
+            />
+          }
           <div class="flex items-start justify-between gap-2">
             <div class="flex-1">
               <h2 class="text-lg font-semibold text-stone-900">{{ item.title }}</h2>
@@ -70,13 +54,13 @@
               </span>
             }
           </div>
-        </article>
+        </a>
       }
     </div>
   }
   @if (!loading && !viewMatches.length) {
     <div class="text-sm text-stone-500 text-center">
-      Добавьте продукты в холодильник или измените фильтры, чтобы получить подборку
+      Добавьте продукты в холодильник, чтобы получить подборку
     </div>
   }
 </section>

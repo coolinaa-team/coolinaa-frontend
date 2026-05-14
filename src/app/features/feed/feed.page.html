@@ -48,14 +48,21 @@
     <app-loading-spinner />
   } @else if (error) {
     <tui-error [error]="error"></tui-error>
-  } @else if (recipes?.content?.length) {
+  } @else if (recipes.length) {
     <div class="grid gap-3">
-      @for (recipe of recipes?.content; track recipe) {
+      @for (recipe of recipes; track recipe.id) {
         <a
           tuiCardLarge
-          class="block cursor-pointer shadow-sm transition-transform hover:-translate-y-0.5 hover:shadow-md no-underline"
+          class="block cursor-pointer shadow-sm transition-transform hover:-translate-y-0.5 hover:shadow-md no-underline overflow-hidden"
           [routerLink]="['/recipes', recipe.id]"
         >
+          @if (recipe.imageUrl) {
+            <img
+              [src]="recipe.imageUrl"
+              alt="{{ recipe.title }}"
+              class="w-full h-48 object-cover rounded-xl"
+            />
+          }
           <div class="flex items-start justify-between gap-2 mb-2">
             <div class="space-y-1 flex-1">
               <div class="flex items-center gap-2 text-xs text-stone-500 flex-wrap">
@@ -86,6 +93,12 @@
         </a>
       }
     </div>
+    @if (loadingMore) {
+      <div class="py-4 flex justify-center">
+        <app-loading-spinner />
+      </div>
+    }
+    <div #loadMoreSentinel class="h-2 mt-4"></div>
   } @else {
     <div class="text-sm text-stone-500 text-center">Не нашли подходящих рецептов</div>
   }
