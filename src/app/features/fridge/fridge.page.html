@@ -53,37 +53,43 @@
         </tui-textfield>
       </label>
     </div>
-    <tui-error *ngIf="error" [error]="error"></tui-error>
+    @if (error) {
+      <tui-error [error]="error"></tui-error>
+    }
     <button tuiButton appearance="primary" size="m" class="w-full" (click)="add()">Добавить</button>
   </div>
 
-  <div tuiCardLarge class="frost-panel space-y-3" *ngIf="items.length; else empty">
-    <div class="space-y-2">
-      <div
-        *ngFor="let item of items"
-        class="flex items-center justify-between border-b border-white/10 pb-2 last:border-none last:pb-0"
-      >
-        <div class="leading-tight text-white">
-          <p class="font-semibold">{{ item.ingredientName }}</p>
-          <p class="text-xs text-sky-100/80">{{ item.quantity || 0 }} {{ item.unitName || '' }}</p>
-          <p class="text-xs text-sky-100/60" *ngIf="item.expiresAt">
-            Годен до {{ item.expiresAt | date }}
-          </p>
-        </div>
-        <button
-          tuiButton
-          appearance="secondary-destructive"
-          size="s"
-          (click)="remove(item.ingredientId)"
-        >
-          Удалить
-        </button>
+  @if (items.length) {
+    <div tuiCardLarge class="frost-panel space-y-3">
+      <div class="space-y-2">
+        @for (item of items; track item) {
+          <div
+            class="flex items-center justify-between border-b border-white/10 pb-2 last:border-none last:pb-0"
+          >
+            <div class="leading-tight text-white">
+              <p class="font-semibold">{{ item.ingredientName }}</p>
+              <p class="text-xs text-sky-100/80">
+                {{ item.quantity || 0 }} {{ item.unitName || '' }}
+              </p>
+              @if (item.expiresAt) {
+                <p class="text-xs text-sky-100/60">Годен до {{ item.expiresAt | date }}</p>
+              }
+            </div>
+            <button
+              tuiButton
+              appearance="secondary-destructive"
+              size="s"
+              (click)="remove(item.ingredientId)"
+            >
+              Удалить
+            </button>
+          </div>
+        }
       </div>
     </div>
-  </div>
-  <ng-template #empty>
+  } @else {
     <div class="frost-panel text-sm text-sky-100/80 text-center">
       Список пуст. Добавьте продукты, чтобы получить рекомендации.
     </div>
-  </ng-template>
+  }
 </section>

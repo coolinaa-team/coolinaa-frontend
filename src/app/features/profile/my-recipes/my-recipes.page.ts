@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterLink } from '@angular/router';
 import { TuiButton, TuiError, TuiIcon } from '@taiga-ui/core';
 import { TuiCardLarge, TuiCardMedium } from '@taiga-ui/layout';
@@ -11,7 +11,6 @@ import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading
 @Component({
   selector: 'app-my-recipes-page',
   imports: [
-    CommonModule,
     RouterLink,
     LoadingSpinnerComponent,
     TuiButton,

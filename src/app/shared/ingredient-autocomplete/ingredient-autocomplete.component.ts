@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { TuiButton, TuiInput, TuiLoader } from '@taiga-ui/core';
 import { Subject } from 'rxjs';
@@ -9,7 +9,7 @@ import { Ingredient } from '../../core/models/ingredient.model';
 
 @Component({
   selector: 'app-ingredient-autocomplete',
-  imports: [CommonModule, FormsModule, TuiInput, TuiButton, TuiLoader],
+  imports: [FormsModule, TuiInput, TuiButton, TuiLoader],
   templateUrl: './ingredient-autocomplete.component.html',
   styleUrl: './ingredient-autocomplete.component.css',
 })

@@ -71,52 +71,55 @@
         </button>
       </div>
       <div class="space-y-3" formArrayName="ingredients">
-        <div
-          *ngFor="let group of ingredientsArray.controls; let i = index"
-          [formGroupName]="i"
-          tuiCardLarge
-          class="ingredient-row grid gap-2 sm:grid-cols-4 shadow-sm"
-        >
-          <label class="space-y-1 text-sm text-stone-700 sm:col-span-1">
-            <app-ingredient-autocomplete
-              placeholder="Ингредиент..."
-              (selected)="onIngredientSelectedInForm($event, i)"
-            />
-          </label>
-          <tui-textfield>
-            <input
-              tuiInput
-              type="number"
-              min="0"
-              step="0.1"
-              class="w-full"
-              formControlName="quantity"
-              placeholder="Количество"
-            />
-          </tui-textfield>
-          <tui-textfield tuiChevron [stringify]="stringifyUnit">
-            <input tuiSelect class="w-full" formControlName="unitId" placeholder="Ед." />
-            <tui-data-list-wrapper *tuiDropdown [items]="unitIds"></tui-data-list-wrapper>
-          </tui-textfield>
-          <div class="flex items-center gap-2">
-            <tui-textfield class="w-full">
-              <input tuiInput class="w-full" formControlName="notes" placeholder="Примечание" />
+        @for (group of ingredientsArray.controls; track group; let i = $index) {
+          <div
+            [formGroupName]="i"
+            tuiCardLarge
+            class="ingredient-row grid gap-2 sm:grid-cols-4 shadow-sm"
+          >
+            <label class="space-y-1 text-sm text-stone-700 sm:col-span-1">
+              <app-ingredient-autocomplete
+                placeholder="Ингредиент..."
+                (selected)="onIngredientSelectedInForm($event, i)"
+              />
+            </label>
+            <tui-textfield>
+              <input
+                tuiInput
+                type="number"
+                min="0"
+                step="0.1"
+                class="w-full"
+                formControlName="quantity"
+                placeholder="Количество"
+              />
             </tui-textfield>
-            <button
-              tuiButton
-              appearance="secondary-destructive"
-              size="s"
-              type="button"
-              (click)="removeIngredient(i)"
-            >
-              ✕
-            </button>
+            <tui-textfield tuiChevron [stringify]="stringifyUnit">
+              <input tuiSelect class="w-full" formControlName="unitId" placeholder="Ед." />
+              <tui-data-list-wrapper *tuiDropdown [items]="unitIds"></tui-data-list-wrapper>
+            </tui-textfield>
+            <div class="flex items-center gap-2">
+              <tui-textfield class="w-full">
+                <input tuiInput class="w-full" formControlName="notes" placeholder="Примечание" />
+              </tui-textfield>
+              <button
+                tuiButton
+                appearance="secondary-destructive"
+                size="s"
+                type="button"
+                (click)="removeIngredient(i)"
+              >
+                ✕
+              </button>
+            </div>
           </div>
-        </div>
+        }
       </div>
     </div>
 
-    <tui-error *ngIf="error" [error]="error"></tui-error>
+    @if (error) {
+      <tui-error [error]="error"></tui-error>
+    }
     <button
       tuiButton
       appearance="primary"

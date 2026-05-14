@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { TuiButton, TuiCheckbox, TuiDropdown, TuiInput } from '@taiga-ui/core';
 import { TuiChevron, TuiDataListWrapper, TuiSelect } from '@taiga-ui/kit';
@@ -19,7 +19,6 @@ interface EditState<T> {
 @Component({
   selector: 'app-admin-page',
   imports: [
-    CommonModule,
     FormsModule,
     TuiButton,
     TuiCheckbox,

@@ -23,42 +23,47 @@
         </button>
       </div>
       <div class="divide-y divide-stone-100">
-        <div
-          *ngFor="let c of ingredientCategories"
-          class="admin-edit-row py-2 flex items-center gap-2"
-        >
-          <ng-container *ngIf="editIngCat[c.id]?.editing; else ingCatView">
-            <tui-textfield>
-              <input tuiInput [(ngModel)]="editIngCat[c.id].name" />
-            </tui-textfield>
-            <tui-textfield>
-              <input tuiInput [(ngModel)]="editIngCat[c.id].description" />
-            </tui-textfield>
-            <button tuiButton appearance="primary" size="s" (click)="saveIngredientCategory(c.id)">
-              Сохранить
-            </button>
-            <button tuiButton appearance="flat" size="s" (click)="cancelIngCat(c.id)">
-              Отмена
-            </button>
-          </ng-container>
-          <ng-template #ingCatView>
-            <div class="flex-1">
-              <p class="font-semibold">{{ c.name }}</p>
-              <p class="text-sm text-stone-500" *ngIf="c.description">{{ c.description }}</p>
-            </div>
-            <button tuiButton appearance="flat" size="s" (click)="startEditIngCat(c)">
-              Изменить
-            </button>
-            <button
-              tuiButton
-              appearance="secondary-destructive"
-              size="s"
-              (click)="deleteIngredientCategory(c.id)"
-            >
-              Удалить
-            </button>
-          </ng-template>
-        </div>
+        @for (c of ingredientCategories; track c) {
+          <div class="admin-edit-row py-2 flex items-center gap-2">
+            @if (editIngCat[c.id]?.editing) {
+              <tui-textfield>
+                <input tuiInput [(ngModel)]="editIngCat[c.id].name" />
+              </tui-textfield>
+              <tui-textfield>
+                <input tuiInput [(ngModel)]="editIngCat[c.id].description" />
+              </tui-textfield>
+              <button
+                tuiButton
+                appearance="primary"
+                size="s"
+                (click)="saveIngredientCategory(c.id)"
+              >
+                Сохранить
+              </button>
+              <button tuiButton appearance="flat" size="s" (click)="cancelIngCat(c.id)">
+                Отмена
+              </button>
+            } @else {
+              <div class="flex-1">
+                <p class="font-semibold">{{ c.name }}</p>
+                @if (c.description) {
+                  <p class="text-sm text-stone-500">{{ c.description }}</p>
+                }
+              </div>
+              <button tuiButton appearance="flat" size="s" (click)="startEditIngCat(c)">
+                Изменить
+              </button>
+              <button
+                tuiButton
+                appearance="secondary-destructive"
+                size="s"
+                (click)="deleteIngredientCategory(c.id)"
+              >
+                Удалить
+              </button>
+            }
+          </div>
+        }
       </div>
     </div>
 
@@ -88,56 +93,61 @@
         <button tuiButton appearance="primary" size="s" (click)="addIngredient()">Добавить</button>
       </div>
       <div class="divide-y divide-stone-100">
-        <div *ngFor="let ing of ingredients" class="admin-edit-row py-2 flex items-center gap-2">
-          <ng-container *ngIf="editIngredient[ing.id]?.editing; else ingView">
-            <tui-textfield>
-              <input tuiInput [(ngModel)]="editIngredient[ing.id].name" />
-            </tui-textfield>
-            <tui-textfield>
-              <input tuiInput [(ngModel)]="editIngredient[ing.id].description" />
-            </tui-textfield>
-            <tui-textfield tuiChevron [stringify]="stringifyIngredientCategory">
-              <input
-                tuiSelect
-                class="w-full"
-                [(ngModel)]="editIngredient[ing.id].categoryId"
-                placeholder="Категория"
-              />
-              <tui-data-list-wrapper
-                *tuiDropdown
-                [items]="ingredientCategoryIds"
-              ></tui-data-list-wrapper>
-            </tui-textfield>
-            <label class="flex items-center gap-1 text-sm text-stone-700">
-              <input tuiCheckbox type="checkbox" [(ngModel)]="editIngredient[ing.id].isActive" />
-              Активен
-            </label>
-            <button tuiButton appearance="primary" size="s" (click)="saveIngredient(ing.id)">
-              Сохранить
-            </button>
-            <button tuiButton appearance="flat" size="s" (click)="cancelIngredient(ing.id)">
-              Отмена
-            </button>
-          </ng-container>
-          <ng-template #ingView>
-            <div class="flex-1">
-              <p class="font-semibold">{{ ing.name }}</p>
-              <p class="text-sm text-stone-500" *ngIf="ing.description">{{ ing.description }}</p>
-              <p class="text-xs text-stone-400" *ngIf="ing.categoryName">{{ ing.categoryName }}</p>
-            </div>
-            <button tuiButton appearance="flat" size="s" (click)="startEditIngredient(ing)">
-              Изменить
-            </button>
-            <button
-              tuiButton
-              appearance="secondary-destructive"
-              size="s"
-              (click)="deleteIngredient(ing.id)"
-            >
-              Удалить
-            </button>
-          </ng-template>
-        </div>
+        @for (ing of ingredients; track ing) {
+          <div class="admin-edit-row py-2 flex items-center gap-2">
+            @if (editIngredient[ing.id]?.editing) {
+              <tui-textfield>
+                <input tuiInput [(ngModel)]="editIngredient[ing.id].name" />
+              </tui-textfield>
+              <tui-textfield>
+                <input tuiInput [(ngModel)]="editIngredient[ing.id].description" />
+              </tui-textfield>
+              <tui-textfield tuiChevron [stringify]="stringifyIngredientCategory">
+                <input
+                  tuiSelect
+                  class="w-full"
+                  [(ngModel)]="editIngredient[ing.id].categoryId"
+                  placeholder="Категория"
+                />
+                <tui-data-list-wrapper
+                  *tuiDropdown
+                  [items]="ingredientCategoryIds"
+                ></tui-data-list-wrapper>
+              </tui-textfield>
+              <label class="flex items-center gap-1 text-sm text-stone-700">
+                <input tuiCheckbox type="checkbox" [(ngModel)]="editIngredient[ing.id].isActive" />
+                Активен
+              </label>
+              <button tuiButton appearance="primary" size="s" (click)="saveIngredient(ing.id)">
+                Сохранить
+              </button>
+              <button tuiButton appearance="flat" size="s" (click)="cancelIngredient(ing.id)">
+                Отмена
+              </button>
+            } @else {
+              <div class="flex-1">
+                <p class="font-semibold">{{ ing.name }}</p>
+                @if (ing.description) {
+                  <p class="text-sm text-stone-500">{{ ing.description }}</p>
+                }
+                @if (ing.categoryName) {
+                  <p class="text-xs text-stone-400">{{ ing.categoryName }}</p>
+                }
+              </div>
+              <button tuiButton appearance="flat" size="s" (click)="startEditIngredient(ing)">
+                Изменить
+              </button>
+              <button
+                tuiButton
+                appearance="secondary-destructive"
+                size="s"
+                (click)="deleteIngredient(ing.id)"
+              >
+                Удалить
+              </button>
+            }
+          </div>
+        }
       </div>
     </div>
 
@@ -158,44 +168,49 @@
         <button tuiButton appearance="primary" size="s" (click)="addUnit()">Добавить</button>
       </div>
       <div class="divide-y divide-stone-100">
-        <div *ngFor="let u of units" class="admin-edit-row py-2 flex items-center gap-2">
-          <ng-container *ngIf="editUnit[u.id]?.editing; else unitView">
-            <tui-textfield>
-              <input tuiInput [(ngModel)]="editUnit[u.id].name" />
-            </tui-textfield>
-            <tui-textfield>
-              <input tuiInput [(ngModel)]="editUnit[u.id].abbreviation" />
-            </tui-textfield>
-            <label class="flex items-center gap-1 text-sm text-stone-700">
-              <input tuiCheckbox type="checkbox" [(ngModel)]="editUnit[u.id].isMetric" />
-              Метрическая
-            </label>
-            <button tuiButton appearance="primary" size="s" (click)="saveUnit(u.id)">
-              Сохранить
-            </button>
-            <button tuiButton appearance="flat" size="s" (click)="cancelUnit(u.id)">Отмена</button>
-          </ng-container>
-          <ng-template #unitView>
-            <div class="flex-1">
-              <p class="font-semibold">
-                {{ u.name }}
-                <span class="text-stone-500" *ngIf="u.abbreviation">({{ u.abbreviation }})</span>
-              </p>
-              <p class="text-xs text-stone-500">{{ u.isMetric ? 'Метрическая' : 'Имперская' }}</p>
-            </div>
-            <button tuiButton appearance="flat" size="s" (click)="startEditUnit(u)">
-              Изменить
-            </button>
-            <button
-              tuiButton
-              appearance="secondary-destructive"
-              size="s"
-              (click)="deleteUnit(u.id)"
-            >
-              Удалить
-            </button>
-          </ng-template>
-        </div>
+        @for (u of units; track u) {
+          <div class="admin-edit-row py-2 flex items-center gap-2">
+            @if (editUnit[u.id]?.editing) {
+              <tui-textfield>
+                <input tuiInput [(ngModel)]="editUnit[u.id].name" />
+              </tui-textfield>
+              <tui-textfield>
+                <input tuiInput [(ngModel)]="editUnit[u.id].abbreviation" />
+              </tui-textfield>
+              <label class="flex items-center gap-1 text-sm text-stone-700">
+                <input tuiCheckbox type="checkbox" [(ngModel)]="editUnit[u.id].isMetric" />
+                Метрическая
+              </label>
+              <button tuiButton appearance="primary" size="s" (click)="saveUnit(u.id)">
+                Сохранить
+              </button>
+              <button tuiButton appearance="flat" size="s" (click)="cancelUnit(u.id)">
+                Отмена
+              </button>
+            } @else {
+              <div class="flex-1">
+                <p class="font-semibold">
+                  {{ u.name }}
+                  @if (u.abbreviation) {
+                    <span class="text-stone-500">({{ u.abbreviation }})</span>
+                  }
+                </p>
+                <p class="text-xs text-stone-500">{{ u.isMetric ? 'Метрическая' : 'Имперская' }}</p>
+              </div>
+              <button tuiButton appearance="flat" size="s" (click)="startEditUnit(u)">
+                Изменить
+              </button>
+              <button
+                tuiButton
+                appearance="secondary-destructive"
+                size="s"
+                (click)="deleteUnit(u.id)"
+              >
+                Удалить
+              </button>
+            }
+          </div>
+        }
       </div>
     </div>
 
@@ -215,39 +230,42 @@
         </button>
       </div>
       <div class="divide-y divide-stone-100">
-        <div *ngFor="let c of recipeCategories" class="admin-edit-row py-2 flex items-center gap-2">
-          <ng-container *ngIf="editRecCat[c.id]?.editing; else recCatView">
-            <tui-textfield>
-              <input tuiInput [(ngModel)]="editRecCat[c.id].name" />
-            </tui-textfield>
-            <tui-textfield>
-              <input tuiInput [(ngModel)]="editRecCat[c.id].description" />
-            </tui-textfield>
-            <button tuiButton appearance="primary" size="s" (click)="saveRecipeCategory(c.id)">
-              Сохранить
-            </button>
-            <button tuiButton appearance="flat" size="s" (click)="cancelRecCat(c.id)">
-              Отмена
-            </button>
-          </ng-container>
-          <ng-template #recCatView>
-            <div class="flex-1">
-              <p class="font-semibold">{{ c.name }}</p>
-              <p class="text-sm text-stone-500" *ngIf="c.description">{{ c.description }}</p>
-            </div>
-            <button tuiButton appearance="flat" size="s" (click)="startEditRecCat(c)">
-              Изменить
-            </button>
-            <button
-              tuiButton
-              appearance="secondary-destructive"
-              size="s"
-              (click)="deleteRecipeCategory(c.id)"
-            >
-              Удалить
-            </button>
-          </ng-template>
-        </div>
+        @for (c of recipeCategories; track c) {
+          <div class="admin-edit-row py-2 flex items-center gap-2">
+            @if (editRecCat[c.id]?.editing) {
+              <tui-textfield>
+                <input tuiInput [(ngModel)]="editRecCat[c.id].name" />
+              </tui-textfield>
+              <tui-textfield>
+                <input tuiInput [(ngModel)]="editRecCat[c.id].description" />
+              </tui-textfield>
+              <button tuiButton appearance="primary" size="s" (click)="saveRecipeCategory(c.id)">
+                Сохранить
+              </button>
+              <button tuiButton appearance="flat" size="s" (click)="cancelRecCat(c.id)">
+                Отмена
+              </button>
+            } @else {
+              <div class="flex-1">
+                <p class="font-semibold">{{ c.name }}</p>
+                @if (c.description) {
+                  <p class="text-sm text-stone-500">{{ c.description }}</p>
+                }
+              </div>
+              <button tuiButton appearance="flat" size="s" (click)="startEditRecCat(c)">
+                Изменить
+              </button>
+              <button
+                tuiButton
+                appearance="secondary-destructive"
+                size="s"
+                (click)="deleteRecipeCategory(c.id)"
+              >
+                Удалить
+              </button>
+            }
+          </div>
+        }
       </div>
     </div>
   </div>

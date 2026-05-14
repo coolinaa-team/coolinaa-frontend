@@ -18,56 +18,65 @@
     >
       Все категории
     </button>
-    <button
-      *ngFor="let cat of categories"
-      class="category-filter-btn"
-      tuiButton
-      appearance="flat"
-      size="s"
-      [class.category-filter-btn_active]="selectedCategory === cat.id"
-      [class.text-accent-800]="selectedCategory === cat.id"
-      (click)="selectCategory(cat.id)"
-    >
-      {{ cat.name }}
-    </button>
+    @for (cat of categories; track cat) {
+      <button
+        class="category-filter-btn"
+        tuiButton
+        appearance="flat"
+        size="s"
+        [class.category-filter-btn_active]="selectedCategory === cat.id"
+        [class.text-accent-800]="selectedCategory === cat.id"
+        (click)="selectCategory(cat.id)"
+      >
+        {{ cat.name }}
+      </button>
+    }
   </div>
 
-  <div *ngIf="loading"><app-loading-spinner /></div>
-  <tui-error *ngIf="error" [error]="error"></tui-error>
+  @if (loading) {
+    <div><app-loading-spinner /></div>
+  }
+  @if (error) {
+    <tui-error [error]="error"></tui-error>
+  }
 
-  <div class="space-y-3" *ngIf="viewMatches.length">
-    <article *ngFor="let item of viewMatches" tuiCardLarge class="shadow-sm space-y-2">
-      <div class="flex items-start justify-between gap-2">
-        <div class="flex-1">
-          <h2 class="text-lg font-semibold text-stone-900">{{ item.title }}</h2>
-          <p class="text-sm text-stone-600">{{ item.description || 'Без описания' }}</p>
-        </div>
-        <span
-          class="text-xs px-2 py-1 rounded-full bg-accent-50 text-accent-800 border border-accent-100 whitespace-nowrap flex-shrink-0"
-        >
-          {{ item.matchPercentage || 0 | number: '1.0-0' }}%
-        </span>
-      </div>
-      <div class="text-xs text-stone-600 flex flex-wrap gap-1">
-        <span class="px-2 py-1"
-          >Подходит: {{ item.matchedIngredients }}/{{ item.totalIngredients }}</span
-        >
-        <span
-          *ngIf="item.missingIngredients?.length"
-          class="px-2 py-1 bg-stone-100 rounded-full border border-stone-200"
-        >
-          Не хватает: {{ item.missingIngredients?.length || 0 }}
-        </span>
-        <span
-          *ngIf="item.categoryName"
-          class="px-2 py-1 rounded-full bg-stone-100 border border-stone-200"
-        >
-          {{ item.categoryName }}
-        </span>
-      </div>
-    </article>
-  </div>
-  <div *ngIf="!loading && !viewMatches.length" class="text-sm text-stone-500 text-center">
-    Добавьте продукты в холодильник или измените фильтры, чтобы получить подборку
-  </div>
+  @if (viewMatches.length) {
+    <div class="space-y-3">
+      @for (item of viewMatches; track item) {
+        <article tuiCardLarge class="shadow-sm space-y-2">
+          <div class="flex items-start justify-between gap-2">
+            <div class="flex-1">
+              <h2 class="text-lg font-semibold text-stone-900">{{ item.title }}</h2>
+              <p class="text-sm text-stone-600">{{ item.description || 'Без описания' }}</p>
+            </div>
+            <span
+              class="text-xs px-2 py-1 rounded-full bg-accent-50 text-accent-800 border border-accent-100 whitespace-nowrap flex-shrink-0"
+            >
+              {{ item.matchPercentage || 0 | number: '1.0-0' }}%
+            </span>
+          </div>
+          <div class="text-xs text-stone-600 flex flex-wrap gap-1">
+            <span class="px-2 py-1"
+              >Подходит: {{ item.matchedIngredients }}/{{ item.totalIngredients }}</span
+            >
+            @if (item.missingIngredients?.length) {
+              <span class="px-2 py-1 bg-stone-100 rounded-full border border-stone-200">
+                Не хватает: {{ item.missingIngredients?.length || 0 }}
+              </span>
+            }
+            @if (item.categoryName) {
+              <span class="px-2 py-1 rounded-full bg-stone-100 border border-stone-200">
+                {{ item.categoryName }}
+              </span>
+            }
+          </div>
+        </article>
+      }
+    </div>
+  }
+  @if (!loading && !viewMatches.length) {
+    <div class="text-sm text-stone-500 text-center">
+      Добавьте продукты в холодильник или измените фильтры, чтобы получить подборку
+    </div>
+  }
 </section>
