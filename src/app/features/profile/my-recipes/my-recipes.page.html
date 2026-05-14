@@ -27,6 +27,13 @@
       @for (recipe of recipes.content; track recipe.id) {
         <div tuiCardLarge class="shadow-lg shadow-amber-200/50">
           <div class="flex items-start justify-between gap-3">
+            @if (recipe.imageUrl) {
+              <img
+                [src]="recipe.imageUrl"
+                alt="{{ recipe.title }}"
+                class="w-full h-48 object-cover rounded-xl"
+              />
+            }
             <div class="flex-1">
               <a
                 [routerLink]="['/recipes', recipe.id]"

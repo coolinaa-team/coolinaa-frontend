@@ -18,9 +18,16 @@
       @for (item of viewMatches; track item) {
         <a
           tuiCardLarge
-          class="block shadow-sm space-y-2 no-underline transition-transform hover:-translate-y-0.5 hover:shadow-md"
+          class="block shadow-sm space-y-2 no-underline transition-transform hover:-translate-y-0.5 hover:shadow-md overflow-hidden"
           [routerLink]="['/recipes', item.recipeId]"
         >
+          @if (item.imageUrl) {
+            <img
+              [src]="item.imageUrl"
+              alt="{{ item.title }}"
+              class="w-full h-48 object-cover rounded-xl"
+            />
+          }
           <div class="flex items-start justify-between gap-2">
             <div class="flex-1">
               <h2 class="text-lg font-semibold text-stone-900">{{ item.title }}</h2>

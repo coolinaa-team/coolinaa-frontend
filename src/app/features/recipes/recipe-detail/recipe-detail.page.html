@@ -1,6 +1,13 @@
 @if (!loading && recipe) {
   <section class="space-y-4">
     <a routerLink="/recipes" tuiButton appearance="flat" size="s">Назад к списку</a>
+    @if (recipe.imageUrl) {
+      <img
+        [src]="recipe.imageUrl"
+        alt="{{ recipe.title }}"
+        class="w-full h-80 object-cover rounded-2xl shadow-md"
+      />
+    }
     <div class="space-y-2">
       <p class="text-xs uppercase tracking-wide text-stone-500">
         {{ recipe.categoryName || 'Без категории' }}
