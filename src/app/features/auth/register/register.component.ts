@@ -57,7 +57,9 @@ export class RegisterComponent {
       )
       .subscribe((res) => {
         if (res) {
-          this.router.navigate(['/feed']);
+          setTimeout(() => {
+            this.router.navigate(['/feed']);
+          }, 0);
         }
       });
   }
