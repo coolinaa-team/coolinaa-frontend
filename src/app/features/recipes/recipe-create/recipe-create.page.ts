@@ -27,8 +27,8 @@ import { IngredientAutocompleteComponent } from '../../../shared/ingredient-auto
     TuiSelect,
     TuiButton,
     TuiError,
-    TuiCardLarge
-],
+    TuiCardLarge,
+  ],
   templateUrl: './recipe-create.page.html',
   styleUrl: './recipe-create.page.css',
 })

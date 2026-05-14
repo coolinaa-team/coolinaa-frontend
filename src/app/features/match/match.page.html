@@ -15,7 +15,7 @@
       [class.category-filter-btn_active]="selectedCategory === null"
       [class.text-accent-800]="selectedCategory === null"
       (click)="selectCategory(null)"
-      >
+    >
       Все категории
     </button>
     @for (cat of categories; track cat) {
@@ -27,7 +27,7 @@
         [class.category-filter-btn_active]="selectedCategory === cat.id"
         [class.text-accent-800]="selectedCategory === cat.id"
         (click)="selectCategory(cat.id)"
-        >
+      >
         {{ cat.name }}
       </button>
     }
@@ -51,36 +51,32 @@
             </div>
             <span
               class="text-xs px-2 py-1 rounded-full bg-accent-50 text-accent-800 border border-accent-100 whitespace-nowrap flex-shrink-0"
-              >
+            >
               {{ item.matchPercentage || 0 | number: '1.0-0' }}%
             </span>
           </div>
           <div class="text-xs text-stone-600 flex flex-wrap gap-1">
             <span class="px-2 py-1"
               >Подходит: {{ item.matchedIngredients }}/{{ item.totalIngredients }}</span
-              >
-              @if (item.missingIngredients?.length) {
-                <span
-                  class="px-2 py-1 bg-stone-100 rounded-full border border-stone-200"
-                  >
-                  Не хватает: {{ item.missingIngredients?.length || 0 }}
-                </span>
-              }
-              @if (item.categoryName) {
-                <span
-                  class="px-2 py-1 rounded-full bg-stone-100 border border-stone-200"
-                  >
-                  {{ item.categoryName }}
-                </span>
-              }
-            </div>
-          </article>
-        }
-      </div>
-    }
-    @if (!loading && !viewMatches.length) {
-      <div class="text-sm text-stone-500 text-center">
-        Добавьте продукты в холодильник или измените фильтры, чтобы получить подборку
-      </div>
-    }
-  </section>
+            >
+            @if (item.missingIngredients?.length) {
+              <span class="px-2 py-1 bg-stone-100 rounded-full border border-stone-200">
+                Не хватает: {{ item.missingIngredients?.length || 0 }}
+              </span>
+            }
+            @if (item.categoryName) {
+              <span class="px-2 py-1 rounded-full bg-stone-100 border border-stone-200">
+                {{ item.categoryName }}
+              </span>
+            }
+          </div>
+        </article>
+      }
+    </div>
+  }
+  @if (!loading && !viewMatches.length) {
+    <div class="text-sm text-stone-500 text-center">
+      Добавьте продукты в холодильник или измените фильтры, чтобы получить подборку
+    </div>
+  }
+</section>

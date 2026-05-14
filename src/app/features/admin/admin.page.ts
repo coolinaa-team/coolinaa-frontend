@@ -27,8 +27,8 @@ interface EditState<T> {
     TuiSelect,
     TuiChevron,
     TuiDataListWrapper,
-    TuiCardLarge
-],
+    TuiCardLarge,
+  ],
   templateUrl: './admin.page.html',
   styleUrl: './admin.page.css',
 })

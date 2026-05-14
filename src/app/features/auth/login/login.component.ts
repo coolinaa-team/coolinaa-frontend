@@ -18,8 +18,8 @@ import { AuthService } from '../../../core/services/auth.service';
     TuiButton,
     TuiIcon,
     TuiLink,
-    TuiPassword
-],
+    TuiPassword,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })

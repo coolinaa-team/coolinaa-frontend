@@ -10,23 +10,17 @@
     </div>
     <div class="flex flex-wrap gap-1 text-xs text-stone-600">
       @if (recipe.averageRating) {
-        <span
-          class="px-2 py-1 rounded-full bg-stone-100 border border-stone-200"
-          >
+        <span class="px-2 py-1 rounded-full bg-stone-100 border border-stone-200">
           ★ {{ recipe.averageRating | number: '1.1-1' }}
         </span>
       }
       @if (recipe.cookingTime) {
-        <span
-          class="px-2 py-1 rounded-full bg-stone-100 border border-stone-200"
-          >
+        <span class="px-2 py-1 rounded-full bg-stone-100 border border-stone-200">
           {{ recipe.cookingTime }} мин
         </span>
       }
       @if (recipe.servings) {
-        <span
-          class="px-2 py-1 rounded-full bg-stone-100 border border-stone-200"
-          >
+        <span class="px-2 py-1 rounded-full bg-stone-100 border border-stone-200">
           {{ recipe.servings }} порций
         </span>
       }
@@ -51,12 +45,7 @@
     <div class="space-y-4">
       <p class="text-lg font-semibold">Отзывы ({{ reviews.length }})</p>
       @if (auth.user() && !userHasReview) {
-        <form
-          [formGroup]="reviewForm"
-          (ngSubmit)="submitReview()"
-          tuiCardLarge
-          class="space-y-3"
-          >
+        <form [formGroup]="reviewForm" (ngSubmit)="submitReview()" tuiCardLarge class="space-y-3">
           <div>
             <label class="text-sm font-semibold text-stone-800">Оценка (1-5)</label>
             <div class="flex gap-2 mt-1">
@@ -68,12 +57,12 @@
                   size="s"
                   (click)="reviewForm.patchValue({ rating: i })"
                   class="transition"
-              [ngClass]="
-                reviewForm.value.rating === i
-                  ? 'bg-accent-600 text-white border-accent-600'
-                  : 'bg-stone-100 border-stone-200 text-stone-700 hover:bg-stone-200'
-              "
-                  >
+                  [ngClass]="
+                    reviewForm.value.rating === i
+                      ? 'bg-accent-600 text-white border-accent-600'
+                      : 'bg-stone-100 border-stone-200 text-stone-700 hover:bg-stone-200'
+                  "
+                >
                   ★ {{ i }}
                 </button>
               }
@@ -97,7 +86,7 @@
             size="m"
             type="submit"
             [disabled]="reviewForm.invalid || submittingReview"
-            >
+          >
             {{ submittingReview ? 'Сохраняем...' : 'Добавить отзыв' }}
           </button>
         </form>
@@ -108,7 +97,9 @@
             <div tuiCardLarge class="w-full text-sm">
               <div class="flex items-center justify-between mb-1">
                 <div>
-                  <p class="font-semibold text-stone-900">{{ review.user?.username || 'Аноним' }}</p>
+                  <p class="font-semibold text-stone-900">
+                    {{ review.user?.username || 'Аноним' }}
+                  </p>
                   <p class="text-xs text-stone-500">
                     ★ {{ review.rating }} • {{ formatDate(review.createdAt) }}
                   </p>
@@ -120,7 +111,7 @@
                     appearance="secondary-destructive"
                     size="s"
                     [disabled]="deletingReviewId === review.id"
-                    >
+                  >
                     {{ deletingReviewId === review.id ? 'Удаляем...' : 'Удалить' }}
                   </button>
                 }
@@ -131,9 +122,7 @@
         </div>
       }
       @if (!reviews.length && !auth.user()) {
-        <p class="text-sm text-stone-500">
-          Авторизуйтесь, чтобы оставить отзыв
-        </p>
+        <p class="text-sm text-stone-500">Авторизуйтесь, чтобы оставить отзыв</p>
       }
     </div>
   </section>

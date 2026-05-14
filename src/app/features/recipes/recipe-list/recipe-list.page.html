@@ -15,7 +15,7 @@
         placeholder="Поиск рецептов"
         [(ngModel)]="query"
         (ngModelChange)="load()"
-        />
+      />
     </tui-textfield>
     <div class="flex gap-2 flex-wrap text-sm text-stone-700">
       <button
@@ -26,7 +26,7 @@
         [class.category-filter-btn_active]="selectedCategory === null"
         [class.text-accent-800]="selectedCategory === null"
         (click)="selectCategory(null)"
-        >
+      >
         Все
       </button>
       @for (cat of categories; track cat) {
@@ -38,7 +38,7 @@
           [class.category-filter-btn_active]="selectedCategory === cat.id"
           [class.text-accent-800]="selectedCategory === cat.id"
           (click)="selectCategory(cat.id)"
-          >
+        >
           {{ cat.name }}
         </button>
       }
@@ -64,7 +64,7 @@
             </div>
             <span
               class="text-xs px-2 py-1 rounded-full bg-accent-50 text-accent-800 border border-accent-100 whitespace-nowrap flex-shrink-0"
-              >
+            >
               {{ recipe.cookingTime ? recipe.cookingTime + ' мин' : 'Время не указано' }}
             </span>
           </div>
@@ -73,9 +73,7 @@
               {{ recipe.categoryName || 'Без категории' }}
             </span>
             @if (recipe.averageRating) {
-              <span
-                class="px-2 py-1 rounded-full bg-stone-100 border border-stone-200"
-                >
+              <span class="px-2 py-1 rounded-full bg-stone-100 border border-stone-200">
                 ★ {{ recipe.averageRating | number: '1.1-1' }}
               </span>
             }
@@ -83,15 +81,15 @@
           <div class="pt-1">
             <a routerLink="/recipes/{{ recipe.id }}" tuiButton appearance="secondary" size="s"
               >Подробнее</a
-              >
-            </div>
-          </article>
-        }
-      </div>
-    }
-    @if (!loading && !recipes?.content?.length) {
-      <div tuiCardMedium class="w-full text-sm text-stone-500" style="width: 100%">
-        Пока нет рецептов.
-      </div>
-    }
-  </section>
+            >
+          </div>
+        </article>
+      }
+    </div>
+  }
+  @if (!loading && !recipes?.content?.length) {
+    <div tuiCardMedium class="w-full text-sm text-stone-500" style="width: 100%">
+      Пока нет рецептов.
+    </div>
+  }
+</section>

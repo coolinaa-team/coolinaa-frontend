@@ -17,8 +17,8 @@ import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading
     TuiError,
     TuiIcon,
     TuiCardLarge,
-    TuiCardMedium
-],
+    TuiCardMedium,
+  ],
   templateUrl: './my-recipes.page.html',
   styleUrl: './my-recipes.page.css',
 })

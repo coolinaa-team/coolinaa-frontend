@@ -24,9 +24,7 @@
       </div>
       <div class="divide-y divide-stone-100">
         @for (c of ingredientCategories; track c) {
-          <div
-            class="admin-edit-row py-2 flex items-center gap-2"
-            >
+          <div class="admin-edit-row py-2 flex items-center gap-2">
             @if (editIngCat[c.id]?.editing) {
               <tui-textfield>
                 <input tuiInput [(ngModel)]="editIngCat[c.id].name" />
@@ -34,7 +32,12 @@
               <tui-textfield>
                 <input tuiInput [(ngModel)]="editIngCat[c.id].description" />
               </tui-textfield>
-              <button tuiButton appearance="primary" size="s" (click)="saveIngredientCategory(c.id)">
+              <button
+                tuiButton
+                appearance="primary"
+                size="s"
+                (click)="saveIngredientCategory(c.id)"
+              >
                 Сохранить
               </button>
               <button tuiButton appearance="flat" size="s" (click)="cancelIngCat(c.id)">
@@ -55,7 +58,7 @@
                 appearance="secondary-destructive"
                 size="s"
                 (click)="deleteIngredientCategory(c.id)"
-                >
+              >
                 Удалить
               </button>
             }
@@ -81,7 +84,7 @@
             class="w-full"
             [(ngModel)]="newIngredient.categoryId"
             placeholder="Категория"
-            />
+          />
           <tui-data-list-wrapper
             *tuiDropdown
             [items]="ingredientCategoryIds"
@@ -105,7 +108,7 @@
                   class="w-full"
                   [(ngModel)]="editIngredient[ing.id].categoryId"
                   placeholder="Категория"
-                  />
+                />
                 <tui-data-list-wrapper
                   *tuiDropdown
                   [items]="ingredientCategoryIds"
@@ -139,7 +142,7 @@
                 appearance="secondary-destructive"
                 size="s"
                 (click)="deleteIngredient(ing.id)"
-                >
+              >
                 Удалить
               </button>
             }
@@ -181,7 +184,9 @@
               <button tuiButton appearance="primary" size="s" (click)="saveUnit(u.id)">
                 Сохранить
               </button>
-              <button tuiButton appearance="flat" size="s" (click)="cancelUnit(u.id)">Отмена</button>
+              <button tuiButton appearance="flat" size="s" (click)="cancelUnit(u.id)">
+                Отмена
+              </button>
             } @else {
               <div class="flex-1">
                 <p class="font-semibold">
@@ -200,7 +205,7 @@
                 appearance="secondary-destructive"
                 size="s"
                 (click)="deleteUnit(u.id)"
-                >
+              >
                 Удалить
               </button>
             }
@@ -255,7 +260,7 @@
                 appearance="secondary-destructive"
                 size="s"
                 (click)="deleteRecipeCategory(c.id)"
-                >
+              >
                 Удалить
               </button>
             }

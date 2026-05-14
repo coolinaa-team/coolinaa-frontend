@@ -58,7 +58,7 @@
             max="5"
             class="w-full"
             formControlName="difficultyLevel"
-            />
+          />
         </tui-textfield>
       </label>
     </div>
@@ -76,12 +76,12 @@
             [formGroupName]="i"
             tuiCardLarge
             class="ingredient-row grid gap-2 sm:grid-cols-4 shadow-sm"
-            >
+          >
             <label class="space-y-1 text-sm text-stone-700 sm:col-span-1">
               <app-ingredient-autocomplete
                 placeholder="Ингредиент..."
                 (selected)="onIngredientSelectedInForm($event, i)"
-                />
+              />
             </label>
             <tui-textfield>
               <input
@@ -92,7 +92,7 @@
                 class="w-full"
                 formControlName="quantity"
                 placeholder="Количество"
-                />
+              />
             </tui-textfield>
             <tui-textfield tuiChevron [stringify]="stringifyUnit">
               <input tuiSelect class="w-full" formControlName="unitId" placeholder="Ед." />
@@ -108,7 +108,7 @@
                 size="s"
                 type="button"
                 (click)="removeIngredient(i)"
-                >
+              >
                 ✕
               </button>
             </div>
@@ -127,7 +127,7 @@
       type="submit"
       class="w-full sm:w-auto"
       [disabled]="form.invalid || loading"
-      >
+    >
       {{ loading ? 'Сохраняем...' : 'Сохранить рецепт' }}
     </button>
   </form>
