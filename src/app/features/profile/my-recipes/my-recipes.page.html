@@ -25,16 +25,18 @@
   @if (!loading && recipes && recipes.content.length > 0) {
     <div class="space-y-3">
       @for (recipe of recipes.content; track recipe.id) {
-        <div tuiCardLarge class="shadow-lg shadow-amber-200/50">
-          <div class="flex items-start justify-between gap-3">
+        <div tuiCardLarge class="shadow-lg shadow-amber-200/50 overflow-hidden">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-start">
             @if (recipe.imageUrl) {
-              <img
-                [src]="recipe.imageUrl"
-                alt="{{ recipe.title }}"
-                class="w-full h-48 object-cover rounded-xl"
-              />
+              <div class="w-full sm:w-40 shrink-0">
+                <img
+                  [src]="recipe.imageUrl"
+                  alt="{{ recipe.title }}"
+                  class="w-full h-48 sm:h-32 object-cover rounded-xl"
+                />
+              </div>
             }
-            <div class="flex-1">
+            <div class="flex-1 min-w-0">
               <a
                 [routerLink]="['/recipes', recipe.id]"
                 class="text-lg font-semibold text-stone-900 hover:text-amber-700 transition"
@@ -55,14 +57,16 @@
                 }
               </div>
             </div>
-            <button
-              (click)="confirmDelete(recipe)"
-              tuiButton
-              appearance="secondary-destructive"
-              size="s"
-            >
-              Удалить
-            </button>
+            <div class="sm:ml-auto">
+              <button
+                (click)="confirmDelete(recipe)"
+                tuiButton
+                appearance="secondary-destructive"
+                size="s"
+              >
+                Удалить
+              </button>
+            </div>
           </div>
         </div>
       }
