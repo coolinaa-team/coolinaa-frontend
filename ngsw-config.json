@@ -1,0 +1,49 @@
+{
+  "$schema": "./node_modules/@angular/service-worker/config/schema.json",
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app-shell",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": ["/favicon.ico", "/index.html", "/*.css", "/*.js"]
+      }
+    },
+    {
+      "name": "pwa-assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": ["/manifest.webmanifest", "/pwa/**"]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "read-only-api",
+      "urls": [
+        "https://coolinaa.site/api/v1/auth/me",
+        "https://coolinaa.site/api/v1/recipes",
+        "https://coolinaa.site/api/v1/recipes/**",
+        "https://coolinaa.site/api/v1/recipes/match/**",
+        "https://coolinaa.site/api/v1/user-ingredients/all",
+        "https://coolinaa.site/api/v1/ingredients",
+        "https://coolinaa.site/api/v1/ingredients/**",
+        "https://coolinaa.site/api/v1/units",
+        "https://coolinaa.site/api/v1/recipe-categories",
+        "https://coolinaa.site/api/v1/recipe-categories/**",
+        "https://coolinaa.site/api/v1/ingredient-categories",
+        "https://coolinaa.site/api/v1/ingredient-categories/**",
+        "https://coolinaa.site/api/v1/recipes/*/reviews",
+        "https://coolinaa.site/api/v1/recipes/*/reviews/**"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 200,
+        "maxAge": "7d",
+        "timeout": "10s"
+      }
+    }
+  ]
+}

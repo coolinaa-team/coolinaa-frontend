@@ -104,6 +104,14 @@ export class FeedPage implements OnInit, AfterViewChecked, OnDestroy {
     this.searchSubject.next(value);
   }
 
+  private applyCategoryFilter(items: Recipe[]): Recipe[] {
+    if (this.categoryId === null) {
+      return items;
+    }
+
+    return items.filter((recipe) => recipe.categoryId === this.categoryId);
+  }
+
   private loadCategories() {
     this.categoriesApi.list().subscribe({
       next: (res) => (this.categories = res),
@@ -120,10 +128,12 @@ export class FeedPage implements OnInit, AfterViewChecked, OnDestroy {
       .list({ page, search: this.query || undefined, categoryId: this.categoryId || undefined })
       .subscribe({
         next: (res) => {
+          const filteredContent = this.applyCategoryFilter(res.content || []);
+
           if (page === 0) {
-            this.recipes = res.content || [];
+            this.recipes = filteredContent;
           } else {
-            this.recipes.push(...(res.content || []));
+            this.recipes.push(...filteredContent);
           }
           this.currentPage = page;
           this.hasMore =

@@ -52,46 +52,46 @@
     <div class="space-y-4">
       <p class="text-lg font-semibold">Отзывы ({{ reviews.length }})</p>
       @if (auth.user() && !userHasReview) {
-        <form [formGroup]="reviewForm" (ngSubmit)="submitReview()" tuiCardLarge class="space-y-3">
+        <form
+          [formGroup]="reviewForm"
+          (ngSubmit)="submitReview()"
+          tuiCardLarge
+          class="review-form-panel"
+        >
           <div>
-            <label class="text-sm font-semibold text-stone-800">Оценка (1-5)</label>
-            <div class="flex gap-2 mt-1">
+            <label class="review-form-label">Оценка (1-5)</label>
+            <div class="review-stars-row mt-2">
               @for (i of [1, 2, 3, 4, 5]; track i) {
                 <button
                   type="button"
                   tuiButton
-                  appearance="flat"
                   size="s"
                   (click)="reviewForm.patchValue({ rating: i })"
-                  class="transition"
-                  [ngClass]="
-                    reviewForm.value.rating === i
-                      ? 'bg-accent-600 text-white border-accent-600'
-                      : 'bg-stone-100 border-stone-200 text-stone-700 hover:bg-stone-200'
-                  "
+                  class="review-star-btn transition"
+                  [appearance]="reviewForm.value.rating === i ? 'primary' : 'flat'"
+                  [ngClass]="{ 'review-star-btn_selected': reviewForm.value.rating === i }"
                 >
                   ★ {{ i }}
                 </button>
               }
             </div>
           </div>
-          <label class="space-y-1 text-sm">
-            <span class="font-semibold text-stone-800">Комментарий</span>
-            <tui-textfield>
-              <textarea
-                tuiInput
-                class="w-full text-sm"
-                rows="3"
-                formControlName="comment"
-                placeholder="Поделитесь впечатлениями..."
-              ></textarea>
-            </tui-textfield>
+          <label class="space-y-1 text-sm block">
+            <span class="review-form-label">Комментарий</span>
+            <textarea
+              tuiInput
+              class="review-comment-input w-full text-sm"
+              rows="3"
+              formControlName="comment"
+              placeholder="Поделитесь впечатлениями..."
+            ></textarea>
           </label>
           <button
             tuiButton
             appearance="primary"
             size="m"
             type="submit"
+            class="review-submit-btn"
             [disabled]="reviewForm.invalid || submittingReview"
           >
             {{ submittingReview ? 'Сохраняем...' : 'Добавить отзыв' }}

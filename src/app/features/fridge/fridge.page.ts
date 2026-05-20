@@ -1,9 +1,18 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TuiButton, TuiError, TuiInput } from '@taiga-ui/core';
-import { TuiSelect } from '@taiga-ui/kit';
+import { TuiButton, TuiDropdown, TuiError } from '@taiga-ui/core';
+import { TuiCalendar } from '@taiga-ui/core';
+import { TuiNotification } from '@taiga-ui/core/components/notification';
+import {
+  TuiChevron,
+  TuiDataListWrapper,
+  TuiInputDate,
+  TuiInputNumber,
+  TuiSelect,
+} from '@taiga-ui/kit';
 import { TuiCardLarge } from '@taiga-ui/layout';
+import { TuiDay } from '@taiga-ui/cdk';
 import { UserIngredientService } from '../../core/services/user-ingredient.service';
 import { IngredientService } from '../../core/services/ingredient.service';
 import { ErrorService } from '../../core/services/error.service';
@@ -22,8 +31,14 @@ import { IngredientAutocompleteComponent } from '../../shared/ingredient-autocom
     FormsModule,
     IngredientAutocompleteComponent,
     TuiButton,
+    TuiCalendar,
+    TuiChevron,
+    TuiDataListWrapper,
+    TuiDropdown,
     TuiError,
-    TuiInput,
+    TuiInputDate,
+    TuiInputNumber,
+    TuiNotification,
     TuiSelect,
     TuiCardLarge,
   ],
@@ -38,6 +53,7 @@ export class FridgePage implements OnInit {
   protected items: UserIngredient[] = [];
   protected units: Unit[] = [];
   protected error = '';
+  protected successNotification = false;
 
   protected get unitIds(): number[] {
     return this.units.map((u) => u.id);
@@ -47,11 +63,28 @@ export class FridgePage implements OnInit {
     return this.units.map((u) => u.abbreviation || u.name);
   }
 
-  protected form: Partial<UserIngredientRequest> = {
+  protected readonly stringifyUnit = (id: number | null): string => {
+    if (id === null) {
+      return '';
+    }
+
+    return (
+      this.units.find((unit) => unit.id === id)?.abbreviation ||
+      this.units.find((unit) => unit.id === id)?.name ||
+      ''
+    );
+  };
+
+  protected form: {
+    ingredientId?: number;
+    quantity: string;
+    unitId?: number;
+    expiresAt: TuiDay | null;
+  } = {
     ingredientId: undefined,
-    quantity: 0,
+    quantity: '',
     unitId: undefined,
-    expiresAt: undefined,
+    expiresAt: null,
   };
 
   ngOnInit() {
@@ -85,11 +118,18 @@ export class FridgePage implements OnInit {
         ingredientId: this.form.ingredientId,
         quantity: Number(this.form.quantity),
         unitId: this.form.unitId || undefined,
-        expiresAt: this.form.expiresAt || undefined,
+        expiresAt: this.form.expiresAt?.toJSON() || undefined,
       })
       .subscribe({
         next: () => {
           this.load();
+          this.form.quantity = '';
+          this.form.unitId = undefined;
+          this.form.expiresAt = null;
+          this.successNotification = false;
+          queueMicrotask(() => {
+            this.successNotification = true;
+          });
         },
         error: (err) => {
           this.error = this.errorService.extractErrorMessage(err);

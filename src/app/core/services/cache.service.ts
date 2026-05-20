@@ -14,7 +14,7 @@ export class CacheService {
 
   private readonly dependencies = new Map<string, string[]>([
     ['/user-ingredients', ['/recipes/match']],
-    ['/recipes', ['/recipes', '/recipes/match']],
+    ['/recipes', ['/recipes', '/recipes/match', '/recipes/my']],
   ]);
 
   get<T>(key: string, source$: Observable<T>, ttlMs = this.DEFAULT_TTL_MS): Observable<T> {
