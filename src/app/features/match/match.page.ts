@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { TuiButton, TuiError } from '@taiga-ui/core';
+import { TuiError } from '@taiga-ui/core';
 import { TuiCardLarge } from '@taiga-ui/layout';
 import { RecipeService } from '../../core/services/recipe.service';
 import { ErrorService } from '../../core/services/error.service';
@@ -10,7 +10,7 @@ import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-sp
 
 @Component({
   selector: 'app-match-page',
-  imports: [CommonModule, RouterLink, LoadingSpinnerComponent, TuiButton, TuiError, TuiCardLarge],
+  imports: [CommonModule, RouterLink, LoadingSpinnerComponent, TuiError, TuiCardLarge],
   templateUrl: './match.page.html',
   styleUrl: './match.page.css',
 })

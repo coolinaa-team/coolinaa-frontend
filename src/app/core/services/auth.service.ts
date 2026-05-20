@@ -25,6 +25,11 @@ export class AuthService {
     }
     return this.fetchMe().pipe(
       catchError(() => {
+        if (typeof navigator !== 'undefined' && !navigator.onLine) {
+          this.currentUserSignal.set(null);
+          return of(null);
+        }
+
         this.logout(false);
         return of(null);
       }),

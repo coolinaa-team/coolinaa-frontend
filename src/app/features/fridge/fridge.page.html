@@ -1,4 +1,16 @@
 <section class="fridge-shell space-y-5 mt-4">
+  <ng-template
+    [(tuiNotification)]="successNotification"
+    [tuiNotificationOptions]="{
+      appearance: 'positive',
+      label: 'Готово',
+      autoClose: 2500,
+      closable: false,
+    }"
+  >
+    Ингредиент добавлен в холодильник
+  </ng-template>
+
   <div class="flex items-center justify-between">
     <div>
       <p class="text-xs uppercase tracking-wide text-sky-300">🧊 fresh keeper</p>
@@ -21,35 +33,28 @@
       <label class="field">
         <span>Количество</span>
         <tui-textfield>
-          <input
-            tuiInput
-            class="input"
-            type="number"
-            min="0"
-            step="0.1"
-            [(ngModel)]="form.quantity"
-          />
+          <input tuiInputNumber class="input" [min]="0" [step]="0.1" [(ngModel)]="form.quantity" />
         </tui-textfield>
       </label>
 
       <label class="field">
         <span>Ед. измерения</span>
-        <tui-textfield>
-          <select
-            tuiSelect
-            class="input"
-            [(ngModel)]="form.unitId"
-            [items]="unitIds"
-            [labels]="unitLabels"
-            placeholder="Не выбрано"
-          ></select>
+        <tui-textfield tuiChevron [stringify]="stringifyUnit">
+          <input tuiSelect class="input" [(ngModel)]="form.unitId" placeholder="Не выбрано" />
+          <tui-data-list-wrapper *tuiDropdown [items]="unitIds" />
         </tui-textfield>
       </label>
 
       <label class="field">
         <span>Срок годности (опционально)</span>
         <tui-textfield>
-          <input tuiInput class="input" type="date" [(ngModel)]="form.expiresAt" />
+          <input
+            tuiInputDate
+            class="input"
+            [(ngModel)]="form.expiresAt"
+            placeholder="Выберите дату"
+          />
+          <tui-calendar *tuiDropdown />
         </tui-textfield>
       </label>
     </div>

@@ -87,21 +87,28 @@
       class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
       (click)="cancelDelete()"
     >
-      <div tuiCardMedium class="max-w-sm w-full shadow-2xl" (click)="$event.stopPropagation()">
-        <h3 class="text-lg font-bold mb-2">Удалить рецепт?</h3>
-        <p class="text-sm text-stone-600 mb-4">
+      <div
+        class="w-full max-w-xl rounded-3xl shadow-2xl border border-white/60 bg-white/95 p-6 sm:p-8"
+        style="min-width: min(100%, 22rem)"
+        (click)="$event.stopPropagation()"
+      >
+        <div class="mb-5">
+          <p class="text-xs font-semibold uppercase tracking-[0.24em] text-amber-700 mb-2">
+            Подтверждение удаления
+          </p>
+          <h3 class="text-2xl font-bold tracking-tight text-stone-900">Удалить рецепт?</h3>
+        </div>
+        <p class="text-sm sm:text-base text-stone-600 mb-6 leading-6">
           Вы уверены, что хотите удалить "{{ recipeToDelete.title }}"?
         </p>
-        <div class="flex gap-3">
-          <button (click)="cancelDelete()" tuiButton appearance="secondary" size="m" class="flex-1">
-            Отмена
-          </button>
+        <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+          <button (click)="cancelDelete()" tuiButton appearance="secondary" size="m">Отмена</button>
           <button
             (click)="deleteRecipe()"
             tuiButton
             appearance="primary-destructive"
             size="m"
-            class="flex-1"
+            class="sm:min-w-40"
             [disabled]="deleting"
           >
             {{ deleting ? 'Удаление...' : 'Удалить' }}
