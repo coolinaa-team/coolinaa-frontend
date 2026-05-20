@@ -23,7 +23,9 @@
     <input
       tuiInput
       formControlName="email"
-      type="email"
+      type="text"
+      inputmode="email"
+      autocomplete="email"
       placeholder="you@example.com"
       [invalid]="form.controls.email.invalid && form.controls.email.touched"
       [tuiTextfieldCleaner]="true"
