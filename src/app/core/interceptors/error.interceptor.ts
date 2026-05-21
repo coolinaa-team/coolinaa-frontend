@@ -3,6 +3,7 @@ import { inject } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
+import { captureException } from '../../monitoring/monitoring';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(AuthService);
@@ -12,6 +13,11 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         auth.logout();
       }
       console.error('API error', err);
+      try {
+        captureException(err);
+      } catch (e) {
+        console.error('Failed to report error to monitoring', e);
+      }
       return throwError(() => err);
     }),
   );

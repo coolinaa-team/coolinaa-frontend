@@ -29,5 +29,16 @@ jobs:
 
             echo "Сборка проекта"
             npm run build
-            
+
+            echo "Инъекция ключей мониторинга и конфигурация"
+            export SENTRY_DSN='${{ secrets.SENTRY_DSN }}'
+            export POSTHOG_KEY='${{ secrets.POSTHOG_KEY }}'
+            export ENVIRONMENT='production'
+
+            if [ -f scripts/inject-monitoring.js ]; then
+              node scripts/inject-monitoring.js dist/client
+            else
+              echo "scripts/inject-monitoring.js не найден — убедитесь, что он в репо"
+            fi
+
             echo "Успех!"

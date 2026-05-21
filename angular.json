@@ -51,6 +51,8 @@
                 }
               ],
               "outputHashing": "all"
+               ,
+               "sourceMap": true
             },
             "development": {
               "optimization": false,
