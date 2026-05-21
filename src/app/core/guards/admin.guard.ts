@@ -1,7 +1,7 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { map, take, filter } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 
 export const adminGuard: CanActivateFn = () => {
   const auth = inject(AuthService);
@@ -20,8 +20,7 @@ export const adminGuard: CanActivateFn = () => {
         return true;
       }
 
-      router.navigate(['/']);
-      return false;
+      return router.createUrlTree(['/']);
     }),
   );
 };
