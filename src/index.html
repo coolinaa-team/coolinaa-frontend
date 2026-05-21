@@ -11,6 +11,13 @@
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/pwa/icon-192.png" />
+    <script>
+      window.__MONITORING__ = {
+        SENTRY_DSN: '%SENTRY_DSN%',
+        POSTHOG_KEY: '%POSTHOG_KEY%',
+        ENVIRONMENT: '%ENVIRONMENT%',
+      };
+    </script>
   </head>
   <body>
     <app-root></app-root>
