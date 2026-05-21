@@ -36,7 +36,7 @@ jobs:
             export ENVIRONMENT='production'
 
             if [ -f scripts/inject-monitoring.js ]; then
-              node scripts/inject-monitoring.js dist/client
+              node scripts/inject-monitoring.js dist/client/browser
             else
               echo "scripts/inject-monitoring.js не найден — убедитесь, что он в репо"
             fi
