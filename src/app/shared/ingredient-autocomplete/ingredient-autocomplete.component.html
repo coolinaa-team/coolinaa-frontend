@@ -18,7 +18,7 @@
       @if (loading) {
         <div class="dropdown-loading flex items-center gap-2">
           <tui-loader [overlay]="false" size="s"></tui-loader>
-          <span>Загрузка...</span>
+          <span>Загрузка</span>
         </div>
       } @else if (filteredIngredients.length > 0) {
         @for (item of filteredIngredients; track item.id) {

@@ -45,7 +45,7 @@
     class="w-full mt-2"
     [disabled]="form.invalid || loading"
   >
-    {{ loading ? 'Входим...' : 'Войти' }}
+    {{ loading ? 'Входим' : 'Войти' }}
   </button>
 
   <tui-error [error]="error || null"></tui-error>

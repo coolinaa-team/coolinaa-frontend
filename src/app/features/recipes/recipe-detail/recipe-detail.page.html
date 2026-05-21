@@ -83,7 +83,7 @@
               class="review-comment-input w-full text-sm"
               rows="3"
               formControlName="comment"
-              placeholder="Поделитесь впечатлениями..."
+              placeholder="Поделитесь впечатлениями"
             ></textarea>
           </label>
           <button
@@ -94,7 +94,7 @@
             class="review-submit-btn"
             [disabled]="reviewForm.invalid || submittingReview"
           >
-            {{ submittingReview ? 'Сохраняем...' : 'Добавить отзыв' }}
+            {{ submittingReview ? 'Сохраняем' : 'Добавить отзыв' }}
           </button>
         </form>
       }
@@ -119,7 +119,7 @@
                     size="s"
                     [disabled]="deletingReviewId === review.id"
                   >
-                    {{ deletingReviewId === review.id ? 'Удаляем...' : 'Удалить' }}
+                    {{ deletingReviewId === review.id ? 'Удаляем' : 'Удалить' }}
                   </button>
                 }
               </div>
