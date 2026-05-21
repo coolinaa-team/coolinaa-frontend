@@ -70,7 +70,7 @@
     class="w-full mt-2"
     [disabled]="form.invalid || loading"
   >
-    {{ loading ? 'Создаем...' : 'Создать аккаунт' }}
+    {{ loading ? 'Создаем' : 'Создать аккаунт' }}
   </button>
 
   <tui-error [error]="error || null"></tui-error>

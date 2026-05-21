@@ -3,9 +3,10 @@
     <header class="px-4 py-3 flex items-center justify-between">
       <a
         routerLink="/feed"
-        class="text-lg font-semibold tracking-tight hover:text-amber-700 transition cursor-pointer"
-        >coolinaa</a
+        class="inline-flex items-center hover:opacity-90 transition cursor-pointer"
       >
+        <img src="/logo_full.svg" alt="Coolinaa" class="h-8 w-auto" />
+      </a>
       <a routerLink="/recipes/create" tuiButton appearance="primary" size="s"> Добавить рецепт </a>
     </header>
 
@@ -63,8 +64,9 @@
     </nav>
   } @else {
     <header class="px-4 py-3 flex items-center justify-between bg-white/80 backdrop-blur shadow">
-      <div class="text-lg font-semibold tracking-tight">
-        coolinaa <span class="text-amber-600">Admin</span>
+      <div class="flex items-center gap-2">
+        <img src="/logo_full.svg" alt="Coolinaa" class="h-8 w-auto" />
+        <span class="text-lg font-semibold tracking-tight text-amber-600">Admin</span>
       </div>
       <button
         (click)="logout()"

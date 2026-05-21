@@ -1,7 +1,7 @@
 <section class="space-y-4">
   <div>
     <h1 class="text-2xl font-semibold">Создать рецепт</h1>
-    <p class="text-sm text-stone-500">Поделитесь любимым блюдом с сообществом.</p>
+    <p class="text-sm text-stone-500">Поделитесь любимым блюдом с сообществом</p>
   </div>
   <form class="space-y-4 recipe-form" [formGroup]="form" (ngSubmit)="submit()">
     <div class="grid gap-3 sm:grid-cols-2 form-grid">
@@ -85,7 +85,7 @@
           >
             <label class="space-y-1 text-sm text-stone-700 sm:col-span-1">
               <app-ingredient-autocomplete
-                placeholder="Ингредиент..."
+                placeholder="Ингредиент"
                 (selected)="onIngredientSelectedInForm($event, i)"
               />
             </label>
@@ -134,7 +134,7 @@
       class="w-full sm:w-auto"
       [disabled]="form.invalid || loading"
     >
-      {{ loading ? 'Сохраняем...' : 'Сохранить рецепт' }}
+      {{ loading ? 'Сохраняем' : 'Сохранить рецепт' }}
     </button>
   </form>
 </section>

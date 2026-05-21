@@ -46,7 +46,7 @@
   </div>
 
   @if (loading) {
-    <div tuiCardMedium class="w-full text-sm text-stone-500" style="width: 100%">Загружаем...</div>
+    <div tuiCardMedium class="w-full text-sm text-stone-500" style="width: 100%">Загружаем</div>
   } @else if (error) {
     <tui-error [error]="error"></tui-error>
   }
@@ -96,7 +96,7 @@
   }
   @if (!loading && !recipes?.content?.length) {
     <div tuiCardMedium class="w-full text-sm text-stone-500" style="width: 100%">
-      Пока нет рецептов.
+      Пока нет рецептов
     </div>
   }
 </section>

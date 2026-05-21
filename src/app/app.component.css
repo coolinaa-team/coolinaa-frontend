@@ -26,12 +26,10 @@
 }
 
 .desktop-gate__logo {
-	font-size: 2rem;
-	font-weight: 800;
-	letter-spacing: -0.04em;
-	line-height: 1;
-	color: #ff6430;
-	margin-bottom: 14px;
+	display: block;
+	width: min(240px, 72vw);
+	height: auto;
+	margin: 0 auto 14px;
 }
 
 .desktop-gate__card h1 {
