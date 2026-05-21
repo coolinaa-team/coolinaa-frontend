@@ -6,10 +6,36 @@ const fs = require('fs');
 const path = require('path');
 
 const dist = process.argv[2] || 'dist/client';
-const indexPath = path.join(dist, 'index.html');
 
-if (!fs.existsSync(indexPath)) {
-  console.error('index.html not found at', indexPath);
+function findIndexHtml(rootDir) {
+  const directIndex = path.join(rootDir, 'index.html');
+  if (fs.existsSync(directIndex)) {
+    return directIndex;
+  }
+
+  const browserIndex = path.join(rootDir, 'browser', 'index.html');
+  if (fs.existsSync(browserIndex)) {
+    return browserIndex;
+  }
+
+  if (!fs.existsSync(rootDir) || !fs.statSync(rootDir).isDirectory()) {
+    return null;
+  }
+
+  const entries = fs.readdirSync(rootDir, { withFileTypes: true });
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+    const nested = findIndexHtml(path.join(rootDir, entry.name));
+    if (nested) return nested;
+  }
+
+  return null;
+}
+
+const indexPath = findIndexHtml(dist);
+
+if (!indexPath) {
+  console.error('index.html not found under', dist);
   process.exit(2);
 }
 
