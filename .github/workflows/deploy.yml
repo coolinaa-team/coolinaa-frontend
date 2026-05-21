@@ -25,7 +25,7 @@ jobs:
             git pull origin main
 
             echo "Установка зависимостей"
-            npm install --package-lock=false --no-audit --no-fund
+            npm ci
 
             echo "Сборка проекта"
             npm run build
