@@ -8,6 +8,15 @@ const DEFAULT_POSTHOG_KEY = '<YOUR_POSTHOG_KEY>';
 let sentryEnabled = false;
 let posthogEnabled = false;
 
+function isConfiguredValue(value: unknown, placeholder: string) {
+  return (
+    typeof value === 'string' &&
+    value.trim() !== '' &&
+    value !== placeholder &&
+    !value.includes('%')
+  );
+}
+
 export function initMonitoring(opts?: {
   sentryDsn?: string;
   posthogKey?: string;
@@ -18,7 +27,7 @@ export function initMonitoring(opts?: {
   const posthogKey = opts?.posthogKey ?? cfg.POSTHOG_KEY ?? DEFAULT_POSTHOG_KEY;
   const environment = opts?.environment ?? cfg.ENVIRONMENT ?? 'production';
 
-  if (sentryDsn && sentryDsn !== DEFAULT_SENTRY_DSN) {
+  if (isConfiguredValue(sentryDsn, DEFAULT_SENTRY_DSN)) {
     Sentry.init({
       dsn: sentryDsn,
       integrations: [new BrowserTracing({ tracingOrigins: ['localhost', /^\//] })],
@@ -31,7 +40,7 @@ export function initMonitoring(opts?: {
     console.info('Sentry not initialized: set window.__MONITORING__.SENTRY_DSN to enable');
   }
 
-  if (posthogKey && posthogKey !== DEFAULT_POSTHOG_KEY) {
+  if (isConfiguredValue(posthogKey, DEFAULT_POSTHOG_KEY)) {
     posthog.init(posthogKey, { api_host: 'https://app.posthog.com' });
     posthogEnabled = true;
     console.info('PostHog initialized');
