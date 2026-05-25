@@ -11,7 +11,15 @@ import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading
 
 @Component({
   selector: 'app-favorites-page',
-  imports: [CommonModule, RouterLink, LoadingSpinnerComponent, TuiButton, TuiError, TuiIcon, TuiCardLarge],
+  imports: [
+    CommonModule,
+    RouterLink,
+    LoadingSpinnerComponent,
+    TuiButton,
+    TuiError,
+    TuiIcon,
+    TuiCardLarge,
+  ],
   templateUrl: './favorites.page.html',
   styleUrl: './favorites.page.css',
 })

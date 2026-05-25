@@ -36,9 +36,9 @@ export class FavoriteService {
   private readonly auth = inject(AuthService);
 
   list(userId: number) {
-    return this.api.get<FavoriteRecipeRaw[]>(`/favorites/${userId}`).pipe(
-      map((items) => (items || []).map((item) => this.normalizeRecipe(item))),
-    );
+    return this.api
+      .get<FavoriteRecipeRaw[]>(`/favorites/${userId}`)
+      .pipe(map((items) => (items || []).map((item) => this.normalizeRecipe(item))));
   }
 
   listForCurrentUser() {
@@ -69,8 +69,7 @@ export class FavoriteService {
       typeof raw.averageRating === 'number'
         ? raw.averageRating
         : this.getAverageRating(raw.reviews);
-    const reviewCount =
-      typeof raw.reviewCount === 'number' ? raw.reviewCount : raw.reviews?.length;
+    const reviewCount = typeof raw.reviewCount === 'number' ? raw.reviewCount : raw.reviews?.length;
 
     return {
       id: raw.id,
@@ -98,9 +97,7 @@ export class FavoriteService {
     if (!reviews?.length) {
       return undefined;
     }
-    const values = reviews
-      .map((review) => review.rating ?? 0)
-      .filter((rating) => rating > 0);
+    const values = reviews.map((review) => review.rating ?? 0).filter((rating) => rating > 0);
     if (!values.length) {
       return undefined;
     }

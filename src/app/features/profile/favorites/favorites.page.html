@@ -25,7 +25,9 @@
         <div tuiCardLarge class="shadow-lg overflow-hidden">
           <div class="flex items-start gap-3">
             <div class="flex-1">
-              <a [routerLink]="['/recipes', recipe.id]" class="text-lg font-semibold">{{ recipe.title }}</a>
+              <a [routerLink]="['/recipes', recipe.id]" class="text-lg font-semibold">{{
+                recipe.title
+              }}</a>
               <p class="text-sm text-stone-600">{{ recipe.description }}</p>
             </div>
             <div>
