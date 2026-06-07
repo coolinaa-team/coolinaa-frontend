@@ -61,9 +61,24 @@ export class AuthService {
   }
 
   register(username: string, email: string, password: string) {
-    return this.api
-      .post<AuthResponse>('/auth/register', { username, email, password })
-      .pipe(tap((res) => this.persistAuth(res)));
+    return this.api.post<AuthResponse>('/auth/register', { username, email, password }).pipe(
+      tap((res) => this.persistAuth(res)),
+      switchMap((res) => {
+        if (res.user) {
+          return of(res);
+        }
+
+        return this.fetchMe().pipe(map((user) => ({ ...res, user })));
+      }),
+    );
+  }
+
+  forgotPassword(email: string) {
+    return this.api.post<void>('/auth/forgot-password', { email });
+  }
+
+  resetPassword(code: string, newPassword: string) {
+    return this.api.post<void>('/auth/reset-password', { code, newPassword });
   }
 
   refresh() {

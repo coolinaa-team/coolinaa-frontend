@@ -12,6 +12,7 @@ import { TuiNotificationService } from '@taiga-ui/core/components/notification';
 import { ErrorService } from '../../../core/services/error.service';
 import { Recipe } from '../../../core/models/recipe.model';
 import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading-spinner.component';
+import { AuthenticatedImageDirective } from '../../../shared/authenticated-image.directive';
 
 @Component({
   selector: 'app-recipe-detail-page',
@@ -24,6 +25,7 @@ import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading
     TuiError,
     TuiInput,
     TuiCardLarge,
+    AuthenticatedImageDirective,
   ],
   templateUrl: './recipe-detail.page.html',
   styleUrl: './recipe-detail.page.css',

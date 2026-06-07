@@ -7,10 +7,18 @@ import { RecipeService } from '../../core/services/recipe.service';
 import { ErrorService } from '../../core/services/error.service';
 import { RecipeMatch } from '../../core/models/recipe.model';
 import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
+import { AuthenticatedImageDirective } from '../../shared/authenticated-image.directive';
 
 @Component({
   selector: 'app-match-page',
-  imports: [CommonModule, RouterLink, LoadingSpinnerComponent, TuiError, TuiCardLarge],
+  imports: [
+    CommonModule,
+    RouterLink,
+    LoadingSpinnerComponent,
+    TuiError,
+    TuiCardLarge,
+    AuthenticatedImageDirective,
+  ],
   templateUrl: './match.page.html',
   styleUrl: './match.page.css',
 })

@@ -2,6 +2,7 @@ import { Component, inject, computed, effect } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { TuiButton } from '@taiga-ui/core';
 import { AuthService } from '../../core/services/auth.service';
+import { FeedNavigationService } from '../../core/services/feed-navigation.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -12,6 +13,7 @@ import { AuthService } from '../../core/services/auth.service';
 export class MainLayoutComponent {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly feedNavigation = inject(FeedNavigationService);
 
   protected readonly isAdmin = computed(() => this.auth.user()?.role === 'admin');
 
@@ -30,5 +32,9 @@ export class MainLayoutComponent {
 
   logout() {
     this.auth.logout();
+  }
+
+  resetFeed() {
+    this.feedNavigation.resetFeed();
   }
 }

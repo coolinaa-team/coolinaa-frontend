@@ -3,7 +3,7 @@
     <button type="button" tuiButton appearance="flat" size="s" (click)="goBack()">Назад</button>
     @if (recipe.imageUrl) {
       <img
-        [src]="recipe.imageUrl"
+        [appAuthenticatedImage]="recipe.imageUrl"
         alt="{{ recipe.title }}"
         class="w-full h-80 object-cover rounded-2xl shadow-md"
       />

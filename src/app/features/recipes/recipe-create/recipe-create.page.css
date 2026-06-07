@@ -28,3 +28,32 @@
 .ingredient-row .flex {
 	min-inline-size: 0;
 }
+
+.image-upload-panel {
+	display: grid;
+	gap: 0.75rem;
+	padding: 0.75rem;
+	border: 1px dashed #d6d3d1;
+	border-radius: 0.75rem;
+	background: #fafaf9;
+}
+
+.image-preview,
+.image-upload-placeholder {
+	inline-size: 100%;
+	block-size: 14rem;
+	border-radius: 0.75rem;
+}
+
+.image-preview {
+	object-fit: cover;
+}
+
+.image-upload-placeholder {
+	display: grid;
+	place-items: center;
+	padding: 1rem;
+	color: #78716c;
+	text-align: center;
+	background: #f5f5f4;
+}

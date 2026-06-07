@@ -29,7 +29,7 @@
             @if (recipe.imageUrl) {
               <div class="w-full sm:w-40 shrink-0">
                 <img
-                  [src]="recipe.imageUrl"
+                  [appAuthenticatedImage]="recipe.imageUrl"
                   alt="{{ recipe.title }}"
                   class="w-full h-48 sm:h-32 object-cover rounded-xl"
                 />
@@ -56,7 +56,15 @@
                 }
               </div>
             </div>
-            <div class="sm:ml-auto">
+            <div class="sm:ml-auto flex flex-wrap gap-2">
+              <a
+                [routerLink]="['/recipes', recipe.id, 'edit']"
+                tuiButton
+                appearance="secondary"
+                size="s"
+              >
+                Изменить
+              </a>
               <button
                 (click)="confirmDelete(recipe)"
                 tuiButton

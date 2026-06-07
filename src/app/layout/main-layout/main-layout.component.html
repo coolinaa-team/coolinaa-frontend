@@ -3,6 +3,7 @@
     <header class="px-4 py-3 flex items-center justify-between">
       <a
         routerLink="/feed"
+        (click)="resetFeed()"
         class="inline-flex items-center hover:opacity-90 transition cursor-pointer"
       >
         <img src="/logo_full.svg" alt="Coolinaa" class="h-8 w-auto" />
@@ -19,6 +20,7 @@
     >
       <a
         routerLink="/feed"
+        (click)="resetFeed()"
         routerLinkActive="text-amber-700"
         tuiIconButton
         appearance="flat"

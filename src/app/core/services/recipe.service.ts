@@ -19,6 +19,10 @@ export class RecipeService {
     return this.api.post<Recipe>('/recipes', payload);
   }
 
+  update(id: number, payload: RecipeCreateRequest) {
+    return this.api.put<Recipe>(`/recipes/${id}`, payload);
+  }
+
   matchMe() {
     return this.api.get<RecipeMatch[]>('/recipes/match/me');
   }

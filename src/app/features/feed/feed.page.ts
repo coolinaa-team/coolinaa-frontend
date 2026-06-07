@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { TuiButton, TuiError, TuiInput } from '@taiga-ui/core';
 import { TuiCardLarge } from '@taiga-ui/layout';
 import { RecipeService } from '../../core/services/recipe.service';
@@ -21,6 +21,8 @@ import { Recipe } from '../../core/models/recipe.model';
 import { Page } from '../../core/models/page.model';
 import { Category } from '../../core/models/category.model';
 import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
+import { FeedNavigationService } from '../../core/services/feed-navigation.service';
+import { AuthenticatedImageDirective } from '../../shared/authenticated-image.directive';
 
 @Component({
   selector: 'app-feed-page',
@@ -33,6 +35,7 @@ import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-sp
     TuiButton,
     TuiError,
     TuiCardLarge,
+    AuthenticatedImageDirective,
   ],
   templateUrl: './feed.page.html',
   styleUrl: './feed.page.css',
@@ -43,7 +46,9 @@ export class FeedPage implements OnInit, AfterViewChecked, OnDestroy {
   private readonly recipesApi = inject(RecipeService);
   private readonly categoriesApi = inject(RecipeCategoryService);
   private readonly errorService = inject(ErrorService);
+  private readonly feedNavigation = inject(FeedNavigationService);
   private searchSubject = new Subject<string>();
+  private destroy$ = new Subject<void>();
   private observer: IntersectionObserver | null = null;
 
   protected recipes: Recipe[] = [];
@@ -60,11 +65,17 @@ export class FeedPage implements OnInit, AfterViewChecked, OnDestroy {
     this.load();
     this.loadCategories();
 
-    this.searchSubject.pipe(debounceTime(500), distinctUntilChanged()).subscribe(() => {
-      this.recipes = [];
-      this.currentPage = 0;
-      this.hasMore = true;
-      this.load();
+    this.searchSubject
+      .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.recipes = [];
+        this.currentPage = 0;
+        this.hasMore = true;
+        this.load();
+      });
+
+    this.feedNavigation.reset$.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.resetFiltersAndLoad();
     });
   }
 
@@ -78,6 +89,8 @@ export class FeedPage implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.searchSubject.complete();
     this.destroyObserver();
   }
@@ -160,6 +173,16 @@ export class FeedPage implements OnInit, AfterViewChecked, OnDestroy {
 
   setCategory(id: number | null) {
     this.categoryId = id;
+    this.recipes = [];
+    this.currentPage = 0;
+    this.hasMore = true;
+    this.destroyObserver();
+    this.load();
+  }
+
+  private resetFiltersAndLoad() {
+    this.query = '';
+    this.categoryId = null;
     this.recipes = [];
     this.currentPage = 0;
     this.hasMore = true;

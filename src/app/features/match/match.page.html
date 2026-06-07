@@ -23,7 +23,7 @@
         >
           @if (item.imageUrl) {
             <img
-              [src]="item.imageUrl"
+              [appAuthenticatedImage]="item.imageUrl"
               alt="{{ item.title }}"
               class="w-full h-48 object-cover rounded-xl"
             />

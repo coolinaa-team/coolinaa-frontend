@@ -13,7 +13,7 @@ export class CacheService {
   private readonly DEFAULT_TTL_MS = 5 * 60 * 1000;
 
   private readonly dependencies = new Map<string, string[]>([
-    ['/user-ingredients', ['/recipes/match']],
+    ['/user-ingredients', ['/user-ingredients', '/recipes/match']],
     ['/recipes', ['/recipes', '/recipes/match', '/recipes/my']],
   ]);
 

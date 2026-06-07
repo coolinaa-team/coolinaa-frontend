@@ -54,6 +54,7 @@ export class FridgePage implements OnInit {
   protected units: Unit[] = [];
   protected error = '';
   protected successNotification = false;
+  protected deletingIngredientIds = new Set<number>();
 
   protected get unitIds(): number[] {
     return this.units.map((u) => u.id);
@@ -108,15 +109,23 @@ export class FridgePage implements OnInit {
   }
 
   add() {
+    const quantity = Number(this.form.quantity);
+
     if (!this.form.ingredientId || !this.form.quantity) {
       this.error = 'Укажите ингредиент и количество';
       return;
     }
+
+    if (!Number.isFinite(quantity) || quantity <= 0) {
+      this.error = 'Количество должно быть положительным числом';
+      return;
+    }
+
     this.error = '';
     this.userIngredients
       .add({
         ingredientId: this.form.ingredientId,
-        quantity: Number(this.form.quantity),
+        quantity,
         unitId: this.form.unitId || undefined,
         expiresAt: this.form.expiresAt?.toJSON() || undefined,
       })
@@ -138,9 +147,25 @@ export class FridgePage implements OnInit {
   }
 
   remove(ingredientId: number) {
+    if (this.deletingIngredientIds.has(ingredientId)) {
+      return;
+    }
+
+    const previousItems = this.items;
+    this.error = '';
+    this.deletingIngredientIds.add(ingredientId);
+    this.items = this.items.filter((item) => item.ingredientId !== ingredientId);
+
     this.userIngredients.remove(ingredientId).subscribe({
-      next: () => this.load(),
-      error: (err) => (this.error = this.errorService.extractErrorMessage(err)),
+      next: () => {
+        this.deletingIngredientIds.delete(ingredientId);
+        this.load();
+      },
+      error: (err) => {
+        this.deletingIngredientIds.delete(ingredientId);
+        this.items = previousItems;
+        this.error = this.errorService.extractErrorMessage(err);
+      },
     });
   }
 }
