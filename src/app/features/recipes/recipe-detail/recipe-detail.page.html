@@ -5,6 +5,9 @@
       <img
         [appAuthenticatedImage]="recipe.imageUrl"
         alt="{{ recipe.title }}"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
         class="w-full h-80 object-cover rounded-2xl shadow-md"
       />
     }
