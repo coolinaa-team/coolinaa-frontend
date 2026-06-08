@@ -6,12 +6,14 @@ import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { ApiService } from './api.service';
 import { StorageService } from './storage.service';
+import { ProtectedImageCacheService } from './protected-image-cache.service';
 import { AuthResponse, User } from '../models/auth.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly api = inject(ApiService);
   private readonly storage = inject(StorageService);
+  private readonly imageCache = inject(ProtectedImageCacheService);
   private readonly router = inject(Router);
 
   private readonly accessTokenSignal = signal<string | null>(this.storage.getAccessToken());
@@ -97,6 +99,7 @@ export class AuthService {
 
   logout(redirect = true) {
     this.storage.clearTokens();
+    this.imageCache.clear();
     this.accessTokenSignal.set(null);
     this.currentUserSignal.set(null);
     if (redirect) {

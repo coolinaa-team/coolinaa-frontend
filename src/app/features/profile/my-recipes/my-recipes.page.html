@@ -31,6 +31,8 @@
                 <img
                   [appAuthenticatedImage]="recipe.imageUrl"
                   alt="{{ recipe.title }}"
+                  loading="lazy"
+                  decoding="async"
                   class="w-full h-48 sm:h-32 object-cover rounded-xl"
                 />
               </div>
