@@ -195,6 +195,12 @@ export class RecipeCreatePage implements OnInit, OnDestroy {
       this.form.markAllAsTouched();
       return;
     }
+
+    if (this.hasDuplicateIngredients()) {
+      this.error = 'В рецепте не должно быть одинаковых ингредиентов';
+      return;
+    }
+
     this.loading = true;
     this.error = '';
 
@@ -303,5 +309,13 @@ export class RecipeCreatePage implements OnInit, OnDestroy {
         orderIndex: index,
       })),
     };
+  }
+
+  private hasDuplicateIngredients(): boolean {
+    const ingredientIds = this.ingredientsArray.controls
+      .map((control) => control.get('ingredientId')?.value)
+      .filter((id): id is number => typeof id === 'number');
+
+    return new Set(ingredientIds).size !== ingredientIds.length;
   }
 }
