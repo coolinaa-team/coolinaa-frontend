@@ -57,7 +57,7 @@
         <article tuiCardLarge class="space-y-2 shadow-sm overflow-hidden">
           @if (recipe.imageUrl) {
             <img
-              [src]="recipe.imageUrl"
+              [appAuthenticatedImage]="recipe.imageUrl"
               alt="{{ recipe.title }}"
               class="w-full h-48 object-cover rounded-xl"
             />

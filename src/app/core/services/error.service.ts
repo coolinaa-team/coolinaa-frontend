@@ -19,8 +19,13 @@ export class ErrorService {
     'title must not exceed 200 characters': 'Название не должно превышать 200 символов',
     'preparation time must me positive number': 'Время подготовки должно быть положительным числом',
     'cooking time must be positive': 'Время готовки должно быть положительным числом',
+    'cooking time must be positive number': 'Время готовки должно быть положительным числом',
     'difficulty level must be from 1': 'Уровень сложности должен быть от 1',
     'difficulty level must be max 5': 'Уровень сложности не должен превышать 5',
+    'instructions must be not empty': 'Инструкция не может быть пустой',
+    'servings must be positive number': 'Количество порций должно быть положительным числом',
+    'quantity must be positive': 'Количество должно быть положительным числом',
+    'quantity is required': 'Укажите количество',
     'ingredients must be not empty': 'Должен быть хотя бы один ингредиент',
 
     // Auth errors
@@ -31,6 +36,12 @@ export class ErrorService {
     'user account is locked': 'Аккаунт заблокирован',
     'user account is disabled': 'Аккаунт отключен',
     'user not found': 'Пользователь не найден',
+    'code must be not empty': 'Введите код подтверждения',
+    'code must be exactly 8 digits long': 'Код должен состоять из 8 цифр',
+    'password must be min 8 characters': 'Пароль должен содержать минимум 8 символов',
+    'invalid confirmation code': 'Неверный код подтверждения',
+    'код уже был использован': 'Код уже был использован',
+    'срок действия кода истек': 'Срок действия кода истек',
 
     // JWT errors
     'invalid jwt token': 'Сессия истекла, пожалуйста перезагрузитесь',
@@ -126,6 +137,24 @@ export class ErrorService {
     }
 
     const lowerMessage = message.toLowerCase().trim();
-    return this.errorTranslations[lowerMessage] || message;
+    const directTranslation = this.errorTranslations[lowerMessage];
+
+    if (directTranslation) {
+      return directTranslation;
+    }
+
+    const messageWithoutField = lowerMessage.includes(':')
+      ? lowerMessage.split(':').pop()?.trim()
+      : lowerMessage;
+
+    if (messageWithoutField && this.errorTranslations[messageWithoutField]) {
+      return this.errorTranslations[messageWithoutField];
+    }
+
+    const matchedKey = Object.keys(this.errorTranslations).find((key) =>
+      lowerMessage.includes(key),
+    );
+
+    return matchedKey ? this.errorTranslations[matchedKey] : message;
   }
 }

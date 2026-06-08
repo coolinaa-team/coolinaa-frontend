@@ -1,7 +1,15 @@
 <section class="space-y-4">
   <div>
-    <h1 class="text-2xl font-semibold">Создать рецепт</h1>
-    <p class="text-sm text-stone-500">Поделитесь любимым блюдом с сообществом</p>
+    <h1 class="text-2xl font-semibold">
+      {{ isEditMode ? 'Изменить рецепт' : 'Создать рецепт' }}
+    </h1>
+    <p class="text-sm text-stone-500">
+      {{
+        isEditMode
+          ? 'Обновите данные рецепта и сохраните изменения'
+          : 'Поделитесь любимым блюдом с сообществом'
+      }}
+    </p>
   </div>
   <form class="space-y-4 recipe-form" [formGroup]="form" (ngSubmit)="submit()">
     <div class="grid gap-3 sm:grid-cols-2 form-grid">
@@ -10,6 +18,13 @@
         <tui-textfield>
           <input tuiInput class="w-full" formControlName="title" />
         </tui-textfield>
+        <tui-error
+          [error]="
+            form.get('title')?.touched && form.get('title')?.hasError('required')
+              ? 'Введите название рецепта'
+              : null
+          "
+        ></tui-error>
       </label>
       <label class="space-y-1 text-sm text-stone-700">
         <span>Категория</span>
@@ -24,35 +39,109 @@
           <textarea tuiTextarea class="w-full" rows="2" formControlName="description"></textarea>
         </tui-textfield>
       </label>
-      <label class="space-y-1 text-sm text-stone-700 sm:col-span-2">
-        <span>URL изображения</span>
-        <tui-textfield>
-          <input tuiInput class="w-full" formControlName="imageUrl" />
-        </tui-textfield>
-      </label>
+      <div class="space-y-2 text-sm text-stone-700 sm:col-span-2">
+        <span>Изображение рецепта</span>
+        <input
+          #imageInput
+          type="file"
+          accept="image/*"
+          class="sr-only"
+          (change)="onImageSelected($event)"
+        />
+        <div class="image-upload-panel">
+          @if (imagePreviewUrl) {
+            <img [src]="imagePreviewUrl" alt="Предпросмотр изображения" class="image-preview" />
+          } @else if (existingImageUrl) {
+            <img
+              [appAuthenticatedImage]="existingImageUrl"
+              alt="Текущее изображение рецепта"
+              class="image-preview"
+            />
+          } @else {
+            <div class="image-upload-placeholder">Выберите изображение</div>
+          }
+          <div class="flex flex-wrap items-center gap-2">
+            <button
+              tuiButton
+              appearance="outline"
+              size="s"
+              type="button"
+              (click)="imageInput.click()"
+            >
+              {{
+                imagePreviewUrl || existingImageUrl ? 'Заменить изображение' : 'Выбрать изображение'
+              }}
+            </button>
+            @if (imagePreviewUrl || existingImageUrl) {
+              <button
+                tuiButton
+                appearance="flat"
+                size="s"
+                type="button"
+                (click)="clearSelectedImage(imageInput)"
+              >
+                Удалить
+              </button>
+              @if (imageFileName) {
+                <span class="text-xs text-stone-500">{{ imageFileName }}</span>
+              }
+            }
+          </div>
+        </div>
+      </div>
       <label class="space-y-1 text-sm text-stone-700 sm:col-span-2">
         <span>Инструкции</span>
         <tui-textfield>
           <textarea tuiTextarea class="w-full" rows="4" formControlName="instructions"></textarea>
         </tui-textfield>
+        <tui-error
+          [error]="
+            form.get('instructions')?.touched && form.get('instructions')?.hasError('required')
+              ? 'Введите инструкцию'
+              : form.get('instructions')?.touched && form.get('instructions')?.hasError('minlength')
+                ? 'Инструкция должна содержать минимум 10 символов'
+                : null
+          "
+        ></tui-error>
       </label>
       <label class="space-y-1 text-sm text-stone-700">
         <span>Время подготовки (мин)</span>
         <tui-textfield>
-          <input tuiInput type="number" class="w-full" formControlName="preparationTime" />
+          <input tuiInput type="number" min="1" class="w-full" formControlName="preparationTime" />
         </tui-textfield>
+        <tui-error
+          [error]="
+            form.get('preparationTime')?.touched && form.get('preparationTime')?.hasError('min')
+              ? 'Время подготовки должно быть больше 0'
+              : null
+          "
+        ></tui-error>
       </label>
       <label class="space-y-1 text-sm text-stone-700">
         <span>Время готовки (мин)</span>
         <tui-textfield>
-          <input tuiInput type="number" class="w-full" formControlName="cookingTime" />
+          <input tuiInput type="number" min="1" class="w-full" formControlName="cookingTime" />
         </tui-textfield>
+        <tui-error
+          [error]="
+            form.get('cookingTime')?.touched && form.get('cookingTime')?.hasError('min')
+              ? 'Время готовки должно быть больше 0'
+              : null
+          "
+        ></tui-error>
       </label>
       <label class="space-y-1 text-sm text-stone-700">
         <span>Порции</span>
         <tui-textfield>
-          <input tuiInput type="number" class="w-full" formControlName="servings" />
+          <input tuiInput type="number" min="1" class="w-full" formControlName="servings" />
         </tui-textfield>
+        <tui-error
+          [error]="
+            form.get('servings')?.touched && form.get('servings')?.hasError('min')
+              ? 'Количество порций должно быть больше 0'
+              : null
+          "
+        ></tui-error>
       </label>
       <label class="space-y-1 text-sm text-stone-700">
         <span>Сложность (1-5)</span>
@@ -66,6 +155,15 @@
             formControlName="difficultyLevel"
           />
         </tui-textfield>
+        <tui-error
+          [error]="
+            form.get('difficultyLevel')?.touched && form.get('difficultyLevel')?.hasError('min')
+              ? 'Сложность должна быть от 1 до 5'
+              : form.get('difficultyLevel')?.touched && form.get('difficultyLevel')?.hasError('max')
+                ? 'Сложность должна быть от 1 до 5'
+                : null
+          "
+        ></tui-error>
       </label>
     </div>
 
@@ -86,20 +184,40 @@
             <label class="space-y-1 text-sm text-stone-700 sm:col-span-1">
               <app-ingredient-autocomplete
                 placeholder="Ингредиент"
+                [initialValue]="group.get('ingredientName')?.value"
                 (selected)="onIngredientSelectedInForm($event, i)"
               />
+              <tui-error
+                [error]="
+                  group.get('ingredientId')?.touched &&
+                  group.get('ingredientId')?.hasError('required')
+                    ? 'Выберите ингредиент'
+                    : null
+                "
+              ></tui-error>
             </label>
-            <tui-textfield>
-              <input
-                tuiInput
-                type="number"
-                min="0"
-                step="0.1"
-                class="w-full"
-                formControlName="quantity"
-                placeholder="Количество"
-              />
-            </tui-textfield>
+            <label class="space-y-1 text-sm text-stone-700">
+              <tui-textfield>
+                <input
+                  tuiInput
+                  type="number"
+                  min="0.01"
+                  step="0.1"
+                  class="w-full"
+                  formControlName="quantity"
+                  placeholder="Количество"
+                />
+              </tui-textfield>
+              <tui-error
+                [error]="
+                  group.get('quantity')?.touched && group.get('quantity')?.hasError('required')
+                    ? 'Укажите количество'
+                    : group.get('quantity')?.touched && group.get('quantity')?.hasError('min')
+                      ? 'Количество должно быть больше 0'
+                      : null
+                "
+              ></tui-error>
+            </label>
             <tui-textfield tuiChevron [stringify]="stringifyUnit">
               <input tuiSelect class="w-full" formControlName="unitId" placeholder="Ед." />
               <tui-data-list-wrapper *tuiDropdown [items]="unitIds"></tui-data-list-wrapper>
@@ -134,7 +252,7 @@
       class="w-full sm:w-auto"
       [disabled]="form.invalid || loading"
     >
-      {{ loading ? 'Сохраняем' : 'Сохранить рецепт' }}
+      {{ loading ? 'Сохраняем' : isEditMode ? 'Сохранить изменения' : 'Сохранить рецепт' }}
     </button>
   </form>
 </section>

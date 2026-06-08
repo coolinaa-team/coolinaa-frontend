@@ -1,0 +1,54 @@
+<section class="space-y-4">
+  <a
+    routerLink="/profile"
+    tuiButton
+    appearance="flat"
+    size="s"
+    class="inline-flex items-center gap-2 text-sm text-stone-600 hover:text-amber-700 transition"
+  >
+    <tui-icon icon="@tui.chevron-left"></tui-icon>
+    Назад в профиль
+  </a>
+
+  <div>
+    <h1 class="text-2xl font-bold tracking-tight">Избранное</h1>
+    <p class="text-sm text-stone-500">Ваши сохранённые рецепты</p>
+  </div>
+
+  <app-loading-spinner *ngIf="loading"></app-loading-spinner>
+
+  <tui-error *ngIf="error" [error]="error"></tui-error>
+
+  <div *ngIf="!loading && recipes.length">
+    <div class="space-y-3">
+      <div *ngFor="let recipe of recipes">
+        <div tuiCardLarge class="shadow-lg overflow-hidden">
+          <div class="flex items-start gap-3">
+            <div class="flex-1">
+              <a [routerLink]="['/recipes', recipe.id]" class="text-lg font-semibold">{{
+                recipe.title
+              }}</a>
+              <p class="text-sm text-stone-600">{{ recipe.description }}</p>
+            </div>
+            <div>
+              <button
+                tuiButton
+                appearance="secondary-destructive"
+                size="s"
+                (click)="remove(recipe.id)"
+                [disabled]="removingId === recipe.id"
+              >
+                {{ removingId === recipe.id ? 'Удаление' : 'Удалить' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && recipes.length === 0" class="text-center py-12">
+    <p class="text-stone-500 mb-4">У вас пока нет избранных рецептов</p>
+    <a routerLink="/feed" tuiButton appearance="primary" size="m">Найти рецепты</a>
+  </div>
+</section>

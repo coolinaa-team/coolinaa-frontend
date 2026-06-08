@@ -16,6 +16,10 @@ import { Ingredient } from '../../core/models/ingredient.model';
 export class IngredientAutocompleteComponent implements OnInit, OnDestroy {
   @Input() placeholder = 'Поиск ингредиентов...';
   @Input() variant: 'light' | 'dark' = 'light';
+  @Input()
+  set initialValue(value: string | null | undefined) {
+    this.searchText = value || '';
+  }
   @Output() selected = new EventEmitter<Ingredient>();
 
   private readonly ingredientService = inject(IngredientService);
@@ -25,7 +29,17 @@ export class IngredientAutocompleteComponent implements OnInit, OnDestroy {
   searchText = '';
   showDropdown = false;
   loading = false;
+  hasSearched = false;
   filteredIngredients: Ingredient[] = [];
+
+  protected get shouldShowDropdown(): boolean {
+    return (
+      this.showDropdown &&
+      (this.loading ||
+        this.filteredIngredients.length > 0 ||
+        (this.hasSearched && this.searchText.trim().length > 0))
+    );
+  }
 
   ngOnInit() {
     this.searchSubject
@@ -41,16 +55,20 @@ export class IngredientAutocompleteComponent implements OnInit, OnDestroy {
   }
 
   onSearch(value: string) {
+    this.showDropdown = true;
     this.searchSubject.next(value);
   }
 
   private performSearch(query: string) {
     if (!query.trim()) {
       this.filteredIngredients = [];
+      this.hasSearched = false;
+      this.loading = false;
       return;
     }
 
     this.loading = true;
+    this.hasSearched = true;
     this.ingredientService.list({ search: query, size: 50 }).subscribe({
       next: (res) => {
         this.filteredIngredients = res.content || [];

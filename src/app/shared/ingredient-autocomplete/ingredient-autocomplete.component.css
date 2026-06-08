@@ -1,5 +1,11 @@
 :host {
       display: block;
+      position: relative;
+      z-index: 30;
+    }
+
+    :host:focus-within {
+      z-index: 1000;
     }
 
     .input-light {
@@ -53,7 +59,7 @@
       border: 1px solid rgb(229, 231, 235);
       background: white;
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-      z-index: 50;
+      z-index: 1000;
     }
 
     .dropdown-dark {
@@ -69,13 +75,18 @@
       background: rgba(15, 23, 42, 0.95);
       backdrop-filter: blur(8px);
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
-      z-index: 50;
+      z-index: 1000;
     }
 
-    .dropdown-loading {
+    .dropdown-loading,
+    .dropdown-empty {
       padding: 0.5rem 0.75rem;
       font-size: 0.75rem;
       color: rgb(107, 114, 128);
+    }
+
+    .dropdown-dark .dropdown-empty {
+      color: rgba(226, 232, 240, 0.75);
     }
 
     .dropdown-item-light {

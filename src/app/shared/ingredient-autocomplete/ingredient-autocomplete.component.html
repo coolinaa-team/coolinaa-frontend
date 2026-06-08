@@ -13,7 +13,7 @@
     />
   </tui-textfield>
 
-  @if (showDropdown && (loading || filteredIngredients.length > 0)) {
+  @if (shouldShowDropdown) {
     <div [class.dropdown-light]="variant === 'light'" [class.dropdown-dark]="variant === 'dark'">
       @if (loading) {
         <div class="dropdown-loading flex items-center gap-2">
@@ -37,6 +37,8 @@
             }
           </button>
         }
+      } @else {
+        <div class="dropdown-empty">Ингредиенты не найдены</div>
       }
     </div>
   }

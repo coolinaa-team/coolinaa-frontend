@@ -10,6 +10,7 @@ import { ErrorService } from '../../../core/services/error.service';
 import { Recipe } from '../../../core/models/recipe.model';
 import { Page } from '../../../core/models/page.model';
 import { Category } from '../../../core/models/category.model';
+import { AuthenticatedImageDirective } from '../../../shared/authenticated-image.directive';
 
 @Component({
   selector: 'app-recipe-list-page',
@@ -22,6 +23,7 @@ import { Category } from '../../../core/models/category.model';
     TuiInput,
     TuiCardLarge,
     TuiCardMedium,
+    AuthenticatedImageDirective,
   ],
   templateUrl: './recipe-list.page.html',
   styleUrl: './recipe-list.page.css',

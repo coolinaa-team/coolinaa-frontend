@@ -36,6 +36,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'recipes/:id/edit',
+        loadComponent: () =>
+          import('./features/recipes/recipe-create/recipe-create.page').then(
+            (m) => m.RecipeCreatePage,
+          ),
+      },
+      {
         path: 'recipes/:id',
         loadComponent: () =>
           import('./features/recipes/recipe-detail/recipe-detail.page').then(
@@ -56,6 +63,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/profile/my-recipes/my-recipes.page').then((m) => m.MyRecipesPage),
       },
+      {
+        path: 'profile/favorites',
+        loadComponent: () =>
+          import('./features/profile/favorites/favorites.page').then((m) => m.FavoritesPage),
+      },
     ],
   },
   {
@@ -72,6 +84,20 @@ export const routes: Routes = [
         path: 'register',
         loadComponent: () =>
           import('./features/auth/register/register.component').then((m) => m.RegisterComponent),
+      },
+      {
+        path: 'forgot-password',
+        loadComponent: () =>
+          import('./features/auth/forgot-password/forgot-password.component').then(
+            (m) => m.ForgotPasswordComponent,
+          ),
+      },
+      {
+        path: 'reset-password',
+        loadComponent: () =>
+          import('./features/auth/reset-password/reset-password.component').then(
+            (m) => m.ResetPasswordComponent,
+          ),
       },
     ],
   },

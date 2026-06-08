@@ -9,10 +9,19 @@ import { ErrorService } from '../../../core/services/error.service';
 import { Recipe } from '../../../core/models/recipe.model';
 import { Page } from '../../../core/models/page.model';
 import { LoadingSpinnerComponent } from '../../../shared/loading-spinner/loading-spinner.component';
+import { AuthenticatedImageDirective } from '../../../shared/authenticated-image.directive';
 
 @Component({
   selector: 'app-my-recipes-page',
-  imports: [RouterLink, LoadingSpinnerComponent, TuiButton, TuiError, TuiIcon, TuiCardLarge],
+  imports: [
+    RouterLink,
+    LoadingSpinnerComponent,
+    TuiButton,
+    TuiError,
+    TuiIcon,
+    TuiCardLarge,
+    AuthenticatedImageDirective,
+  ],
   templateUrl: './my-recipes.page.html',
   styleUrl: './my-recipes.page.css',
 })
